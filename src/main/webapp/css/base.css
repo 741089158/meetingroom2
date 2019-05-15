@@ -1,0 +1,41 @@
+body,html,div{
+	padding:0px;
+	margin:0px;
+}
+.content{
+	width:100%;
+	margin-top:-20px;
+	background-color: white;
+}
+.oddn{
+	background: white;	
+}
+.evenn{
+	background: #B3F4FF;
+}
+.btn-group-right{
+	float: right;
+	margin-top:-6px;
+	margin-right:-8px; 
+}
+.editDiv{
+	min-height:20px;
+	height:20px;
+	outline:0px;
+	padding:2px; 
+}
+.modal {
+    background: #eee;
+    width: 400px;
+    height: 250px;
+    margin: 20px auto;
+    border: 3px solid #666;
+    padding: 20px;
+}
+
+.modal .close {
+    float: right;
+    text-decoration: none;
+    font-size: 40px;
+    cursor: pointer;
+}

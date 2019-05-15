@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bcsd.dao.MeetUserDao">
+    <!--查询所有-->
+    <select id="findAll" resultType="com.bcsd.entity.MeetUser">
+   SELECT u.id,u.username,u.sex,u.tel,u.email,u.suboffice,d.deptname FROM cj_user u,cj_dept d
+   WHERE u.deptid=d.deptid
+        <if test="username !=null and username !=''">
+            AND username like '%${username}%'
+        </if>
+    </select>
+
+
+    <insert id="add" parameterType="com.bcsd.entity.MeetUser">
+        insert into cj_user
+        values(#{id},#{subofficeid},#{username},#{suboffice},#{password},#{sex},#{email},#{createdate},#{tel},#{order},#{status},#{isdisabled},#{operuser},#{operdate},#{deptid})
+    </insert>
+
+
+    <insert id="addid" parameterType="com.bcsd.entity.MeetUser">
+        insert into cj_user_role values (#{id},#{userid},#{roleid})
+    </insert>
+
+
+    <select id="findByid" resultType="com.bcsd.entity.MeetUser">
+      SELECT
+      id,subofficeid,username,suboffice,password,sex,email,createdate,tel,status,isdisabled,operuser,operdate,deptid FROM cj_user WHERE id=#{id}
+    </select>
+    <!--<update id="update" parameterType="com.bcsd.entity.MeetUser">-->
+
+
+    <!--</update>-->
+    <update id="update" parameterType="com.bcsd.entity.MeetUser">
+        UPDATE cj_user SET
+        username=#{username},sex=#{sex},email=#{email},tel=#{tel},subofficeid=#{subofficeid},suboffice=#{suboffice},deptid=#{deptid} WHERE
+        id=#{id}
+    </update>
+
+
+    <delete id="delete" parameterType="com.bcsd.entity.MeetUser">
+        DELETE FROM cj_user WHERE id=#{id}
+    </delete>
+
+
+   <!-- &lt;!&ndash;查询内部联系人&ndash;&gt;
+    <select id="findInternal" parameterType="java.lang.Integer" resultType="com.bcsd.entity.MeetUser">
+        SELECT u.id,u.username,u.name,u.sex,u.tel,u.email,u.suboffice,d.deptname,u.isExternal FROM cj_user u,cj_dept d WHERE
+        u.deptid=d.deptid
+        <if test="isexternal = 0 ">
+            AND u.isExternal =0
+        </if>
+        <if test="param2  != null and param2  !='' ">
+            AND u.name like "%"#{name,java.type=varchar}"%"
+        </if>
+    </select>
+    &lt;!&ndash;查询外部联系人&ndash;&gt;&lt;!&ndash;  name like "%"#{name}"%"  &ndash;&gt;
+    <select id="findExternal" parameterType="java.lang.Integer" resultType="com.bcsd.entity.MeetUser">
+        SELECT u.id,u.name,u.sex,u.tel,u.email,u.suboffice FROM cj_user u WHERE
+        u.subOfficeId =0
+        <if test="isexternal = 1 ">
+            AND u.isexternal = 1
+        </if>
+        /*第二个参数写法   String->param2  */
+        <if test="param2  != null and param2  !='' ">
+            AND u.name like "%"#{name,java.type=varchar}"%"
+        </if>
+    </select>-->
+
+    <!--查询内部联系人-->
+    <select id="findInternal"  resultType="com.bcsd.entity.UserInternal">
+        SELECT * from cj_user_internal u
+        where 1 = 1
+        <if test="internal !=null and internal !=''">
+            AND u.internal = #{internal}
+        </if>
+        <if test="name !=null and name !=''">
+            AND u.name like '%${name}%'
+        </if>
+    </select>
+
+    <!--添加联系人-->
+    <insert id="addInternal" parameterType="com.bcsd.entity.UserInternal">
+        insert into cj_user_internal (name,tel,email,sex,dept,company,username,internal,status)
+        values(#{name},#{tel},#{email},#{sex},#{dept},#{company},#{username},#{internal},#{status})
+    </insert>
+
+    <!--删除联系人-->
+    <delete id="deleteInternal" parameterType="java.lang.Integer">
+        delete from cj_user_internal where id=#{id}
+    </delete>
+
+
+    <select id="findOne" parameterType="java.lang.Integer" resultType="com.bcsd.entity.UserInternal">
+        select id,name,tel,email,sex,dept,company,username,internal,status
+         from cj_user_internal where id=#{id}
+    </select>
+
+    <!--修改联系人-->
+    <update id="updateLinkman" parameterType="com.bcsd.entity.UserInternal">
+        update cj_user_internal set name=#{name},tel=#{tel},email=#{email},
+        sex=#{sex},dept=#{dept},company=#{company},username=#{username},
+        internal=#{internal},status=#{status} where id=#{id}
+    </update>
+
+</mapper>

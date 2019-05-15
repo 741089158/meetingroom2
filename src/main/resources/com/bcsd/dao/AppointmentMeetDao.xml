@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bcsd.dao.AppointmentMeetDao">
+
+    <select id="findAll" resultType="com.bcsd.entity.Remeet">
+          select * from cj_appointment_meeting where state =1
+        and 1 = 1
+        <if test="meetName !=null and meetName !=''">
+            AND meetName like '%${meetName}%'
+        </if>
+    </select>
+
+    <select id="findMeeting" resultType="com.bcsd.entity.Remeet">
+          select * from cj_appointment_meeting where state = #{state}  AND repeatType = #{repeatType}
+       <!-- <if test="repeatType !=null and repeatType !=''">
+
+        </if>-->
+    </select>
+
+
+    <insert id="appointmentMeet" parameterType="com.bcsd.entity.Remeet">
+      insert into cj_appointment_meeting(id,meetName,meetDate,meetTime,meetlaber,meetDescription,meetType,meetRoomId,meetRoomName,state,userId,repeatType,rid)
+        VALUES (#{id},#{meetName},#{meetDate},#{meetTime},#{meetLaber},#{meetDescription},#{meetType},#{meetRoomId},#{meetRoomName},1,#{userId},#{repeatType}#{rid})
+    </insert>
+
+    <insert id="appointmentVideoMeet" parameterType="com.bcsd.entity.Remeet">
+         insert into cj_appointment_meeting(id,meetName,uri,requireCallId,defaultLayout,callId,nonMemberAccess,callProfile,callLegProfile,meetDate,meetTime,meetlaber,meetDescription,meetType,meetRoomId,meetRoomName,state,userId,repeatType)
+        VALUES (#{id},#{meetName},#{uri},#{requireCallId},#{defaultLayout},#{callId},#{nonMemberAccess},#{callProfile},#{callLegProfile},#{meetDate},#{meetTime},#{meetLaber},#{meetDescription},#{meetType},#{meetRoomId},#{meetRoomName},1,#{userId},#{repeatType})
+
+    </insert>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,meetName,uri,requireCallId,defaultLayout,callId,nonMemberAccess,callProfile,callLegProfile,meetDate,meetTime,
+        meetLaber,meetDescription,meetRoomId,meetType,state,meetRoomName,userId
+    </sql>
+    <!--取消会议-->
+    <update id="removeMeet">
+        update cj_appointment_meeting set state = 3 where id=#{0}
+    </update>
+    <!--会议结束-->
+    <update id="endMeet">
+        update cj_appointment_meeting set state = 2 where id=#{0}
+    </update>
+
+
+    <!--<select id="findPageHistory" parameterType="java.lang.Integer" resultType="com.bcsd.entity.Remeet">
+        select
+        <include refid="Base_Column_List"/>
+        from cj_appointment_meeting
+        where
+    </select>-->
+
+
+    <!--根据用户id查询参与的历史会议-->
+    <select id="findPageHistory" parameterType="java.lang.Integer" resultType="com.bcsd.entity.HistoryMeet">
+      select m.*
+      from `cj_history_user` h,cj_historyroom m,cj_user u
+      where h.mid=m.id and h.uid=u.id and h.uid = #{id}
+        <if test="meetName !=null and meetName !=''">
+            AND meetName like '%${meetName}%'
+        </if>
+    </select>
+
+    <!--根据历史会议id查询参会人员-->
+    <select id="findHistoryUser" parameterType="java.lang.Integer" resultType="com.bcsd.entity.User">
+        select u.*
+          from `cj_history_user` h,cj_historyroom m,cj_user u
+          where h.mid=m.id and h.uid=u.id and h.mid=#{id}
+    </select>
+
+    <select id="findOne" parameterType="java.lang.Integer" resultType="com.bcsd.entity.Remeet">
+        select * from cj_appointment_meeting where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.bcsd.entity.Remeet">
+        update cj_appointment_meeting  set meetName=#{meetName},meetDate=#{meetDate},meetTime=#{meetTime},
+        meetLaber=#{meetLaber},meetDescription=#{meetDescription},meetRoomId=#{meetRoomId},meetType=#{meetType},meetRoomName=#{meetRoomName}
+        where id=#{id}
+    </update>
+
+    <select id="findByRid" parameterType="java.lang.Integer" resultType="com.bcsd.entity.Remeet">
+        select *from cj_appointment_meeting where rid = #{rid}
+    </select>
+
+</mapper>

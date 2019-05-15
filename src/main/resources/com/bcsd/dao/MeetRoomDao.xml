@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bcsd.dao.MeetRoomDao">
+    <!--查询所有-->
+    <select id="findAll" resultType="com.bcsd.entity.MeetRoom">
+        SELECT  c.*
+        /*c.roomId,c.areaId,c.roomArea,c.roomFloor,c.roomBuilding,c.roomName,c.personCount,c.roomStatus,c.createDate,
+                c.createuser,c.lastupdatedate,c.lastupdateuser,c.manageruid,c.manager,c.isExamine,c.meetingSubDeptId,
+                c.meetingsubdept,c.roomareaname,c.callip,c.isstart,c.roomtype*/
+        from cj_meetroom c  where 1 = 1
+        <if test="roomName !=null and roomName !=''">
+            AND roomName like '%${roomName}%'
+        </if>
+    </select>
+    <!--查找一个-->
+    <select id="findOne" parameterType="java.lang.String" resultType="com.bcsd.entity.MeetRoom">
+         SELECT  c.roomId,c.areaId,c.roomArea,c.roomFloor,c.roomBuilding,c.roomName,c.personCount,c.roomStatus,c.createDate,
+                c.createuser,c.lastupdatedate,c.lastupdateuser,c.manageruid,c.manager,c.isExamine,c.meetingSubDeptId,
+                c.meetingSubdept,c.roomAreaName,c.callip,c.isstart,c.roomtype
+        from cj_meetroom c
+        where roomid=#{id}
+    </select>
+
+    <insert id="add"  parameterType="com.bcsd.entity.MeetRoom">
+        insert into cj_meetroom (roomId,roomCode,roomArea,roomFloor,roomName,personCount,roomStatus,createDate,createUser,
+        lastUpdateDate,lastUpdateUser,manager,meetingSubdept,roomAreaName,callIp,isStart,roomType)
+        values (#{roomId},#{roomCode},#{roomArea},#{roomFloor},#{roomName},#{personCount},#{roomStatus},#{createDate},
+        #{createUser},#{lastUpdateDate},#{lastUpdateUser},#{manager},#{meetingSubdept},#{roomAreaName},#{callIp},#{isStart},#{roomType})
+    </insert>
+    <!--<insert id="add"  parameterType="com.bcsd.entity.MeetRoom">
+        insert into cj_meetroom (roomId,roomCode,areaId,roomArea,roomFloor,roomBuilding,roomName,personCount,roomStatus,createDate,createUser,lastUpdateDate,lastUpdateUser,manager,meetingSubDept,callIp,isStart,roomType) values (#{roomId})
+    </insert>-->
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from cj_meetroom where roomId=#{roomId}
+    </delete>
+
+    <!--修改-->
+    <update id="update" parameterType="com.bcsd.entity.MeetRoom">
+        update cj_meetroom set roomName=#{roomName},roomArea=#{roomArea},roomAreaName=#{roomAreaName},roomFloor=#{roomFloor},personCount=#{personCount},
+        roomStatus=#{roomStatus},lastUpdateDate=#{lastUpdateDate},lastUpdateUser=#{lastUpdateUser},manager=#{manager},
+        meetingsubdept=#{meetingSubdept},callIp=#{callIp},isStart=#{isStart},roomType=#{roomType} where roomId=#{roomId}
+    </update>
+
+    <select id="findRoomName" resultType="com.bcsd.entity.MeetRoom">
+        select roomname from cj_meetroom where 1 = 1
+        <if test="areaid!=null ||areaid !=''">
+            and areaid =#{areaid}
+        </if>
+        <if test="roombuilding!=null ||roombuilding !=''">
+            and roombuilding =#{roombuilding}
+        </if>
+        <if test="roomfloor!=null ||roomfloor !=''">
+            and roomfloor =#{roomfloor}
+        </if>
+    </select>
+
+</mapper>

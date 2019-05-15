@@ -1,0 +1,1 @@
+<jsp:forward page="meetroom/remeetroom"></jsp:forward>
