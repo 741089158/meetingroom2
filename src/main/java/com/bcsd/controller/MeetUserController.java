@@ -1,31 +1,21 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bcsd.entity.MeetUser;
 import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.User;
+import com.bcsd.entity.ResponseData;
 import com.bcsd.entity.UserInternal;
-import com.bcsd.service.Impl.MeetUserServiceImpl;
 import com.bcsd.service.MeetUserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author HOEP
@@ -41,22 +31,19 @@ public class MeetUserController {
     private MeetUserService meetUserService;
 
     @RequestMapping("/findAll")
-    public ModelAndView findAll(Integer page,Integer size,String username) {
+    @ResponseBody
+    public Object findAll(Integer page,Integer size,String username) {
         if (page==null||page==0){
             page=1;
         }
         if (size==null||size==0){
             size=10;
         }
-        ModelAndView mv = new ModelAndView();
-        if (username!=null||username!=""){
-            mv.addObject("username",username);
-        }
+
         List<MeetUser> all = meetUserService.findAll(page,size,username);
         PageInfo<MeetUser> pageInfo = new PageInfo<MeetUser>(all);
-        mv.addObject("pageInfo", pageInfo);
-        mv.setViewName("page/meet_user");
-        return mv;
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", all);
+        return data;
 
     }
     @RequestMapping("/add1")
@@ -116,29 +103,18 @@ public class MeetUserController {
      * @return
      */
     @RequestMapping("findInternal")
-    public ModelAndView findInternal(Integer page, Integer size, Integer internal,String name){
-        System.out.println(page+"--"+size+"--"+internal+"--"+name);
+    @ResponseBody
+    public Object findInternal(Integer page, Integer size, Integer internal,String name){
         if (page == null || page == 0) {
             page = 1;
         }
         if (size == null || size == 0) {
             size = 10;
         }
-       /* if (name ==null ){
-            name="";
-        }*/
-        ModelAndView vm = new ModelAndView();
-        if (name!=null||name!=""){
-            vm.addObject("name",name);
-        }
-        if (internal!=null){
-            vm.addObject("internal",internal);
-        }
         List<UserInternal> list = meetUserService.findInternal(page, size, internal,name);
         PageInfo pageInfo = new PageInfo<UserInternal>(list);
-        vm.addObject("pageInfo", pageInfo);
-        vm.setViewName(PREFIX + "/linkman");
-        return vm;
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+        return data;
     }
 
 

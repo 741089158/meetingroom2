@@ -14,19 +14,19 @@
 					</span>
             </div>
             <div class="layui-col-md12 block-padding-around">
-                <h2 class="block-bot-left">联系人</h2>
-                <div class="block-bot-right">
+                <h2 class="block-bot-left">邮件管理</h2>
+                <%--<div class="block-bot-right">
                     <button class="layui-btn layui-btn-sm layui-btn-normal" id="add">
-                        <i class="layui-icon layui-icon-add-1"></i> 添加联系人
+                        <i class="layui-icon layui-icon-add-1"></i> 添加用户
                     </button>
-                </div>
+                </div>--%>
             </div>
         </div>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
                     <div style="float: left" class="layui-form-item">
-                        <h3>查看联系人</h3>
+                        <h3>查看邮件</h3>
                     </div>
                     <div class="layui-form-item" style="text-align: right">
                         <div class="layui-inline">
@@ -50,8 +50,8 @@
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    <%--<a class="layui-btn layui-btn-xs" lay-event="edit">未发送</a>--%>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">已发送</a>
 </script>
 <script>
 
@@ -64,23 +64,31 @@
         //第一个实例
         table.render({
             elem: '#demo'
-            , height: 300
-            , url: '${pageContext.request.contextPath }/user/findInternal' //数据接口
+            , height: 330
+            , url: '${pageContext.request.contextPath }/mail/findPage' //数据接口
             , page: true //开启分页
             //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'name', title: '名称', width: 100}
-                , {field: 'dept', title: '部门', width: 100}
-                , {field: 'tel', title: '电话', width: 100}
-                , {field: 'email', title: '邮箱', width: 100}
-                , {field: 'company', title: '公司', width: 100}
-                , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
+                , {field: 'id', title: 'ID', width: 50, fixed: 'left'}
+                , {field: 'receivemailaccount', title: '收件人邮箱', width: 150}
+                , {field: 'mailtitle', title: '邮件标题', width: 150}
+                , {field: 'mailsubject', title: '邮件主题', width: 150}
+                , {field: 'mailcontent', title: '邮件内容', width: 120}
+                , {field: 'createdate', title: '创建时间', width: 130}
+                , {fixed: 'right',title: '状态', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]
             ,  id:'reload'
-
+            /*, done: function (res, curr, count) {
+                $("[data-field='isStart']").children().each(function () {
+                    if ($(this).text() == '1') {
+                        $(this).text("启用")
+                    } else if ($(this).text() == '0') {
+                        $(this).text("禁用")
+                    }
+                });
+            }*/
         });
         //监听行工具事件
         table.on('tool(test)', function(obj){
@@ -103,14 +111,14 @@
                 layer.open({
                     type:2
                     ,area: ['700px', '500px']
-                    ,title: '修改联系人'
+                    ,title: '修改用户'
                     ,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
                 });
             }else if(obj.event === 'detail'){
                 layer.open({
                     type:2
                     ,area: ['700px', '500px']
-                    ,title: '查看联系人'
+                    ,title: '查看用户'
                     ,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
                 });
             }
@@ -120,7 +128,7 @@
             layer.open({
                 type:2
                 ,area: ['700px', '500px']
-                ,title: '添加联系人'
+                ,title: '添加用户'
                 ,content:"${pageContext.request.contextPath}/page/meet_management/room_add.jsp"
             });
         });

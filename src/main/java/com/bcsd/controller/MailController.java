@@ -3,6 +3,7 @@ package com.bcsd.controller;
 import java.util.Date;
 import java.util.List;
 
+import com.bcsd.entity.ResponseData;
 import com.github.pagehelper.PageInfo;
 
 import net.sf.json.JSONObject;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bcsd.entity.Mail;
 import com.bcsd.service.MailService;
 import com.bcsd.tools.SendMailHelper;
-import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/mail")
@@ -31,7 +31,8 @@ public class MailController {
      * @return
      */
     @RequestMapping("/findPage")
-    public ModelAndView findPage(Integer page,Integer size){
+	@ResponseBody
+    public Object findPage(Integer page,Integer size){
         if (page==null||page==0){
             page=1;
         }
@@ -40,10 +41,8 @@ public class MailController {
         }
         List<Mail> list = mailService.findPage(2,page, size);
         PageInfo pageInfo = new PageInfo<Mail>(list);
-        ModelAndView vm=new ModelAndView();
-        vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/mail_home");
-        return vm;
+		ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+		return data;
     }
     
     @RequestMapping("/sendMail")

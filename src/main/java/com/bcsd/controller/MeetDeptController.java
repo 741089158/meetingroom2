@@ -1,13 +1,14 @@
 package com.bcsd.controller;
 
 import com.bcsd.entity.MeetDept;
+import com.bcsd.entity.ResponseData;
 import com.bcsd.service.MeetDeptService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -33,24 +34,18 @@ public class MeetDeptController {
      * @return
      */
     @RequestMapping("/findAll")
-    public ModelAndView findAll(Integer page,Integer size,String deptName){
+    @ResponseBody
+    public Object findAll(Integer page,Integer size,String deptName){
         if (page==null||page==0){
             page=1;
         }
         if (size==null||size==0){
             size=10;
         }
-        ModelAndView vm=new ModelAndView();
-        //回显查询条件
-        if (deptName!=null||deptName!=""){
-            vm.addObject("deptName",deptName);
-        }
         List<MeetDept> meetDeptList = meetDeptService.fidnAll(page,size,deptName);
         PageInfo<MeetDept> pageInfo = new PageInfo<MeetDept>(meetDeptList);
-        vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meet_dept");
-        return vm;
-
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", meetDeptList);
+        return data;
     }
 
     /**

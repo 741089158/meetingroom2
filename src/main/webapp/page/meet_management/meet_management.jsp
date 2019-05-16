@@ -1,25 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<%@ include file="../page/common.jsp" %>
+<%@ include file="../common.jsp" %>
 <body>
-<%@ include file="../page/top.jsp" %>
-<%--<div class="layui-body-header">
-    <span class="layui-body-header-title">菜单管理</span>
-</div>
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
-            <div class="layui-card">
-                <div class="layui-card-body">
-                    <table id="demo" lay-filter="test"></table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>--%>
+<%@ include file="../top.jsp" %>
+
 <div class="layui-row">
-    <%@ include file="../page/nav.jsp" %>
+    <%@ include file="../nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <div class="layui-row block-bg-color block-border-top">
             <div class="layui-col-md12 block-padding-around">
@@ -29,7 +16,7 @@
             <div class="layui-col-md12 block-padding-around">
                 <h2 class="block-bot-left">会议室维护</h2>
                 <div class="block-bot-right">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" id="add">
                         <i class="layui-icon layui-icon-add-1"></i> 添加会议室
                     </button>
                 </div>
@@ -38,32 +25,27 @@
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
-                    <div style="float: left">
+                    <div style="float: left" class="layui-form-item">
                         <h3>会议室详情一览</h3>
                     </div>
-                   <div style="float: right" class="layui-inline">
-                      <%-- <input type="text" class="layui-input" style="float: right" value="搜索">--%>
-                       <%--<button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>--%>
-                   </div>
+                    <div class="layui-form-item" style="text-align: right">
+                        <div class="layui-inline">
+                            <input class="layui-input" name="roomName" id="roomName" autocomplete="off" placeholder="会议室名称">
+                           <%-- <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">--%>
+                            <%--<input id="roomName" class="layui-input" type="text" />--%>
+                        </div>
+                        <div class="layui-inline" >
+                            <button class="layui-btn" data-type="search" id="search">搜索</button>
+                        </div>
+                    </div>
                 </div>
                 <hr/>
                 <div class="layui-col-md12 block-padding-around">
                     <table id="demo" lay-filter="test"></table>
-
                 </div>
             </div>
         </div>
-       <%-- <div class="layui-fluid">
-            <div class="layui-row layui-col-space15">
-                <div class="layui-col-sm12 layui-col-md12 layui-col-lg12">
-                    <div class="layui-card">
-                        <div class="layui-card-body">
-                            <table id="demo" lay-filter="test"></table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
+
     </div>
 </div>
 <script type="text/html" id="barDemo">
@@ -73,22 +55,17 @@
 </script>
 <script>
 
-    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'],function () {
+    layui.use(['laydate', 'laypage', 'layer', 'table'],function () {
         var  laypage = layui.laypage //分页
             // ,laydate = layui.laydate//日期
             // , layer = layui.layer //弹层
             , table = layui.table //表格
-            // , carousel = layui.carousel //轮播
-            // , upload = layui.upload //上传
-            // , element = layui.element //元素操作
-            // , slider = layui.slider //滑块
             ;
         //第一个实例
         table.render({
             elem: '#demo'
             , height: 330
             , url: '${pageContext.request.contextPath }/meet/findAll' //数据接口
-
             , page: true //开启分页
             //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,totalRow: true //开启合计行
@@ -104,24 +81,8 @@
                 , {field: 'isStart', title: '是否启用', width: 80}
                 , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]
+            ,  id:'reload'
             , done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-               /* //分页
-                laypage.render({
-                    elem: 'laypage' //分页容器的id
-                    ,count: count //总页数
-                    ,skin: '#1E9FFF' //自定义选中色值
-                    //,skip: true //开启跳页
-                    ,layout: ['prev', 'page', 'next', 'skip','count','limit']
-                    ,jump: function(obj, first){
-                        if(!first){
-                            layer.msg('第'+ obj.curr +'页', {offset: 'b'});
-                        }
-                    }
-                });*/
-
-
                 $("[data-field='isStart']").children().each(function () {
                     if ($(this).text() == '1') {
                         $(this).text("启用")
@@ -131,8 +92,67 @@
                 });
             }
         });
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            // console.log(data.roomId)   //获取roomid
+            if(obj.event === 'delete'){
+                layer.confirm('真的删除行么', function(index){
+                    $.post("${pageContext.request.contextPath}/meet/delete",{roomId:data.roomId},function (response) {
+                        /* var message = response.message;
+                         layer.open({
+                             type:2
+                             ,area: '300px;'
+                             ,value:message
+                         });*/
+                        location.reload();
+                    });
+
+                });
+            } else if(obj.event === 'edit'){
+                layer.open({
+                    type:2
+                    ,area: ['700px', '500px']
+                    ,title: '修改会议室'
+                    ,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
+                });
+            }else if(obj.event === 'detail'){
+                layer.open({
+                    type:2
+                    ,area: ['700px', '500px']
+                    ,title: '查看会议室'
+                    ,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
+                });
+            }
+        });
+
+        $("#add").click(function () {
+            layer.open({
+                type:2
+                ,area: ['700px', '500px']
+                ,title: '添加会议室'
+                ,content:"${pageContext.request.contextPath}/page/meet_management/room_add.jsp"
+            });
+        });
 
 
+
+       /* var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            id: demoReload.val()
+                        }
+                    }
+                });
+            }
+        };*/
     });
 </script>
 </body>

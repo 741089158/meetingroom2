@@ -1,12 +1,9 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bcsd.entity.*;
 import com.bcsd.service.AppointmentMeetService;
-import com.bcsd.service.MeetRoomService;
 import com.bcsd.service.MeetUserService;
 import com.bcsd.service.ReMeetRoomService;
-import com.bcsd.dao.AddUserDao;
 import com.bcsd.entity.MeetRoom;
 import com.bcsd.entity.Remeet;
 import com.bcsd.entity.User;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/appointreet")
@@ -48,7 +44,7 @@ public class AppointmrntController {
 		vm.addObject("datetime", datetime);
 		vm.addObject("duration", duration);
 		vm.addObject("meetRoom", meetRoom);
-		vm.setViewName("page/videomeet");
+		vm.setViewName("page/other/videomeet");
 		return vm;
 	}
 
@@ -100,7 +96,7 @@ public class AppointmrntController {
 		List<Remeet> meets = appointmentMeetService.findPage(page, size);
 		PageInfo pageInfo = new PageInfo<Remeet>(meets);
 		vm.addObject("pageInfo", pageInfo);
-		vm.setViewName("page/meettable");
+		vm.setViewName("page/meeting/meettable");
 		return vm;
 	}
 

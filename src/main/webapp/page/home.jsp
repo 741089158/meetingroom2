@@ -16,7 +16,7 @@
 					<h2 class="block-bot-left">会议室预定</h2>
 					<div class="block-bot-right">
 						<button class="layui-btn layui-btn-sm layui-btn-normal">
-							<i class="layui-icon layui-icon-date"></i> 日程
+							<i class="layui-icon layui-icon-date"></i> <a href="${pageContext.request.contextPath}/page/schedule/schedule.jsp">日晨</a>
 						</button>
 					</div>
 				</div>

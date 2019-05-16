@@ -40,7 +40,7 @@
 			//第一个实例
 			table.render({
 				elem : '#demo',
-				height : 550,
+				height : 330,
 				url : '${pageContext.request.contextPath }/appointreet/history' //数据接口
 				,
 				page : true //开启分页

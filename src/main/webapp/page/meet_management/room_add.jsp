@@ -3,7 +3,7 @@
 <html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../page/common.jsp" %>
-<form id="roomForm" lay-filter="roomForm" class="layui-form" style="background-color: white;padding: 10px">
+<form id="roomForm" lay-filter="roomForm" class="layui-form" style="background-color: white;padding: 10px"  method="post">
     <input name="roomId" type="hidden" id="roomId" value="${meetRoom.roomId}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">名称<span style="color: red;">*</span></label>
@@ -81,7 +81,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block" style="text-align: center">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+            <button class="layui-btn" lay-submit lay-filter="demo1">提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -94,13 +94,14 @@
         form.on('submit(demo1)', function(data){
             var roomId=data.field.roomId;
             //alert(JSON.stringify(data.field));
-            $.post("${pageContext.request.contextPath}/meet/add",{data:data},function(response){
-                alert(1)
-            },'json');
-
+            if (roomId!=null ||roomId !=""){
+                $("#roomForm").attr("action","${pageContext.request.contextPath }/meet/update");
+            }
+            if (roomId==null||roomId ==""){
+                $("#roomForm").attr("action","${pageContext.request.contextPath }/meet/add");
+            }
             return true;
-        });
-
-
+        }
+        );
     });
 </script>

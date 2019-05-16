@@ -97,9 +97,9 @@ body {
 								class="fa fa-caret-left"></i>
 						</a>
 							<ul class="nav-dropdown-items">
-								<li class="nav-item"><a href="${pageContext.request.contextPath }/page/meet_report.jsp" class="nav-link" target="iframe"> <i class=""></i> 会议报表
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/page/report/meet_report.jsp" class="nav-link" target="iframe"> <i class=""></i> 会议报表
 								</a></li>
-								<li class="nav-item"><a href="${pageContext.request.contextPath }/page/history_report.jsp" class="nav-link" target="iframe"> <i class=""></i> 历史报表
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/page/report/history_report.jsp" class="nav-link" target="iframe"> <i class=""></i> 历史报表
 								</a></li>
 							</ul></li>
 						<%-- <li class="nav-item nav-dropdown">

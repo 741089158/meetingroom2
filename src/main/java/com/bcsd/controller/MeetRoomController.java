@@ -97,10 +97,9 @@ public class MeetRoomController {
     @ResponseBody
     public Object fullCalendar() {
         List<MeetRoom> list = (List<MeetRoom>) meetRoomService.findRoom();
-        //System.out.println(list);
         List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
         for (MeetRoom meetRoom : list) {
-            fullCalendar.add(new FullCalendar(meetRoom.getRoomId(), meetRoom.getRoomName(), "red"));
+            fullCalendar.add(new FullCalendar(meetRoom.getRoomId(), meetRoom.getRoomName(), "blue"));
         }
         return fullCalendar;
     }
@@ -172,12 +171,10 @@ public class MeetRoomController {
      * @return
      */
     @RequestMapping("/findOne")
-    public ModelAndView findOne(@RequestParam(value = "roomId") String roomId) {
-        ModelAndView vm = new ModelAndView();
+    public String findOne(@RequestParam(value = "roomId") String roomId,HttpServletRequest request) {
         MeetRoom meetRoom = meetRoomService.findOne(roomId);
-        vm.addObject("meetRoom", meetRoom);
-        vm.setViewName(PREFIX + "/meet_manager_update");
-        return vm;
+        request.setAttribute("meetRoom",meetRoom);
+        return PREFIX + "/room_add";
     }
 
     /**
@@ -188,12 +185,12 @@ public class MeetRoomController {
      * @throws Exception
      */
     @RequestMapping("/add")
-    public String add(MeetRoom meetRoom) throws Exception {
-        //ModelAndView vm=new ModelAndView();
+    @ResponseBody
+    public Object add(MeetRoom meetRoom) throws Exception {
         meetRoomService.add(meetRoom);
-        //vm.addObject("addInfo","success");
-        System.out.println("添加成功!");
-        return "redirect:findAll";
+        ResponseData data = new ResponseData();
+        data.setMessage("添加成功");
+        return data;
     }
 
     /**
@@ -203,9 +200,12 @@ public class MeetRoomController {
      * @return
      */
     @RequestMapping("/update")
-    public String update(MeetRoom meetRoom) {
+    @ResponseBody
+    public Object update(MeetRoom meetRoom) {
         meetRoomService.update(meetRoom);
-        return "redirect:findAll";
+        ResponseData data = new ResponseData();
+        data.setMessage("修改成功");
+        return data;
     }
 
     /**
@@ -215,14 +215,12 @@ public class MeetRoomController {
      * @return
      */
     @RequestMapping("/delete")
-    public String delete(@RequestParam(value = "roomId") String roomId) {
-        // System.out.println(roomId);
-        ModelAndView vm = new ModelAndView();
+    @ResponseBody
+    public void delete(@RequestParam(value = "roomId") String roomId) {
         meetRoomService.delete(roomId);
-      /*  vm.addObject("deleteInfo","success");
-        System.out.println("删除成功!");
-        vm.setViewName("page/meet_management");*/
-        return "redirect:findAll";
+       /* ResponseData data = new ResponseData();
+        data.setMessage("删除成功");
+        return data;*/
     }
 
     /**

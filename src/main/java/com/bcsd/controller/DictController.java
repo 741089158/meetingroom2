@@ -2,6 +2,7 @@ package com.bcsd.controller;
 
 
 import com.bcsd.entity.Dict;
+import com.bcsd.entity.ResponseData;
 import com.bcsd.entity.Result;
 import com.bcsd.service.DictService;
 import com.github.pagehelper.PageInfo;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +37,8 @@ public class DictController  {
      * @return
      */
     @RequestMapping("/findPage")
-    public ModelAndView findPage(Integer page,Integer size,String name){
+    @ResponseBody
+    public Object findPage(Integer page,Integer size,String name){
         if (page==null||page==0){
             page=1;
         }
@@ -44,13 +47,8 @@ public class DictController  {
         }
         List<Dict> list = dictService.findPage(page, size,name);
         PageInfo pageInfo = new PageInfo<Dict>(list);
-        ModelAndView vm=new ModelAndView();
-        if (name!=null||name!=""){
-            vm.addObject("name",name);
-        }
-        vm.addObject("pageInfo",pageInfo);
-        vm.setViewName(PREFIX+"/dict_home");
-        return vm;
+        ResponseData data = new ResponseData((int)pageInfo.getTotal(), 0, "查询成功", list);
+        return data;
     }
 
     /**

@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("meetroom")
+@RequestMapping("/meetroom")
 public class ReMeetRoomController {
 
     @Autowired
@@ -232,7 +232,7 @@ public class ReMeetRoomController {
         vm.addObject("meetRoom",meetRoom);
         vm.addObject("meetId",num);
         vm.addObject("meetRoomId",id);
-        vm.setViewName("page/videomeet");
+        vm.setViewName("page/other/videomeet");
         return vm;
     }
 
@@ -256,7 +256,7 @@ public class ReMeetRoomController {
         vm.addObject("meets",meets);
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
         vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meettable");
+        vm.setViewName("page/meeting/meettable");
         return vm;
     }
 
@@ -319,7 +319,7 @@ public class ReMeetRoomController {
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
         vm.addObject("meets",meets);
         vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meettable");
+        vm.setViewName("page/meeting/meettable");
         return vm;
     }
 
@@ -339,7 +339,7 @@ public class ReMeetRoomController {
         vm.addObject("meets",meets);
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
         vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meettable");
+        vm.setViewName("page/meeting/meettable");
         return vm;
     }
 
@@ -353,26 +353,18 @@ public class ReMeetRoomController {
      * @return
      */
     @RequestMapping("myappointmeet")
-    public ModelAndView myappointmeet(Integer page,Integer size,String meetName,HttpSession session){
+    @ResponseBody
+    public Object myappointmeet(Integer page,Integer size,String meetName){
         if(page==null||page==0){
             page=1;
         }
         if(size==null||size==0){
             size=10;
         }
-
-        ModelAndView vm=new ModelAndView();
-        if (meetName!=null||meetName!=""){
-            vm.addObject("meetName",meetName);
-        }
         List<Remeet> meets=appointmentMeetService.findPage(page,size,meetName);
-        String meetid=String.valueOf(session.getAttribute("meetid"));
-
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
-        session.setAttribute("pageInfo",pageInfo);
-        vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meettable");
-        return vm;
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", meets);
+        return data;
     }
 //分页查询历史会议
     @RequestMapping("meet_history")
