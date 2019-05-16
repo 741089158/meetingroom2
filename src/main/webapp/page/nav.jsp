@@ -10,7 +10,7 @@
 					<a href="${pageContext.request.contextPath}/page/meeting/meettable.jsp">我的预定</a>
 				</dd>
 				<dd>
-						<a href="${pageContext.request.contextPath}/page/meet_history.jsp">我的历史会议</a>
+						<a href="${pageContext.request.contextPath}/page/meeting/meet_history.jsp">我的历史会议</a>
 				</dd>
 			</dl>
 		</li>

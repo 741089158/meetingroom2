@@ -15,29 +15,26 @@
             </div>
             <div class="layui-col-md12 block-padding-around">
                 <h2 class="block-bot-left">我的预订</h2>
-                <div class="block-bot-right">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal" id="add">
-                       <%-- <i class="layui-icon layui-icon-add-1"></i> 添加用户--%>
-                    </button>
-                </div>
+
             </div>
         </div>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
-                    <div style="float: left" class="layui-form-item">
-                        <h3>预定详情一览</h3>
-                    </div>
-                    <div class="layui-form-item" style="text-align: right">
-                        <div class="layui-inline">
-                            <input class="layui-input" name="roomName" id="roomName" autocomplete="off" >
-                            <%-- <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">--%>
-                            <%--<input id="roomName" class="layui-input" type="text" />--%>
-                        </div>
-                        <div class="layui-inline" >
-                            <button class="layui-btn" data-type="search" id="search">搜索</button>
-                        </div>
-                    </div>
+                       <div class="layui-form-item" style="margin: 0px">
+                           <div class="layui-inline">
+                               <h2>预定详情一览</h2>
+                           </div>
+                          <%-- <div class="layui-inline" style="float: right">
+                               <div class="layui-input-inline">
+                                   <input class="layui-input" name="name" id="name" autocomplete="off"
+                                          placeholder="名称">
+                               </div>
+                               <div class="layui-inline">
+                                   <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+                               </div>
+                           </div>--%>
+                       </div>
                 </div>
                 <hr/>
                 <div class="layui-col-md12 block-padding-around">
@@ -71,24 +68,19 @@
             ,totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'meetName', title: '会议名称', width: 100}
+                , {field: 'id', title: 'ID', width: 50, fixed: 'left'}
+                , {field: 'meetName', title: '会议名称', width: 130}
+                , {field: 'meetRoomName', title: '会议室', width: 80}
+                , {field: 'meetDate', title: '开始时间', width: 150}
+                , {field: 'meetTime', title: '时长', width: 80}
                 , {field: 'meetType', title: '会议类型', width: 100}
-                , {field: 'meetDate', title: '开始时间', width: 100}
-                , {field: 'meetRoomName', title: '会议室', width: 100}
-                , {field: 'meetDate', title: '距离开会时间', width: 100}
+                , {field: 'time', title: '距离开会时间', width: 150,
+                    templet:function (e) {
+                       //alert( e.meetDate);
+                        //return e.meetDate;
+                    }}
                 , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]
-            ,  id:'reload'
-            /*, done: function (res, curr, count) {
-                $("[data-field='isStart']").children().each(function () {
-                    if ($(this).text() == '1') {
-                        $(this).text("启用")
-                    } else if ($(this).text() == '0') {
-                        $(this).text("禁用")
-                    }
-                });
-            }*/
         });
         //监听行工具事件
         table.on('tool(test)', function(obj){

@@ -15,29 +15,27 @@
             </div>
             <div class="layui-col-md12 block-padding-around">
                 <h2 class="block-bot-left">邮件管理</h2>
-                <%--<div class="block-bot-right">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal" id="add">
-                        <i class="layui-icon layui-icon-add-1"></i> 添加用户
-                    </button>
-                </div>--%>
             </div>
         </div>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
-                    <div style="float: left" class="layui-form-item">
-                        <h3>查看邮件</h3>
+
+                    <div class="layui-form-item" style="margin: 0px">
+                    <div class="layui-inline">
+                        <h2>查看邮件</h2>
                     </div>
-                    <div class="layui-form-item" style="text-align: right">
+                    <div class="layui-inline" style="float: right">
+                        <div class="layui-input-inline">
+                            <input class="layui-input" name="receivemailaccount" id="receivemailaccount" autocomplete="off"
+                                   >
+                        </div>
                         <div class="layui-inline">
-                            <input class="layui-input" name="roomName" id="roomName" autocomplete="off" >
-                            <%-- <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">--%>
-                            <%--<input id="roomName" class="layui-input" type="text" />--%>
-                        </div>
-                        <div class="layui-inline" >
-                            <button class="layui-btn" data-type="search" id="search">搜索</button>
+                            <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
                         </div>
                     </div>
+                </div>
+
                 </div>
                 <hr/>
                 <div class="layui-col-md12 block-padding-around">

@@ -25,19 +25,20 @@
 		<div class="layui-fluid">
 			<div class="layui-row block-bg-color block-margin-both">
 				<div class="layui-col-md12 block-padding-around">
-					<div style="float: left" class="layui-form-item">
-						<h3>部门详情一览</h3>
-					</div>
-					<div class="layui-form-item" style="text-align: right">
-						<div class="layui-inline">
-							<input class="layui-input" name="roomName" id="roomName" autocomplete="off" >
-							<%-- <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">--%>
-							<%--<input id="roomName" class="layui-input" type="text" />--%>
-						</div>
-						<div class="layui-inline" >
-							<button class="layui-btn" data-type="search" id="search">搜索</button>
-						</div>
-					</div>
+                        <div class="layui-form-item" style="margin: 0px">
+                            <div class="layui-inline">
+                                <h2>部门详情一览</h2>
+                            </div>
+                            <div class="layui-inline" style="float: right">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" name="deptName" id="deptName" autocomplete="off"
+                                           placeholder="部门名称">
+                                </div>
+                                <div class="layui-inline">
+                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+                                </div>
+                            </div>
+                        </div>
 				</div>
 				<hr/>
 				<div class="layui-col-md12 block-padding-around">
@@ -67,30 +68,19 @@
 			, height: 330
 			, url: '${pageContext.request.contextPath }/dept/findAll' //数据接口
 			, page: true //开启分页
+			,method:"post"
 			//,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
 			,totalRow: true //开启合计行
 			, cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}
-				, {field: 'deptid', title: 'ID', width: 100, fixed: 'left'}
-				, {field: 'deptname', title: '部门名称', width: 100}
-				, {field: 'deptaddr', title: '部门地址', width: 100}
-				, {field: 'depttel', title: '部门电话', width: 100}
-				, {field: 'email', title: '部门邮箱', width: 100}
-				, {field: 'subofficename', title: '公司', width: 100}
-			/*	, {field: 'manager', title: '管理员', width: 80}
-				, {field: 'isStart', title: '是否启用', width: 80}*/
+				, {field: 'deptid', title: 'ID', width: 80, fixed: 'left'}
+				, {field: 'deptname', title: '部门名称', width: 120}
+				, {field: 'deptaddr', title: '部门地址', width: 120}
+				, {field: 'depttel', title: '部门电话', width: 150}
+				, {field: 'email', title: '部门邮箱', width: 150}
+				, {field: 'subofficename', title: '公司', width: 120}
 				, {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
 			]]
-			,  id:'reload'
-			/*, done: function (res, curr, count) {
-				$("[data-field='isStart']").children().each(function () {
-					if ($(this).text() == '1') {
-						$(this).text("启用")
-					} else if ($(this).text() == '0') {
-						$(this).text("禁用")
-					}
-				});
-			}*/
 		});
 		//监听行工具事件
 		table.on('tool(test)', function(obj){
@@ -99,12 +89,6 @@
 			if(obj.event === 'delete'){
 				layer.confirm('真的删除行么', function(index){
 					$.post("${pageContext.request.contextPath}/meet/delete",{roomId:data.roomId},function (response) {
-						/* var message = response.message;
-                         layer.open({
-                             type:2
-                             ,area: '300px;'
-                             ,value:message
-                         });*/
 						location.reload();
 					});
 
@@ -135,7 +119,22 @@
 			});
 		});
 
+		var Meet = {
+			tableId: "demo",
+			condition: {
+				deptName: ""
+			}
+		};
+		Meet.search = function(){
+			var queryData = {};
+			queryData['deptName'] = $("#deptName").val();
+			table.reload(Meet.tableId,{where:queryData});
+		};
 
+		// 搜索按钮点击事件
+		$('#search').click(function () {
+			Meet.search();
+		});
 
 	});
 </script>

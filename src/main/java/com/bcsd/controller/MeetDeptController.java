@@ -36,6 +36,7 @@ public class MeetDeptController {
     @RequestMapping("/findAll")
     @ResponseBody
     public Object findAll(Integer page,Integer size,String deptName){
+        //System.out.println(deptName);
         if (page==null||page==0){
             page=1;
         }

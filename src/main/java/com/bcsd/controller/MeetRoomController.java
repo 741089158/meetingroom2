@@ -50,6 +50,7 @@ public class MeetRoomController {
     @RequestMapping("/findAll")
     @ResponseBody
     public Object findAll(Integer page, Integer limit, String roomName) {
+        //System.out.println(roomName);
         if (page == null || page == 0) {
             page = 1;
         }

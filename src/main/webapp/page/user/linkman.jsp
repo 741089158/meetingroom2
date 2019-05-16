@@ -25,19 +25,33 @@
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
-                    <div style="float: left" class="layui-form-item">
+                    <%--<div style="float: left" class="layui-form-item">
                         <h3>查看联系人</h3>
                     </div>
                     <div class="layui-form-item" style="text-align: right">
                         <div class="layui-inline">
                             <input class="layui-input" name="roomName" id="roomName" autocomplete="off" >
-                            <%-- <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">--%>
-                            <%--<input id="roomName" class="layui-input" type="text" />--%>
+                            &lt;%&ndash; <input class="layui-input" name="roomId" id="demoReload" autocomplete="off">&ndash;%&gt;
+                            &lt;%&ndash;<input id="roomName" class="layui-input" type="text" />&ndash;%&gt;
                         </div>
                         <div class="layui-inline" >
                             <button class="layui-btn" data-type="search" id="search">搜索</button>
                         </div>
-                    </div>
+                    </div>--%>
+                        <div class="layui-form-item" style="margin: 0px">
+                            <div class="layui-inline">
+                                <h2>查看联系人</h2>
+                            </div>
+                            <div class="layui-inline" style="float: right">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" name="name" id="name" autocomplete="off"
+                                           placeholder="名称">
+                                </div>
+                                <div class="layui-inline">
+                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <hr/>
                 <div class="layui-col-md12 block-padding-around">
@@ -72,15 +86,13 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'name', title: '名称', width: 100}
-                , {field: 'dept', title: '部门', width: 100}
-                , {field: 'tel', title: '电话', width: 100}
-                , {field: 'email', title: '邮箱', width: 100}
-                , {field: 'company', title: '公司', width: 100}
+                , {field: 'name', title: '名称', width: 130}
+                , {field: 'dept', title: '部门', width: 130}
+                , {field: 'tel', title: '电话', width: 130}
+                , {field: 'email', title: '邮箱', width: 130}
+                , {field: 'company', title: '公司', width: 130}
                 , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]
-            ,  id:'reload'
-
         });
         //监听行工具事件
         table.on('tool(test)', function(obj){
@@ -125,7 +137,22 @@
             });
         });
 
+        var Meet = {
+            tableId: "demo",
+            condition: {
+                name: ""
+            }
+        };
+        Meet.search = function(){
+            var queryData = {};
+            queryData['name'] = $("#name").val();
+            table.reload(Meet.tableId,{where:queryData});
+        };
 
+        // 搜索按钮点击事件
+        $('#search').click(function () {
+            Meet.search();
+        });
 
     });
 </script>

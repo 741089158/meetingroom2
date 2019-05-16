@@ -379,7 +379,7 @@ public class ReMeetRoomController {
         List<HistoryMeet> historymeets=historyMeetService.findAll(page,size);
         PageInfo pageInfo = new PageInfo<HistoryMeet>(historymeets);
         vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meet_history");
+        vm.setViewName("page/meeting/meet_history");
         return vm;
     }
 
