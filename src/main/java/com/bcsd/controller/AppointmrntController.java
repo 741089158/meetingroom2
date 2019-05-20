@@ -58,15 +58,12 @@ public class AppointmrntController {
      * @return
      */
     @RequestMapping("findInternal")
-    public ModelAndView findInternal(Integer page, Integer size, Integer internal,String name){
+    public ModelAndView findInternal(Integer page, Integer size, String internal,String name){
         if (page == null || page == 0) {
             page = 1;
         }
         if (size == null || size == 0) {
             size = 5;
-        }
-        if (internal == null || internal != 1) {
-            internal = 0;
         }
 
 		ModelAndView vm = new ModelAndView();
@@ -133,19 +130,20 @@ public class AppointmrntController {
 	 * @return
 	 */
 	@RequestMapping("/findHistoryUser")
-	public ModelAndView findHistoryUser(Integer page, Integer size, Integer id) {
+	@ResponseBody
+	public Object findHistoryUser(Integer page, Integer size, Integer id) {
 		if (page == null || page == 0) {
 			page = 1;
 		}
 		if (size == null || size == 0) {
 			size = 10;
 		}
-		ModelAndView vm = new ModelAndView();
 		List<User> list = appointmentMeetService.findHistoryUser(page, size, id);
 		PageInfo<User> pageInfo = new PageInfo<User>(list);
-		vm.addObject("pageInfo", pageInfo);
-		vm.setViewName("page/user/historymeet");
-		return vm;
+		ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+//		vm.addObject("pageInfo", pageInfo);
+//		vm.setViewName("page/user/historymeet");
+		return "";
 	}
 
 	/**

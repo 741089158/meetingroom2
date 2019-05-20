@@ -8,39 +8,27 @@
 <div class="layui-row">
 	<%@ include file="../../page/nav.jsp" %>
 	<div class="layui-col-md10 main-bg-color">
-		<div class="layui-row block-bg-color block-border-top">
-			<div class="layui-col-md12 block-padding-around">
-					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>管理后台</cite></a>
-					</span>
-			</div>
-			<div class="layui-col-md12 block-padding-around">
-				<h2 class="block-bot-left">部门管理</h2>
-				<div class="block-bot-right">
-					<button class="layui-btn layui-btn-sm layui-btn-normal" id="add">
-						<i class="layui-icon layui-icon-add-1"></i> 添加部门
-					</button>
-				</div>
-			</div>
-		</div>
 		<div class="layui-fluid">
 			<div class="layui-row block-bg-color block-margin-both">
-				<div class="layui-col-md12 block-padding-around">
-                        <div class="layui-form-item" style="margin: 0px">
-                            <div class="layui-inline">
-                                <h2>部门详情一览</h2>
-                            </div>
-                            <div class="layui-inline" style="float: right">
-                                <div class="layui-input-inline">
-                                    <input class="layui-input" name="deptName" id="deptName" autocomplete="off"
-                                           placeholder="部门名称">
-                                </div>
-                                <div class="layui-inline">
-                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
-                                </div>
-                            </div>
-                        </div>
+				<div class="layui-col-md12 block-padding-around" style="height: 35px">
+					<div class="layui-form-item" >
+						<div class="layui-inline">
+							<h2>部门详情一览</h2>
+						</div>
+						<div class="layui-inline" style="float: right">
+							<div class="layui-input-inline">
+								<input class="layui-input" name="deptName" id="deptName" autocomplete="off"
+									   placeholder="部门名称">
+							</div>
+							<div class="layui-inline">
+								<button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+							</div>
+							<div class="layui-inline">
+								<button class="layui-btn" lay-submit="" data-type="getInfo" id="add">添加</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<hr/>
 				<div class="layui-col-md12 block-padding-around">
 					<table id="demo" lay-filter="test"></table>
 				</div>
@@ -65,12 +53,12 @@
 		//第一个实例
 		table.render({
 			elem: '#demo'
-			, height: 330
+			, height: 420
 			, url: '${pageContext.request.contextPath }/dept/findAll' //数据接口
 			, page: true //开启分页
 			,method:"post"
 			//,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-			,totalRow: true //开启合计行
+			//,totalRow: true //开启合计行
 			, cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}
 				, {field: 'deptid', title: 'ID', width: 80, fixed: 'left'}

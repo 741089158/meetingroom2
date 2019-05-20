@@ -1,11 +1,15 @@
 package com.bcsd.entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 
+@Data
+@ToString
 public class UserInternal implements Serializable {
 
     private Integer id;
-
     private String name;
     private String tel;
     private String email;
@@ -13,43 +17,19 @@ public class UserInternal implements Serializable {
     private String dept;
     private String company;
     private String username;
-    private Integer internal;
+    private String internal;
     private Integer status;
 
-    @Override
-    public String toString() {
-        return "UserInternal{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", tel='" + tel + '\'' +
-                ", email='" + email + '\'' +
-                ", sex='" + sex + '\'' +
-                ", dept='" + dept + '\'' +
-                ", company='" + company + '\'' +
-                ", username='" + username + '\'' +
-                ", internal=" + internal +
-                ", status=" + status +
-                '}';
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public void setName(String name) {
@@ -70,6 +50,14 @@ public class UserInternal implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getDept() {
@@ -96,19 +84,19 @@ public class UserInternal implements Serializable {
         this.username = username;
     }
 
-    public int getInternal() {
+    public String getInternal() {
         return internal;
     }
 
-    public void setInternal(int internal) {
+    public void setInternal(String internal) {
         this.internal = internal;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

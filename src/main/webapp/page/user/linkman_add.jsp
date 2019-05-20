@@ -1,140 +1,103 @@
-<%@ page import="com.bcsd.entity.MeetRoom" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<%@ page isELIgnored="false"%>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>会议管理系统</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath }/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/popper.js/popper.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/chart.js/chart.min.js"></script>
-    <script src="${pageContext.request.contextPath }/js/carbon.js"></script>
-    <script src="${pageContext.request.contextPath }/js/demo.js"></script>
-
-
-</head>
-<body class="sidebar-fixed header-fixed">
-<div class="content">
-    <div class="container-fluid">
-        <div class="card-header bg-light">
-            <a href="#">首页</a><span>&nbsp&nbsp >&nbsp&nbsp  </span><a href="#">联系人管理</a><span>&nbsp&nbsp >&nbsp&nbsp  </span><a href="#">联系人添加</a>
-        </div>
-        <hr>
-        <div >
-            <div >
-                <div class="row">
-                    <div class="modal-body ">
-                        <table class="table  table-light">
-                            <form class="form-control-file" action="${pageContext.request.contextPath}/user/addInternal" method="post">
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="name" class="col-sm-2 control-label">姓 名:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="tel" class="col-sm-2 control-label">电话:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="tel" name="tel" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="email" class="col-sm-2 control-label">邮 箱:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="dept" class="col-sm-2 control-label">部 门:</label>
-                                    <div class="col-sm-5">
-                                        <select  id="dept" name="dept" class="form-control"
-                                                 style="width: 150px;height:35px"
-                                                 onchange="okIS(this.options[selectedIndex].value)" >
-                                            <option value="武汉分部" >武汉分部</option>
-                                            <option value="上海分部" >上海分部</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="sex" class="col-sm-2 control-label">性 别:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="sex" name="sex" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="company" class="col-sm-2 control-label">公 司:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="company" name="company" placeholder="">
-                                    </div>
-                                </div>
-                                <%-- <div class="row form-group">
-                                     <span class="col-sm-1 control-label"></span>
-                                     <label for="internal" class="col-sm-2 control-label">内/外联系人:</label>
-                                     <div class="col-sm-8">
-                                         <input type="text" class="form-control" id="internal" name="internal" placeholder="">
-                                     </div>
-                                 </div>--%>
-                              <%--  <div class="row form-group">
-                                    <label for="internal" class="col-sm-2 control-label" style="margin-left: 50px">联系人:</label>
-                                    <div class="col-sm-5">
-                                        <select  id="internal" name="internal" class="form-control"
-                                                 style="width: 150px;height:35px"
-                                                 onchange="okIS(this.options[selectedIndex].value)" >
-                                            <option value="2" >内部</option>
-                                            <option value="1" >外部</option>
-                                        </select>
-                                    </div>
-                                </div>--%>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="internal" class="col-sm-2 control-label">联系人:</label>
-                                    <div class="col-sm-5">
-                                        <select  id="internal" name="internal" class="form-control"
-                                                 style="width: 150px;height:35px"
-                                                 onchange="okIS(this.options[selectedIndex].value)" >
-                                            <option value="2" >内部</option>
-                                            <option value="1" >外部</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <span class="col-sm-1 control-label"></span>
-                                    <label for="status" class="col-sm-2 control-label">状态:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="status" name="status" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-offset-2 col-sm-10 text-center">
-                                        <button type="submit" class="btn btn-primary">确定</button>
-                                        <button type="button" class="btn btn-default" onclick="history.back(-1);">取消</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<%@ include file="../../page/common.jsp" %>
+<form id="form"  class="layui-form" style="background-color: white;padding: 10px" >
+    <input name="id" type="hidden" id="id" value="${user.id}"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input name="name" placeholder="名称" type="text" class="layui-input" lay-verify="required"
+                   required id="name" value="${user.name}" />
         </div>
     </div>
-</div>
-</body>
-</html>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+           <%-- <input id="pid" name="pid" type="hidden">--%>
+            <input id="sex" name="sex" placeholder="性别" type="text" class="layui-input"
+                   lay-verify="required" value="${user.sex}" required autocomplete="off"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input id="tel" name="tel" placeholder="电话" type="text" class="layui-input"
+                   lay-verify="required" value="${user.tel}" required autocomplete="off"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-block">
+            <input name="dept" value="${user.dept}" placeholder="部门" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input name="email" placeholder="邮箱" value="${user.email}" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">公司</label>
+        <div class="layui-input-block">
+            <input name="company" value="${user.company}" placeholder="公司" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类</label>
+        <div class="layui-input-block">
+            <input name="internal" value="${user.internal}" placeholder="分类" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="text-align: center">
+            <button class="layui-btn" lay-submit lay-filter="demo">提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['form', 'layer'], function () {
+        var layer = layui.layer, form = layui.form,$ = layui.jquery;
+        form.on('submit(demo)', function(data){
+            var userId = data.field.id;
+            if (userId==null||userId==''){
+                add(data.field);
+            }
+            if (userId!=null||userId!=''){
+                update(data.field);
+            }
+            return false;
+        });
+        //监听提交
+    });
+    function add(data) {
+        $.ajax({
+            type:'post',
+            url:"${pageContext.request.contextPath}/user/add",
+            data:data,
+            success:function (res) {
+                layer.msg("添加成功");
+                setTimeout(function () {
+                    window.parent.layer.closeAll();
+                }, 2000);
+            }
+        })
+    }
+    function update(data) {
+        $.ajax({
+            type:'post',
+            url:"${pageContext.request.contextPath}/user/update",
+            data:data,
+            success:function (res) {
+                layer.msg("修改成功");
+                setTimeout(function () {
+                    window.parent.layer.closeAll();
+                }, 2000);
+            }
+        })
+    }
+</script>

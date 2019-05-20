@@ -22,7 +22,7 @@ public interface MeetUserDao {
 
 
     /*查询联系人*/
-    List<UserInternal> findInternal(@Param("internal") Integer internal,@Param("name") String name);
+    List<UserInternal> findInternal(@Param("internal") String internal,@Param("name") String name);
 
     //List<UserInternal> findExternal(Integer internal);
 

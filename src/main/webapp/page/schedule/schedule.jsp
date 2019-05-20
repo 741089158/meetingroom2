@@ -9,15 +9,14 @@
 <div class="layui-row">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
-        <div class="layui-row block-bg-color block-border-top">
+        <%--<div class="layui-row block-bg-color block-border-top">
             <div class="layui-col-md12 block-padding-around">
 					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>日晨</cite></a>
 					</span>
             </div>
-        </div>
+        </div>--%>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
-
                 <div class="layui-col-md12 block-padding-around">
                         <div id='calendar'></div>
                 </div>
@@ -35,6 +34,7 @@
     }
     #calendar {
         max-width: 1000px;
+       // max-height: 400px;
         margin: 10px;
         //float: right;
     }

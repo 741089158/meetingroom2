@@ -167,7 +167,6 @@ public class MeetRoomController {
 
     /**
      * 查询会议室信息
-     *
      * @param
      * @return
      */
@@ -187,11 +186,8 @@ public class MeetRoomController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public Object add(MeetRoom meetRoom) throws Exception {
+    public void add(MeetRoom meetRoom) throws Exception {
         meetRoomService.add(meetRoom);
-        ResponseData data = new ResponseData();
-        data.setMessage("添加成功");
-        return data;
     }
 
     /**
@@ -202,11 +198,8 @@ public class MeetRoomController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public Object update(MeetRoom meetRoom) {
+    public void update(MeetRoom meetRoom) {
         meetRoomService.update(meetRoom);
-        ResponseData data = new ResponseData();
-        data.setMessage("修改成功");
-        return data;
     }
 
     /**
@@ -217,11 +210,12 @@ public class MeetRoomController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public void delete(@RequestParam(value = "roomId") String roomId) {
+    public Object delete(@RequestParam(value = "roomId") String roomId) {
         meetRoomService.delete(roomId);
-       /* ResponseData data = new ResponseData();
+        ResponseData data = new ResponseData();
         data.setMessage("删除成功");
-        return data;*/
+        data.setCode(0);
+        return data;
     }
 
     /**

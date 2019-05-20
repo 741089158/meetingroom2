@@ -41,31 +41,6 @@
         DELETE FROM cj_user WHERE id=#{id}
     </delete>
 
-
-   <!-- &lt;!&ndash;查询内部联系人&ndash;&gt;
-    <select id="findInternal" parameterType="java.lang.Integer" resultType="com.bcsd.entity.MeetUser">
-        SELECT u.id,u.username,u.name,u.sex,u.tel,u.email,u.suboffice,d.deptname,u.isExternal FROM cj_user u,cj_dept d WHERE
-        u.deptid=d.deptid
-        <if test="isexternal = 0 ">
-            AND u.isExternal =0
-        </if>
-        <if test="param2  != null and param2  !='' ">
-            AND u.name like "%"#{name,java.type=varchar}"%"
-        </if>
-    </select>
-    &lt;!&ndash;查询外部联系人&ndash;&gt;&lt;!&ndash;  name like "%"#{name}"%"  &ndash;&gt;
-    <select id="findExternal" parameterType="java.lang.Integer" resultType="com.bcsd.entity.MeetUser">
-        SELECT u.id,u.name,u.sex,u.tel,u.email,u.suboffice FROM cj_user u WHERE
-        u.subOfficeId =0
-        <if test="isexternal = 1 ">
-            AND u.isexternal = 1
-        </if>
-        /*第二个参数写法   String->param2  */
-        <if test="param2  != null and param2  !='' ">
-            AND u.name like "%"#{name,java.type=varchar}"%"
-        </if>
-    </select>-->
-
     <!--查询内部联系人-->
     <select id="findInternal"  resultType="com.bcsd.entity.UserInternal">
         SELECT * from cj_user_internal u

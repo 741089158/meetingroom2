@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/meetroom")
 public class ReMeetRoomController {
+
+    private String PREFIX = "page/meeting";
 
     @Autowired
     @Qualifier("reMeetRoomService")
@@ -85,17 +88,31 @@ public class ReMeetRoomController {
     }
 
     /**
-     * 查询楼层
+     * 查询楼层    linwenle
+     * @param
+     * @return
+     */
+    @RequestMapping(value="/floor",method= RequestMethod.POST,
+            produces={"application/json;charset=utf-8"})
+    @ResponseBody
+    public Object floor(@RequestParam(value="area") String area,@RequestParam(value="building") String building){
+            String result =JSONObject.toJSONString(reMeetRoomService.floor(area,building));
+            return result;
+    }
+
+    /**
+     * 查询楼层   xuefan
      * @param
      * @return
      */
     @RequestMapping(value="/meetfloor",method= RequestMethod.POST,
             produces={"application/json;charset=utf-8"})
     @ResponseBody
-    public Object roomfloor(@RequestParam(value="area") String area,@RequestParam(value="building") String building){
-            String result =JSONObject.toJSONString(reMeetRoomService.findFloor(area,building));
-            return result;
+    public String roomfloor(@RequestParam(value="area") String area,@RequestParam(value="building") String building){
+        //String result =JSONObject.toJSONString(reMeetRoomService.findFloor(area,building));
+        return this.reMeetRoomService.findFloor(area, building);
     }
+
 
     /**
      * 查询会议室
@@ -154,7 +171,6 @@ public class ReMeetRoomController {
             }
                 roomid=roomid+")";
             String result =JSONObject.toJSONString(reMeetRoomService.findRoom(area,building,floor.trim(),roomid));
-
             return result;
     }
 
@@ -262,6 +278,7 @@ public class ReMeetRoomController {
 
     @Autowired
     private TaskMeetingService taskMeetingService;
+
     /**
      * 预定循环会议   改
      * @param
@@ -274,11 +291,6 @@ public class ReMeetRoomController {
                                     @RequestParam(value = "endTime")String endTime,
                                     String weeks,Integer selectDay,
                                     Remeet remeet){
-//        System.out.println(day+"--"+createTime+"--"+endTime);
-//        for (String week : weeks) {
-//            System.out.println(week);
-//        }
-        //System.out.println(selectDay);
         //设置时间
         String datetime =createTime.trim()+" "+time.trim();
         remeet.setMeetDate(datetime);
@@ -323,6 +335,7 @@ public class ReMeetRoomController {
         return vm;
     }
 
+
     /**
      * 预定视屏会议
      * @param
@@ -349,12 +362,12 @@ public class ReMeetRoomController {
      * @param page
      * @param size
      * @param meetName
-     * @param session
      * @return
      */
     @RequestMapping("myappointmeet")
     @ResponseBody
-    public Object myappointmeet(Integer page,Integer size,String meetName){
+    public Object myappointmeet(Integer page, Integer size, String meetName, HttpServletRequest request) throws ParseException {
+        //System.out.println(meetName);
         if(page==null||page==0){
             page=1;
         }
@@ -366,7 +379,9 @@ public class ReMeetRoomController {
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", meets);
         return data;
     }
-//分页查询历史会议
+
+
+    //分页查询历史会议
     @RequestMapping("meet_history")
     public ModelAndView meet_history(Integer page,Integer size){
         if(page==null||page==0){
@@ -383,20 +398,10 @@ public class ReMeetRoomController {
         return vm;
     }
 
-  /*  @RequestMapping("calender")
-    public ModelAndView calender(){
-        ModelAndView vm=new ModelAndView();
-        List<MeetRoom> meetRoomBuilding = reMeetRoomService.findBuilding("ch-wh");
-        List<MeetRoom> meetRoomArea = reMeetRoomService.findArea();
-        //System.out.println(111);
-        vm.addObject("meetRoomArea",meetRoomArea);
-        vm.addObject("meetRoomBuilding",meetRoomBuilding);
-        vm.setViewName("page/daymanager/data");
-        return vm;
-    }*/
 
     @Autowired
     private MeetRoomService meetRoomService;
+
     @RequestMapping("/findRoomName")
     public Object findRoomName(String areaid,String roombuilding,String roomfloor ){
         //System.out.println(areaid+"--"+roombuilding+"--"+roomfloor);
@@ -409,11 +414,14 @@ public class ReMeetRoomController {
      * 修改会议
      */
     @RequestMapping("/update")
-    public String update(Remeet remeet,@RequestParam(value = "date")String date,@RequestParam(value = "time")String time){
+    //@ResponseBody
+    public ModelAndView update(Remeet remeet,@RequestParam(value = "date")String date,@RequestParam(value = "time")String time){
         String datetime =date.trim()+" "+time.trim();
         remeet.setMeetDate(datetime);
         appointmentMeetService.update(remeet);
-        return "redirect:myappointmeet";
+        ModelAndView vm = new ModelAndView();
+        vm.setViewName(PREFIX+"/meettable");
+        return vm;
     }
 
     /**
@@ -422,16 +430,14 @@ public class ReMeetRoomController {
      * @return
      */
     @RequestMapping("/findOne")
-    public ModelAndView findOne(Integer id){
+    public Object findOne(Integer id,HttpServletRequest request){
         Remeet remeet = appointmentMeetService.findOne(id);
         //处理时间
         String[] split = remeet.getMeetDate().split(" ");
-        ModelAndView vm=new ModelAndView();
-        vm.addObject("remeet",remeet);
-        vm.addObject("date",split[0]);
-        vm.addObject("time",split[1]);
-        vm.setViewName("page/meeting/meeting_update");
-        return vm;
+        request.setAttribute("remeet",remeet);
+        request.setAttribute("date",split[0]);
+        request.setAttribute("time",split[1]);
+        return PREFIX+"/meet_update";
     }
 
 

@@ -2,15 +2,15 @@ package com.bcsd.service;
 
 import com.bcsd.entity.Appointment_Meeting;
 import com.bcsd.entity.MeetRoom;
-
-import java.text.ParseException;
 import java.util.List;
 
 
 public interface ReMeetRoomService {
 
     //查询楼层
-    List<MeetRoom> findFloor(String areaid,String building);
+    List<MeetRoom> floor(String areaid,String building);
+    // 查询楼层
+    String findFloor(String areaid, String building);
     //查询地区
    List<MeetRoom>  findArea();
     //查询大楼

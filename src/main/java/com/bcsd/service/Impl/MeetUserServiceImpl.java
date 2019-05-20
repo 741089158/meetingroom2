@@ -54,21 +54,19 @@ public class MeetUserServiceImpl implements MeetUserService {
      * @return
      */
 
-    public List<UserInternal> findInternal(Integer page,Integer size,Integer internal,String name) {
+    public List<UserInternal> findInternal(Integer page,Integer size,String internal,String name) {
         PageHelper.startPage(page,size);
         List<UserInternal> list= meetUserDao.findInternal(internal,name);
         return list;
     }
 
-   /*
-    public List<UserInternal> findExternal(Integer page,Integer size,Integer internal) {
-        PageHelper.startPage(page,size);
-        List<UserInternal> list= meetUserDao.findExternal(internal);
-        return list;
-    }*/
 
-
+    /**
+     * 添加联系人
+     * @param internal
+     */
     public void addInternal(UserInternal internal) {
+        internal.setStatus(1);
         meetUserDao.addInternal(internal);
     }
 

@@ -46,18 +46,7 @@ public class MeetUserController {
         return data;
 
     }
-    @RequestMapping("/add1")
-    public String add1(MeetUser meetUser){
 
-        if (meetUser.getSubofficeid()==1){
-            meetUser.setSuboffice("武汉分部");
-        }
-        else {
-            meetUser.setSuboffice("上海分部");
-        }
-        meetUserService.add(meetUser);
-        return "forward:findAll";
-    }
     @RequestMapping("/findByid")
     public ModelAndView findByid(@RequestParam(value = "id")String id){
         System.out.println(id);
@@ -67,32 +56,8 @@ public class MeetUserController {
         mv.setViewName("page/meet_manager/meet_manager_user_update");
         return mv;
     }
-    @RequestMapping("/update")
-    public String update(MeetUser meetUser){
-        if (meetUser.getSubofficeid()==1){
-            meetUser.setSuboffice("武汉分部");
-            System.out.println(meetUser.getSuboffice());
-        }else
-        {meetUser.setSuboffice("上海分部");}
 
-        System.out.println(meetUser);
-        meetUserService.update(meetUser);
-        return "forward:findAll";
-    }
-    @RequestMapping("/delete")
-    public String delete(@RequestParam(value = "id")String id){
-        System.out.println(id);
-        meetUserService.delete(id);
-        return "forward:findAll";
-    }
 
-    @RequestMapping("/add")
-    public String add(MeetUser meetUser) {
-        meetUserService.add(meetUser);
-        MeetUserRole meetUserRole = new MeetUserRole();
-        meetUserService.addid(meetUserRole);
-        return "forward:findAll";
-    }
 
     /**
      * 查询联系人
@@ -104,7 +69,7 @@ public class MeetUserController {
      */
     @RequestMapping("findInternal")
     @ResponseBody
-    public Object findInternal(Integer page, Integer size, Integer internal,String name){
+    public Object findInternal(Integer page, Integer size, String internal,String name){
         if (page == null || page == 0) {
             page = 1;
         }
@@ -123,10 +88,10 @@ public class MeetUserController {
      * @param internal
      * @return
      */
-    @RequestMapping("/addInternal")
-    public String addInternal(UserInternal internal) {
+    @RequestMapping("/add")
+    @ResponseBody
+    public void addInternal(UserInternal internal) {
         meetUserService.addInternal(internal);
-        return "redirect:findInternal";
     }
 
 
@@ -135,25 +100,29 @@ public class MeetUserController {
      * @param id
      * @return
      */
-    @RequestMapping("/deleteInternal")
-    public String deleteInternal(Integer id) {
+    @RequestMapping("/delete")
+    public Object deleteInternal(Integer id) {
         meetUserService.deleteInternal(id);
-        return "redirect:findInternal";
+        ResponseData data = new ResponseData();
+        data.setMessage("删除成功");
+        return data;
     }
 
     /**
      * 批量删除联系人
      * @param
      * @return
-     */
+     *//*
     @RequestMapping("/deleteInternals")
-    public String deleteInternal(HttpServletRequest request) {
+    public Object deleteInternal(HttpServletRequest request) {
         String[] ids = request.getParameterValues("id");
         for (String id : ids) {
             meetUserService.deleteInternal(Integer.parseInt(id));
         }
-        return "redirect:findInternal";
-    }
+        ResponseData data = new ResponseData();
+        data.setMessage("删除成功");
+        return data;
+    }*/
 
 
     /**
@@ -161,10 +130,10 @@ public class MeetUserController {
      * @param userInternal
      * @return
      */
-    @RequestMapping("/updateLinkman")
-    public Object updateLinkman(UserInternal userInternal){
+    @RequestMapping("/update")
+    @ResponseBody
+    public void updateLinkman(UserInternal userInternal){
         meetUserService.updateLinkman(userInternal);
-        return "redirect:findInternal";
     }
 
     /**
@@ -173,12 +142,10 @@ public class MeetUserController {
      * @return
      */
     @RequestMapping("/findOne")
-    public ModelAndView findOne(Integer id){
+    public String findOne(Integer id,HttpServletRequest request){
         UserInternal user = meetUserService.findOne(id);
-        ModelAndView vm = new ModelAndView();
-        vm.addObject("user",user);
-        vm.setViewName(PREFIX+"/linkman_update");
-        return vm;
+        request.setAttribute("user",user);
+        return PREFIX+"/linkman_add";
     }
 
 }

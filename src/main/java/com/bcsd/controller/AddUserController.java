@@ -60,19 +60,13 @@ public class AddUserController {
     }
 
     @RequestMapping("findInternal")
-    public ModelAndView findInternal(@Param("meetId")int meetId, Integer page, Integer size, Integer internal, String name){
+    public ModelAndView findInternal(@Param("meetId")int meetId, Integer page, Integer size, String internal, String name){
 
         if (page == null || page == 0) {
             page = 1;
         }
         if (size == null || size == 0) {
             size = 5;
-        }
-        if (internal == null || internal != 1) {
-            internal = 0;
-        }
-        if (name == null) {
-            name = "";
         }
         ModelAndView vm = new ModelAndView();
         List<UserInternal> list = meetUserService.findInternal(page, size, internal,name);

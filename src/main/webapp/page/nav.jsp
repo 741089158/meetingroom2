@@ -20,7 +20,7 @@
 					<a href="${pageContext.request.contextPath}/page/meet_management/meet_management.jsp">会议室维护</a>
 				</dd>
 				<dd>
-					<a href="#">常用会议室</a>
+					<a href="${pageContext.request.contextPath}/page/meet_management/meet_management.jsp">常用会议室</a>
 				</dd>
 			</dl>
 		</li>
@@ -56,7 +56,7 @@
 					<a href="${pageContext.request.contextPath}/page/dict/dict_home.jsp">字典管理</a>
 				</dd>
 				<dd>
-					<a href="${pageContext.request.contextPath}/page/limit.jsp">权限管理</a>
+					<a href="${pageContext.request.contextPath}/page/other/limit.jsp">权限管理</a>
 				</dd>
 			</dl>
 		</li>

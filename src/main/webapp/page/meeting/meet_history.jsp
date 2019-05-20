@@ -7,26 +7,15 @@
 <div class="layui-row">
     <%@ include file="../nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
-        <div class="layui-row block-bg-color block-border-top">
-            <div class="layui-col-md12 block-padding-around">
-					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>我的会议</cite></a>
-					</span>
-            </div>
-            <div class="layui-col-md12 block-padding-around">
-                <h2 class="block-bot-left">我的历史会议</h2>
-                <div class="block-bot-right">
-                    <button class="layui-btn layui-btn-sm layui-btn-normal">
-                        <i class="layui-icon layui-icon-add-1"></i> 添加
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="layui-fluid">
-            <div class="layui-row block-bg-color block-margin-both">
-                <div class="layui-col-md12 block-padding-around">
-                    <h3>历史会议一览</h3>
+            <div class="layui-row block-bg-color block-margin-both" >
+                <div class="layui-col-md12 block-padding-around" style="height: 30px">
+                    <div class="layui-form-item" >
+                        <div class="layui-inline">
+                            <h2>历史会议一览</h2>
+                        </div>
+                    </div>
                 </div>
-                <hr/>
                 <div class="layui-col-md12 block-padding-around">
                     <table id="demo" lay-filter="test"></table>
                 </div>
@@ -34,6 +23,12 @@
         </div>
     </div>
 </div>
+<style>
+   table{
+        display:table-cell;
+        vertical-align: middle;
+    }
+</style>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
  <%--   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -45,7 +40,7 @@
         //第一个实例
         table.render({
             elem: '#demo',
-            height: 330,
+            height: 360,//'auto'
             url: '${pageContext.request.contextPath }/appointreet/history' //数据接口
             ,
             page: true //开启分页
@@ -57,9 +52,24 @@
                 , {field: 'starttime', title: '开始时间', width: 240}
                 , {field: 'duration', title: '时长', width: 100}
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
-                ]]
+                ]],id:'table'
         });
 
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+          if (obj.event === 'detail') {
+                layer.open({
+                    type: 2
+                    , area: ['700px', '500px']
+                    , title: '查看参会人员'
+                    , content:'${pageContext.request.contextPath}/page/meeting/history_user.jsp?id=' + data.id
+                        //"${pageContext.request.contextPath}/appointreet/findHistoryUser?id=" + data.id
+                    ,success:function () {
+                    }
+                });
+            }
+        });
     });
 </script>
 </body>

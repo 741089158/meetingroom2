@@ -29,7 +29,6 @@ public class DictController  {
     @Autowired
     private DictService dictService;
 
-
     /**
      * 分页查询
      * @param page 当前页码
@@ -76,12 +75,10 @@ public class DictController  {
      * @return
      */
     @RequestMapping("/findOne")
-    public ModelAndView findOne(@RequestParam(value="dictId") Integer dictId){
-        ModelAndView vm=new ModelAndView();
+    public String findOne(@RequestParam(value="dictId") Integer dictId,HttpServletRequest request){
         Dict dict = dictService.findOne(dictId);
-        vm.addObject("dict",dict);
-        vm.setViewName(PREFIX+"/dict_update");
-        return vm;
+        request.setAttribute("dict",dict);
+        return PREFIX+"/dict_add";
     }
 
     /**
@@ -90,9 +87,9 @@ public class DictController  {
      * @return
      */
     @RequestMapping("/update")
-    public String update(Dict dict){
+    @ResponseBody
+    public void update(Dict dict){
         dictService.update(dict);
-        return "redirect:findPage";
     }
 
     /**
@@ -101,9 +98,9 @@ public class DictController  {
      * @return
      */
     @RequestMapping("/add")
-    public String add(Dict dict) throws Exception {
+    @ResponseBody
+    public void add(Dict dict) throws Exception {
         dictService.add(dict);
-        return "redirect:findPage";
     }
 
 
@@ -113,17 +110,20 @@ public class DictController  {
      * @return
      */
     @RequestMapping("/delete")
-    public String delete(@RequestParam(value="dictId") int dictId){
-        System.out.println(dictId);
+    @ResponseBody
+    public Object delete(@RequestParam(value="dictId") int dictId){
         dictService.delete(dictId);
-        return "redirect:findPage";
+        ResponseData data = new ResponseData();
+        data.setMessage("删除成功");
+        data.setCode(0);
+        return data;
     }
 
-    /**
+   /* *//**
      * 批量删除字典
      * @param
      * @return
-     */
+     *//*
     @RequestMapping("/deletes")
     public String deletes(HttpServletRequest request){
         String[] ids = request.getParameterValues("dictId");
@@ -133,6 +133,5 @@ public class DictController  {
         }
         return "redirect:findPage";
     }
-
-
+*/
 }

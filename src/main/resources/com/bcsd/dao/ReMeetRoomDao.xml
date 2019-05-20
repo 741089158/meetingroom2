@@ -17,8 +17,6 @@
     </select>
 
 
-
-
     <!--查询会议室-->
     <select id="findRoom" parameterType="String" resultType="com.bcsd.entity.MeetRoom">
         select * from cj_meetroom where areaid=#{areaid} AND roombuilding=#{roombuilding} and roomfloor =#{roomfloor}
@@ -33,6 +31,13 @@
 
     <select id="findByDate" parameterType="String" resultType="com.bcsd.entity.Appointment_Meeting">
         select meetRoomId from cj_appointment_meeting where meetDate BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <!--查询会议室 -->
+    <select id="findFloorWithRooms" parameterType="String"
+            resultType="com.bcsd.entity.MeetRoom">
+		select * from cj_meetroom where areaid=#{areaid} AND
+		roombuilding=#{roombuilding}
     </select>
 
 </mapper>
