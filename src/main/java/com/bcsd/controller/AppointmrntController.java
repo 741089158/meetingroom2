@@ -137,8 +137,8 @@ public class AppointmrntController {
 		if (size == null || size == 0) {
 			size = 10;
 		}
-		List<User> list = appointmentMeetService.findHistoryUser(page, size, id);
-		PageInfo<User> pageInfo = new PageInfo<User>(list);
+		List<MeetUser> list = appointmentMeetService.findHistoryUser(page, size, id);
+		PageInfo<MeetUser> pageInfo = new PageInfo<MeetUser>(list);
 		ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
 		return data;
 	}

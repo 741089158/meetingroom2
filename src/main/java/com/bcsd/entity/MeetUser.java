@@ -33,19 +33,19 @@ public class MeetUser implements Serializable {
 //    备注
     private String tel;
 //    排序
-    private Integer order;
+    private Integer orderBy;
 //    状态
     private Integer status;
 //    是否禁用
-    private String isdisabled;
+    private Integer isdisabled;
 //    操作人
     private String operuser;
 //    操作时间
     private String operdate;
 //    用户职位
-    private String deptId;
+    private String deptid;
 
-    private String name;
+    private String uname;
 
     private Integer isExternal;
 
@@ -121,13 +121,7 @@ public class MeetUser implements Serializable {
         this.tel = tel;
     }
 
-    public Integer getOrder() {
-        return order;
-    }
 
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
 
     public Integer getStatus() {
         return status;
@@ -137,11 +131,11 @@ public class MeetUser implements Serializable {
         this.status = status;
     }
 
-    public String getIsdisabled() {
+    public Integer getIsdisabled() {
         return isdisabled;
     }
 
-    public void setIsdisabled(String isdisabled) {
+    public void setIsdisabled(Integer isdisabled) {
         this.isdisabled = isdisabled;
     }
 
@@ -161,20 +155,28 @@ public class MeetUser implements Serializable {
         this.operdate = operdate;
     }
 
-    public String getDeptId() {
-        return deptId;
+    public String getDeptid() {
+        return deptid;
     }
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
+    public void setDeptid(String deptid) {
+        this.deptid = deptid;
     }
 
-    public String getName() {
-        return name;
+    public Integer getOrderBy() {
+        return orderBy;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrderBy(Integer orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
     }
 
     public Integer getIsExternal() {

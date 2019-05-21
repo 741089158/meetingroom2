@@ -1,8 +1,6 @@
 package com.bcsd.service;
 
 import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 
 import java.util.List;
@@ -36,5 +34,5 @@ public interface MeetUserService {
 
     void updateLinkman(UserInternal userInternal);
 
-
+    List<Map<String ,String>> findDept();
 }

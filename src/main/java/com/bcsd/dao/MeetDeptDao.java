@@ -5,6 +5,7 @@ import com.bcsd.entity.SubOffice;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
@@ -12,10 +13,16 @@ import java.util.List;
  */
 public interface MeetDeptDao {
     List<MeetDept> findAll(@Param("deptName") String deptName);
+
     MeetDept findByid(String deptId);
-    void add (MeetDept meetDept);
+
+    void add(MeetDept meetDept);
+
     void update(MeetDept meetDept);
-    void delete (String id);
+
+    void delete(String id);
 
     List<SubOffice> findOffice();
+
+    List<Map<String ,String>> findDept();
 }

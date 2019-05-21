@@ -1,5 +1,6 @@
 package com.bcsd.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bcsd.entity.*;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.PageInfo;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +53,15 @@ public class MeetUserController {
         return PREFIX+"/user_add";
     }
 
+
+    @RequestMapping(value = "/findDept", produces={"application/json;charset=utf-8"})
+    @ResponseBody
+    public Object findDept(){
+        //List<Map<String ,String>> dept = meetUserService.findDept();
+        return JSONObject.toJSONString(meetUserService.findDept());
+    }
+
+
     /**
      * 修改用户
      * @param user
@@ -57,6 +69,8 @@ public class MeetUserController {
     @RequestMapping("/updateUser")
     @ResponseBody
     public void update(MeetUser user){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setOperdate(sf.format(new Date()));
         meetUserService.update(user);
     }
     /**
@@ -66,6 +80,13 @@ public class MeetUserController {
     @RequestMapping("/addUser")
     @ResponseBody
     public void addUser(MeetUser user){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setCreatedate(sf.format(new Date()));
+        user.setOrderBy(0);
+        user.setIsdisabled(0);
+        user.setStatus(0);
+        user.setOperuser("admin");
+        user.setIsExternal(0);
         meetUserService.add(user);
     }
     /**

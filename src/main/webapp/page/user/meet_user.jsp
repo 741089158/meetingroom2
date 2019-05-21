@@ -86,6 +86,11 @@
                     , area: ['700px', '500px']
                     , title: '修改用户'
                     , content: "${pageContext.request.contextPath}/user/findUser?id=" + data.id
+                    ,end:function () {
+                        setTimeout(function () {
+                            active.reload();
+                        }, 100);
+                    }
                 });
             } else if (obj.event === 'detail') {
                 layer.open({
@@ -103,6 +108,11 @@
                 , area: ['700px', '500px']
                 , title: '添加用户'
                 , content: "${pageContext.request.contextPath}/page/user/user_add.jsp"
+                ,end:function () {
+                    setTimeout(function () {
+                        active.reload();
+                    }, 100);
+                }
             });
         });
 
