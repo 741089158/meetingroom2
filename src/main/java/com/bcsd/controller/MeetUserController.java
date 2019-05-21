@@ -1,9 +1,6 @@
 package com.bcsd.controller;
 
-import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.ResponseData;
-import com.bcsd.entity.UserInternal;
+import com.bcsd.entity.*;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
@@ -39,24 +36,47 @@ public class MeetUserController {
         if (size==null||size==0){
             size=10;
         }
-
-        List<MeetUser> all = meetUserService.findAll(page,size,username);
-        PageInfo<MeetUser> pageInfo = new PageInfo<MeetUser>(all);
+        List<Map<String,String>> all = meetUserService.findAll(page,size,username);
+        PageInfo<Map<String,String>> pageInfo = new PageInfo<Map<String,String>>(all);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", all);
         return data;
 
     }
 
-    @RequestMapping("/findByid")
-    public ModelAndView findByid(@RequestParam(value = "id")String id){
-        System.out.println(id);
-        ModelAndView mv=new ModelAndView();
-        MeetUser byid = meetUserService.findByid(id);
-        mv.addObject("meetuser",byid);
-        mv.setViewName("page/meet_manager/meet_manager_user_update");
-        return mv;
+    @RequestMapping("/findUser")
+    public String findUser(@RequestParam(value = "id")Integer id, HttpServletRequest request){
+        Map<String,String> user = meetUserService.findById(id);
+        request.setAttribute("user",user);
+        return PREFIX+"/user_add";
     }
 
+    /**
+     * 修改用户
+     * @param user
+     */
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public void update(MeetUser user){
+        meetUserService.update(user);
+    }
+    /**
+     * 添加用户
+     * @param user
+     */
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public void addUser(MeetUser user){
+        meetUserService.add(user);
+    }
+    /**
+     * 删除用户
+     * @param id
+     */
+    @RequestMapping("/deleteUser")
+    @ResponseBody
+    public void deleteUser(Integer id){
+        meetUserService.delete(id);
+    }
 
 
     /**
@@ -108,25 +128,9 @@ public class MeetUserController {
         return data;
     }
 
-    /**
-     * 批量删除联系人
-     * @param
-     * @return
-     *//*
-    @RequestMapping("/deleteInternals")
-    public Object deleteInternal(HttpServletRequest request) {
-        String[] ids = request.getParameterValues("id");
-        for (String id : ids) {
-            meetUserService.deleteInternal(Integer.parseInt(id));
-        }
-        ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        return data;
-    }*/
-
 
     /**
-     * 修改
+     * 修改联系人
      * @param userInternal
      * @return
      */

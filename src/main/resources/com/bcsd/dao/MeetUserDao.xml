@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bcsd.dao.MeetUserDao">
     <!--查询所有-->
-    <select id="findAll" resultType="com.bcsd.entity.MeetUser">
-   SELECT u.id,u.username,u.sex,u.tel,u.email,u.suboffice,d.deptname FROM cj_user u,cj_dept d
-   WHERE u.deptid=d.deptid
+    <select id="findAll" resultType="java.util.Map">
+        SELECT u.id,u.username,u.sex,u.tel,u.email,u.suboffice,d.deptname FROM cj_user u,cj_dept d
+        WHERE u.deptid=d.deptid
         <if test="username !=null and username !=''">
             AND username like '%${username}%'
         </if>
@@ -12,27 +12,26 @@
 
 
     <insert id="add" parameterType="com.bcsd.entity.MeetUser">
-        insert into cj_user
-        values(#{id},#{subofficeid},#{username},#{suboffice},#{password},#{sex},#{email},#{createdate},#{tel},#{order},#{status},#{isdisabled},#{operuser},#{operdate},#{deptid})
+        insert into cj_user (subofficeid,username,suboffice,password,sex,email,createdate,tel,
+        order,status,isdisabled,operuser,operdate,deptId,name,isexternal)
+        values(#{subofficeid},#{username},#{suboffice},#{password},#{sex},#{email},#{createdate},
+        #{tel},#{order},#{status},#{isdisabled},#{operuser},#{operdate},#{deptid},#{name},#{isexternal})
     </insert>
 
 
-    <insert id="addid" parameterType="com.bcsd.entity.MeetUser">
-        insert into cj_user_role values (#{id},#{userid},#{roleid})
-    </insert>
-
-
-    <select id="findByid" resultType="com.bcsd.entity.MeetUser">
-      SELECT
-      id,subofficeid,username,suboffice,password,sex,email,createdate,tel,status,isdisabled,operuser,operdate,deptid FROM cj_user WHERE id=#{id}
+    <select id="findById" resultType="java.util.Map">
+      SELECT u.id,u.subofficeid,u.username,u.suboffice,u.password,u.sex,u.email,u.tel,
+      u.status,u.operuser,u.operdate,u.deptid,d.deptname
+      from cj_user u left join cj_dept d on
+      u.deptid=d.deptid and  u.id=#{id}
     </select>
-    <!--<update id="update" parameterType="com.bcsd.entity.MeetUser">-->
 
 
     <!--</update>-->
     <update id="update" parameterType="com.bcsd.entity.MeetUser">
         UPDATE cj_user SET
-        username=#{username},sex=#{sex},email=#{email},tel=#{tel},subofficeid=#{subofficeid},suboffice=#{suboffice},deptid=#{deptid} WHERE
+        username=#{username},sex=#{sex},email=#{email},tel=#{tel},subofficeid=#{subofficeid}
+        ,suboffice=#{suboffice},deptid=#{deptid} WHERE
         id=#{id}
     </update>
 
@@ -42,7 +41,7 @@
     </delete>
 
     <!--查询内部联系人-->
-    <select id="findInternal"  resultType="com.bcsd.entity.UserInternal">
+    <select id="findInternal" resultType="com.bcsd.entity.UserInternal">
         SELECT * from cj_user_internal u
         where 1 = 1
         <if test="internal !=null and internal !=''">

@@ -1,6 +1,9 @@
 package com.bcsd.entity;
 
 
+import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -8,6 +11,9 @@ import java.sql.Timestamp;
  * @author HOEP
  * @data 2019/4/23
  */
+
+@Data
+@ToString
 public class MeetDept implements Serializable {
 //    部门id
 
@@ -32,28 +38,13 @@ public class MeetDept implements Serializable {
     private Integer subid;
 //    结束时间
 
-    private Timestamp endtime;
+    private String endtime;
 //    开始时间
 
-    private Timestamp starttime;
-//    所属部门名称
-    private String subofficename;
+    private String starttime;
 
-    @Override
-    public String toString() {
-        return "MeetDept{" +
-                "deptid='" + deptid + '\'' +
-                ", deptaddr='" + deptaddr + '\'' +
-                ", deptdefault='" + deptdefault + '\'' +
-                ", deptname='" + deptname + '\'' +
-                ", depttel='" + depttel + '\'' +
-                ", email='" + email + '\'' +
-                ", subid=" + subid +
-                ", endtime=" + endtime +
-                ", starttime=" + starttime +
-                ", subofficename='" + subofficename + '\'' +
-                '}';
-    }
+
+
 
     public String getDeptid() {
         return deptid;
@@ -111,27 +102,20 @@ public class MeetDept implements Serializable {
         this.subid = subid;
     }
 
-    public Timestamp getEndtime() {
+    public String getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(Timestamp endtime) {
+    public void setEndtime(String endtime) {
         this.endtime = endtime;
     }
 
-    public Timestamp getStarttime() {
+    public String getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Timestamp starttime) {
+    public void setStarttime(String starttime) {
         this.starttime = starttime;
     }
 
-    public String getSubofficename() {
-        return subofficename;
-    }
-
-    public void setSubofficename(String subofficename) {
-        this.subofficename = subofficename;
-    }
 }

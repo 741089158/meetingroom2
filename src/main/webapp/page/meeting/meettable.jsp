@@ -5,7 +5,7 @@
 <body>
 <%@ include file="../../page/top.jsp" %>
 
-<div class="layui-row">
+<div class="layui-row row_black">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <%--<div class="layui-row block-bg-color block-border-top">
@@ -55,10 +55,11 @@
         var  laypage = layui.laypage //分页
             , table = layui.table //表格
         ;
+        var h = $(window).height()-155;
         //第一个实例
         table.render({
             elem: '#demo'
-            , height: 420
+            , height: h
             , url: '${pageContext.request.contextPath }/meetroom/myappointmeet' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
@@ -119,12 +120,6 @@
                 location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
             }else if(obj.event === 'detail'){
                 location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
-               /* layer.open({
-                    type:2
-                    ,area: ['700px', '520px']
-                    ,title: '查看会议'
-                    ,content:"${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
-                });*/
             }
         });
 

@@ -7,24 +7,27 @@ import com.bcsd.entity.UserInternal;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
  * @data 2019/4/24
  */
 public interface MeetUserDao {
-    List<MeetUser> findAll(@Param("username") String username);
+    List<Map<String,String>> findAll(@Param("username") String username);
+
     void add(MeetUser meetUser);
-    void addid(MeetUserRole meetUserRole);
-    MeetUser findByid(String Id);
+
+
+    Map<String,String> findById(Integer Id);
+
     void update(MeetUser meetUser);
-    void delete(String id);
+
+    void delete(Integer id);
 
 
     /*查询联系人*/
-    List<UserInternal> findInternal(@Param("internal") String internal,@Param("name") String name);
-
-    //List<UserInternal> findExternal(Integer internal);
+    List<UserInternal> findInternal(@Param("internal") String internal, @Param("name") String name);
 
     void addInternal(UserInternal internal);
 

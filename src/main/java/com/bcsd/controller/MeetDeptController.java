@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +41,6 @@ public class MeetDeptController {
     @RequestMapping("/findAll")
     @ResponseBody
     public Object findAll(Integer page,Integer size,String deptName){
-        //System.out.println(deptName);
         if (page==null||page==0){
             page=1;
         }
@@ -60,7 +61,7 @@ public class MeetDeptController {
     @ResponseBody
     public Object findSub(){
         String result = JSONObject.toJSONString(meetDeptService.findOffice());
-        System.out.println(result);
+        //System.out.println(result);
         return result;
     }
 
@@ -88,12 +89,16 @@ public class MeetDeptController {
     @RequestMapping("/add")
     @ResponseBody
     public void add(MeetDept meetDept){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String startTime = sf.format(new Date());
+        meetDept.setStarttime(startTime);
         meetDeptService.add(meetDept);
     }
 
 
     @RequestMapping("/delete")
-    public Object  delete(String deptid){
+    @ResponseBody
+    public Object  delete(@RequestParam(value = "deptid")String deptid){
         meetDeptService.delect(deptid);
         ResponseData data = new ResponseData();
         data.setMessage("删除成功");

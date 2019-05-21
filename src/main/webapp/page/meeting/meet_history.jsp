@@ -4,7 +4,7 @@
 <%@ include file="../common.jsp" %>
 <body>
 <%@ include file="../top.jsp" %>
-<div class="layui-row">
+<div class="layui-row row_black">
     <%@ include file="../nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <div class="layui-fluid">
@@ -37,10 +37,11 @@
 <script>
     layui.use('table', function () {
         var table = layui.table;
+        var h = $(window).height()-155;
         //第一个实例
         table.render({
             elem: '#demo',
-            height: 420,//'auto'
+            height: h,
             url: '${pageContext.request.contextPath }/appointreet/history' //数据接口
             ,
             page: true //开启分页

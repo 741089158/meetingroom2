@@ -6,28 +6,35 @@ import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
  * @data 2019/4/24
  */
 public interface MeetUserService {
-    List<MeetUser> findAll(Integer page,Integer size,String username);
-    void add(MeetUser meetUser);
-    void addid(MeetUserRole meetUserRole);
-    MeetUser findByid(String Id);
-    void update(MeetUser meetUser);
-    void delete(String id);
+    List<Map<String, String>> findAll(Integer page, Integer size, String username);
 
-    public List<UserInternal> findInternal(Integer page, Integer size, String internal,String name);
+    void add(MeetUser meetUser);
+
+    Map<String,String> findById(Integer Id);
+
+    void update(MeetUser meetUser);
+
+    void delete(Integer id);
+
+     List<UserInternal> findInternal(Integer page, Integer size, String internal, String name);
 
     void addInternal(UserInternal internal);
 
     void deleteInternal(Integer id);
+
     void deleteInternal(Integer[] ids);
 
 
     UserInternal findOne(Integer id);
 
     void updateLinkman(UserInternal userInternal);
+
+
 }

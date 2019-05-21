@@ -119,19 +119,5 @@ public class DictController  {
         return data;
     }
 
-   /* *//**
-     * 批量删除字典
-     * @param
-     * @return
-     *//*
-    @RequestMapping("/deletes")
-    public String deletes(HttpServletRequest request){
-        String[] ids = request.getParameterValues("dictId");
-        System.out.println(ids);
-        for (String dictId : ids) {
-            dictService.delete(Integer.parseInt(dictId));
-        }
-        return "redirect:findPage";
-    }
-*/
+
 }

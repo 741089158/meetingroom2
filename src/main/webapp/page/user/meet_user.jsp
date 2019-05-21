@@ -5,7 +5,7 @@
 <body>
 <%@ include file="../../page/top.jsp" %>
 
-<div class="layui-row">
+<div class="layui-row row_black">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <div class="layui-fluid">
@@ -46,12 +46,12 @@
 
     layui.use(['laydate', 'laypage', 'layer', 'table'], function () {
         var laypage = layui.laypage //分页
-            , table = layui.table //表格
-        ;
+            , table = layui.table;
+        var h = $(window).height()-155;
         //第一个实例
         table.render({
             elem: '#demo'
-            , height: 420
+            , height: h
             , url: '${pageContext.request.contextPath }/user/findAll' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
@@ -59,14 +59,12 @@
                 , {field: 'id', title: 'ID', width: 60, fixed: 'left'}
                 , {field: 'username', title: '名称', width: 100}
                 , {field: 'sex', title: '性别', width: 60}
-                , {field: 'rolename', title: '职位', width: 100}
+                , {field: 'deptname', title: '部门', width: 100}
                 , {field: 'email', title: '邮箱', width: 180}
                 , {field: 'tel', title: '电话', width: 130}
                 , {field: 'suboffice', title: '分公司', width: 100}
-                /*	, {field: 'manager', title: '管理员', width: 80}
-                    , {field: 'isStart', title: '是否启用', width: 80}*/
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
-            ]]
+            ]]  ,id:'table'
         });
         //监听行工具事件
         table.on('tool(test)', function (obj) {
@@ -74,8 +72,11 @@
             // console.log(data.roomId)   //获取roomid
             if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    $.post("${pageContext.request.contextPath}/meet/delete", {roomId: data.roomId}, function (response) {
-                        location.reload();
+                    $.post("${pageContext.request.contextPath}/user/deleteUser", {id: data.id}, function (response) {
+                        layer.msg("删除成功");
+                        setTimeout(function () {
+                            active.reload();
+                        }, 800);
                     });
 
                 });
@@ -84,14 +85,14 @@
                     type: 2
                     , area: ['700px', '500px']
                     , title: '修改用户'
-                    , content: "${pageContext.request.contextPath}/meet/findOne?roomId=" + data.roomId
+                    , content: "${pageContext.request.contextPath}/user/findUser?id=" + data.id
                 });
             } else if (obj.event === 'detail') {
                 layer.open({
                     type: 2
                     , area: ['700px', '500px']
                     , title: '查看用户'
-                    , content: "${pageContext.request.contextPath}/meet/findOne?roomId=" + data.roomId
+                    , content: "${pageContext.request.contextPath}/user/findUser?id=" + data.id
                 });
             }
         });
@@ -101,9 +102,27 @@
                 type: 2
                 , area: ['700px', '500px']
                 , title: '添加用户'
-                , content: "${pageContext.request.contextPath}/page/meet_management/room_add.jsp"
+                , content: "${pageContext.request.contextPath}/page/user/user_add.jsp"
             });
         });
+
+
+        var active ={
+            reload:function(){
+                var reload = $("#demo");
+                var index= layer.msg('查询中...',{icon:16,time:false,shade:0});
+                setTimeout(function () {
+                    table.reload('table',{//执行重载
+                        page:{curr:1},where:{name:reload.val()}});
+                    layer.close(index);
+                },500);
+            }
+        };//监听查询btn
+        $('.demo .layui-btn').on('click',function () {
+            var type=$(this).data('type');
+            active[type]?active[type].call(this):'';
+        });
+
         var Meet = {
             tableId: "demo",
             condition: {

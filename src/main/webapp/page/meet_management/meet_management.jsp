@@ -65,7 +65,7 @@
             // , layer = layui.layer //弹层
             , table = layui.table //表格
         ;
-        var h = $(window).height()-154;
+        var h = $(window).height()-155;
         //第一个实例
         var MeetTable =table.render({
             elem: '#demo'
@@ -132,8 +132,6 @@
                     , area: ['700px', '500px']
                     , title: '查看会议室'
                     , content: "${pageContext.request.contextPath}/meet/findOne?roomId=" + data.roomId
-                    ,end:function () {
-                    }
                 });
             }
         });

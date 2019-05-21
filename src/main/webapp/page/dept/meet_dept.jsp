@@ -5,7 +5,7 @@
 <body>
 <%@ include file="../../page/top.jsp" %>
 
-<div class="layui-row">
+<div class="layui-row row_black">
 	<%@ include file="../../page/nav.jsp" %>
 	<div class="layui-col-md10 main-bg-color">
 		<div class="layui-fluid">
@@ -46,19 +46,15 @@
 
 	layui.use(['laydate', 'laypage', 'layer', 'table'],function () {
 		var  laypage = layui.laypage //分页
-				// ,laydate = layui.laydate//日期
-				// , layer = layui.layer //弹层
-				, table = layui.table //表格
-		;
+				, table = layui.table;
+		var h = $(window).height()-160;
 		//第一个实例
 		table.render({
 			elem: '#demo'
-			, height: 420
+			, height: h
 			, url: '${pageContext.request.contextPath }/dept/findAll' //数据接口
 			, page: true //开启分页
 			,method:"post"
-			//,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-			//,totalRow: true //开启合计行
 			, cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}
 				, {field: 'deptid', title: 'ID', width: 80, fixed: 'left'}
@@ -68,32 +64,39 @@
 				, {field: 'email', title: '部门邮箱', width: 150}
 				, {field: 'subofficename', title: '公司', width: 120}
 				, {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
-			]]
+			]],id:'table'
 		});
 		//监听行工具事件
 		table.on('tool(test)', function(obj){
 			var data = obj.data;
-			// console.log(data.roomId)   //获取roomid
-			if(obj.event === 'delete'){
-				layer.confirm('真的删除行么', function(index){
-					$.post("${pageContext.request.contextPath}/meet/delete",{roomId:data.roomId},function (response) {
-						location.reload();
+			if (obj.event === 'delete') {
+				layer.confirm('确定删除?', function (index) {
+					$.post("${pageContext.request.contextPath}/dept/delete",{deptid:data.deptid},function () {
+						layer.msg("删除成功");
+						setTimeout(function () {
+							active.reload();
+						}, 800);
 					});
-
 				});
 			} else if(obj.event === 'edit'){
 				layer.open({
 					type:2
-					,area: ['700px', '500px']
+					,area: ['600px', '380px']
 					,title: '修改部门'
 					,content:"${pageContext.request.contextPath}/dept/findOne?deptid="+data.deptid
+					,end:function () {
+						setTimeout(function () {
+							active.reload();
+						}, 100);
+					}
 				});
 			}else if(obj.event === 'detail'){
 				layer.open({
 					type:2
-					,area: ['700px', '500px']
+					,area: ['600px', '380px']
 					,title: '查看部门'
 					,content:"${pageContext.request.contextPath}/dept/findOne?deptid="+data.deptid
+
 				});
 			}
 		});
@@ -101,10 +104,31 @@
 		$("#add").click(function () {
 			layer.open({
 				type:2
-				,area: ['700px', '500px']
+				,area: ['600px', '380px']
 				,title: '添加部门'
 				,content:"${pageContext.request.contextPath}/page/dept/dept_add.jsp"
+				,end:function () {
+					setTimeout(function () {
+						active.reload();
+					}, 100);
+				}
 			});
+		});
+
+		var active ={
+			reload:function(){
+				var reload = $("#demo");
+				var index= layer.msg('查询中...',{icon:16,time:false,shade:0});
+				setTimeout(function () {
+					table.reload('table',{//执行重载
+						page:{curr:1},where:{name:reload.val()}});
+					layer.close(index);
+				},500);
+			}
+		};//监听查询btn
+		$('.demo .layui-btn').on('click',function () {
+			var type=$(this).data('type');
+			active[type]?active[type].call(this):'';
 		});
 
 		var Meet = {

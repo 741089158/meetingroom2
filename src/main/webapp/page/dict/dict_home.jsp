@@ -5,7 +5,7 @@
 <body>
 <%@ include file="../../page/top.jsp" %>
 
-<div class="layui-row">
+<div class="layui-row  row_black">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <div class="layui-fluid">
@@ -62,9 +62,10 @@
         var  laypage = layui.laypage //分页
             , table = layui.table //表格
         ;
+        var h = $(window).height()-155;
         table.render({
             elem: '#demo'
-            , height: 420
+            , height: h
             , url: '${pageContext.request.contextPath }/dict/findPage' //数据接口
             , page: true //开启分页
             ,method:'post'

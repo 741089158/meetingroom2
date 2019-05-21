@@ -3,8 +3,8 @@
 <mapper namespace="com.bcsd.dao.MeetDeptDao">
     <!--查询所有-->
     <select id="findAll" resultType="com.bcsd.entity.MeetDept">
-        SELECT s.subofficename,d.deptid,d.deptname,d.deptaddr,d.depttel,d.email,d.starttime FROM cj_dept d,cj_suboffice
-        s
+        SELECT s.subofficename,d.deptid,d.deptname,d.deptaddr,d.depttel,d.email,d.starttime
+        FROM cj_dept d,cj_suboffice s
         WHERE d.subid=s.subofficeid
         <if test="deptName !=null and deptName !=''">
             AND deptName like '%${deptName}%'

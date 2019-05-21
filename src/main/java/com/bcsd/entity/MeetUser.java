@@ -1,5 +1,8 @@
 package com.bcsd.entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 
 /**
@@ -7,9 +10,12 @@ import java.io.Serializable;
  * @author HOEP
  * @data 2019/4/24
  */
+
+@Data
+@ToString
 public class MeetUser implements Serializable {
 //    用户ID
-    private String id;
+    private Integer id;
 //    所属分部ID
     private Integer subofficeid;
 //    用户名
@@ -27,9 +33,9 @@ public class MeetUser implements Serializable {
 //    备注
     private String tel;
 //    排序
-    private String order;
+    private Integer order;
 //    状态
-    private String status;
+    private Integer status;
 //    是否禁用
     private String isdisabled;
 //    操作人
@@ -37,34 +43,17 @@ public class MeetUser implements Serializable {
 //    操作时间
     private String operdate;
 //    用户职位
-    private String rolename;
+    private String deptId;
 
-    @Override
-    public String toString() {
-        return "MeetUser{" +
-                "id='" + id + '\'' +
-                ", subofficeid=" + subofficeid +
-                ", username='" + username + '\'' +
-                ", suboffice='" + suboffice + '\'' +
-                ", password='" + password + '\'' +
-                ", sex='" + sex + '\'' +
-                ", email='" + email + '\'' +
-                ", createdate='" + createdate + '\'' +
-                ", tel='" + tel + '\'' +
-                ", order='" + order + '\'' +
-                ", status='" + status + '\'' +
-                ", isdisabled='" + isdisabled + '\'' +
-                ", operuser='" + operuser + '\'' +
-                ", operdate='" + operdate + '\'' +
-                ", rolename='" + rolename + '\'' +
-                '}';
-    }
+    private String name;
 
-    public String getId() {
+    private Integer isExternal;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -132,19 +121,19 @@ public class MeetUser implements Serializable {
         this.tel = tel;
     }
 
-    public String getOrder() {
+    public Integer getOrder() {
         return order;
     }
 
-    public void setOrder(String order) {
+    public void setOrder(Integer order) {
         this.order = order;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -172,11 +161,27 @@ public class MeetUser implements Serializable {
         this.operdate = operdate;
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getDeptId() {
+        return deptId;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getIsExternal() {
+        return isExternal;
+    }
+
+    public void setIsExternal(Integer isExternal) {
+        this.isExternal = isExternal;
     }
 }
