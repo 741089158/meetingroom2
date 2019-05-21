@@ -109,16 +109,12 @@ body {
 			var element = layui.element;
 		});
 		var url = window.location.pathname;
-		var ths = $("[href='${pageContext.request.contextPath}"
-				+ url
-				+ "']:not([href='${config.rootPath}/message/list']),[data-set*='"
-				+ url + "']");
+		var ths = $("[href*='"+ url+ "'],[data-set*='"+ url + "']");
+		//console.log(url);
 		ths.addClass("layui-this");
 		ths.parents(".layui-nav-item").addClass("layui-nav-itemed");
-	});
-
-	//浏览器后退时刷新页面
-	$(document).ready(function() {
+		
+		//浏览器后退时刷新页面
 		if (window.history && window.history.pushState) {
 			$(window).on('popstate', function() {
 				window.history.pushState('forward', null, '');
