@@ -123,7 +123,6 @@ public class AppointmrntController {
 
 	/**
 	 * 根据历史会议id查询参会人员
-	 *
 	 * @param page
 	 * @param size
 	 * @param id   历史会议id
@@ -141,14 +140,11 @@ public class AppointmrntController {
 		List<User> list = appointmentMeetService.findHistoryUser(page, size, id);
 		PageInfo<User> pageInfo = new PageInfo<User>(list);
 		ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
-//		vm.addObject("pageInfo", pageInfo);
-//		vm.setViewName("page/user/historymeet");
-		return "";
+		return data;
 	}
 
 	/**
 	 * 查询所有循环会议列表
-	 *
 	 * @param page
 	 * @param size
 	 * @param meetName

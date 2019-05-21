@@ -2,6 +2,7 @@ package com.bcsd.service;
 
 import com.bcsd.entity.MeetDept;
 import com.bcsd.entity.MeetRoom;
+import com.bcsd.entity.SubOffice;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface MeetDeptService {
     void add(MeetDept meetDept);
 
     void delect(String  id);
+
+    List<SubOffice> findOffice();
 }

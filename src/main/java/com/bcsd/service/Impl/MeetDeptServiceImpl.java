@@ -3,6 +3,7 @@ package com.bcsd.service.Impl;
 import com.bcsd.dao.MeetDeptDao;
 import com.bcsd.entity.MeetDept;
 import com.bcsd.entity.MeetRoom;
+import com.bcsd.entity.SubOffice;
 import com.bcsd.service.MeetDeptService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class MeetDeptServiceImpl implements MeetDeptService {
 
     public void delect(String id) {
         meetDeptDao.delete(id);
+    }
+
+    @Override
+    public List<SubOffice> findOffice() {
+        return meetDeptDao.findOffice();
     }
 }

@@ -86,14 +86,14 @@
 					type:2
 					,area: ['700px', '500px']
 					,title: '修改部门'
-					,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
+					,content:"${pageContext.request.contextPath}/dept/findOne?deptid="+data.deptid
 				});
 			}else if(obj.event === 'detail'){
 				layer.open({
 					type:2
 					,area: ['700px', '500px']
 					,title: '查看部门'
-					,content:"${pageContext.request.contextPath}/meet/findOne?roomId="+data.roomId
+					,content:"${pageContext.request.contextPath}/dept/findOne?deptid="+data.deptid
 				});
 			}
 		});
@@ -103,7 +103,7 @@
 				type:2
 				,area: ['700px', '500px']
 				,title: '添加部门'
-				,content:"${pageContext.request.contextPath}/page/meet_management/room_add.jsp"
+				,content:"${pageContext.request.contextPath}/page/dept/dept_add.jsp"
 			});
 		});
 

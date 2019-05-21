@@ -1,6 +1,7 @@
 package com.bcsd.dao;
 
 import com.bcsd.entity.MeetDept;
+import com.bcsd.entity.SubOffice;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface MeetDeptDao {
     void add (MeetDept meetDept);
     void update(MeetDept meetDept);
     void delete (String id);
+
+    List<SubOffice> findOffice();
 }

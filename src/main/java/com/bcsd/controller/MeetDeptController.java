@@ -1,7 +1,9 @@
 package com.bcsd.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bcsd.entity.MeetDept;
 import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.SubOffice;
 import com.bcsd.service.MeetDeptService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,7 +24,7 @@ import java.util.List;
 @RequestMapping("/dept")
 public class MeetDeptController {
 
-
+    private String PREFIX = "page/dept";
 
     @Autowired
     private MeetDeptService meetDeptService;
@@ -50,39 +53,51 @@ public class MeetDeptController {
     }
 
     /**
+     * 查询分部
+     * @return
+     */
+    @RequestMapping(value = "/findSub", produces={"application/json;charset=utf-8"})
+    @ResponseBody
+    public Object findSub(){
+        String result = JSONObject.toJSONString(meetDeptService.findOffice());
+        System.out.println(result);
+        return result;
+    }
+
+    /**
      * 查询部门
      * @param deptid
      * @return
      */
-    @RequestMapping("/findByid")
-    public ModelAndView findByid(@RequestParam(value = "deptid") String deptid){
-
-        ModelAndView mv=new ModelAndView();
-        MeetDept meetDept=meetDeptService.findByid(deptid);
-        mv.addObject("meetdept",meetDept);
-        mv.setViewName("page/meet_manager/meet_manager_dept_update");
-        return mv;
+    @RequestMapping("/findOne")
+    public String findOne(@RequestParam(value = "deptid") String deptid, HttpServletRequest request){
+        MeetDept meetDept=meetDeptService.findByid(deptid);//查询部门
+        List<SubOffice> list = meetDeptService.findOffice();//查询分部
+        request.setAttribute("list",list);
+        request.setAttribute("dept",meetDept);
+        return PREFIX+"/dept_add";
     }
+
     @RequestMapping("/update")
-    public String update(MeetDept meetDept){
-
+    @ResponseBody
+    public void update(MeetDept meetDept){
         meetDeptService.update(meetDept);
-
-        return "forward:findAll";
     }
 
 
     @RequestMapping("/add")
-    public String  add(MeetDept meetDept){
+    @ResponseBody
+    public void add(MeetDept meetDept){
         meetDeptService.add(meetDept);
-        return "redirect:findAll";
-
     }
+
+
     @RequestMapping("/delete")
-    public String  delete(String deptid){
+    public Object  delete(String deptid){
         meetDeptService.delect(deptid);
-        return "forward:findAll";
-
-
+        ResponseData data = new ResponseData();
+        data.setMessage("删除成功");
+        data.setCode(0);
+        return data;
     }
 }

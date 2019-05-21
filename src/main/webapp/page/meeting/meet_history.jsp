@@ -40,13 +40,14 @@
         //第一个实例
         table.render({
             elem: '#demo',
-            height: 360,//'auto'
+            height: 420,//'auto'
             url: '${pageContext.request.contextPath }/appointreet/history' //数据接口
             ,
             page: true //开启分页
             ,
             cols: [[ //表头
-                {field: 'id', title: 'ID', width: 100, fixed: 'left'}
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'ID', width: 100, fixed: 'left'}
                 , {field: 'meetName', title: '会议名称', width: 150}
                 , {field: 'meetType', title: '会议类型', width: 150}
                 , {field: 'starttime', title: '开始时间', width: 240}
@@ -64,7 +65,6 @@
                     , area: ['700px', '500px']
                     , title: '查看参会人员'
                     , content:'${pageContext.request.contextPath}/page/meeting/history_user.jsp?id=' + data.id
-                        //"${pageContext.request.contextPath}/appointreet/findHistoryUser?id=" + data.id
                     ,success:function () {
                     }
                 });
