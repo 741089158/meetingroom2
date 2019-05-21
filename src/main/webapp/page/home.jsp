@@ -16,9 +16,9 @@
 			<div class="layui-col-md12 block-padding-around">
 				<h2 class="block-bot-left">会议室预定</h2>
 				<div class="block-bot-right">
-					<button class="layui-btn layui-btn-sm layui-btn-normal">
+					<a class="layui-btn layui-btn-sm layui-btn-normal" href="${pageContext.request.contextPath}/page/schedule/schedule.jsp">
 						<i class="layui-icon layui-icon-date"></i> 日程
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
