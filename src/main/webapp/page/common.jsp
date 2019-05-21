@@ -109,10 +109,14 @@ body {
 			var element = layui.element;
 		});
 		var url = window.location.pathname;
-		var ths = $("[href*='"+ url+ "'],[data-set*='"+ url + "']");
-		//console.log(url);
-		ths.addClass("layui-this");
-		ths.parents(".layui-nav-item").addClass("layui-nav-itemed");
+		var mark = url.split("/meetingroom/");
+		//console.log(mark);
+		if(mark[1]!="")
+		{
+			var ths = $("[href*='"+ url+ "'],[data-set*='"+ url + "']");
+			ths.addClass("layui-this");
+			ths.parents(".layui-nav-item").addClass("layui-nav-itemed");
+		}
 		
 		//浏览器后退时刷新页面
 		if (window.history && window.history.pushState) {
