@@ -86,6 +86,7 @@
 							<div class="layui-tab-item layui-show" id="home_card_container_parent">
 								<div class="layui-row layui-col-space20" id="home_card_container">
 									<div class="layui-col-md3">
+										<!-- 
 										<div class="layui-card box">
 											<div class="layui-card-header">
 												<div class="home-point">F25</div>
@@ -103,6 +104,7 @@
 											</div>
 											<div class="layui-card-footer-a">卡片面板</div>
 										</div>
+										 -->
 									</div>
 								</div>
 							</div>
@@ -114,25 +116,39 @@
 	</div>
 </div>
 <script>
-	layui.use([ 'form', 'laydate' ], function() {
+	var layer;//层
+	layui.use([ 'form', 'laydate','layer' ], function() {
 		//处理高度
 		$("#home_tab_content_container").height($(window).height()-$("#home_card_container").offset().top-50);
 		var laydate = layui.laydate;
 		var form = layui.form;
+		layer = layui.layer;
 		laydate.render({
 			elem : '#home_date',
-			format : 'yyyy年MM月dd日'
+			format : 'yyyy年MM月dd日',
+			value: new Date(),
+			done: function(value, date){
+				//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+			}
 		});
 		laydate.render({
 			elem : '#home_time',
 			type : 'time',
-			format : 'H点m分'
+			format : 'H点m分',
+			value: new Date(),
+			done: function(value, date){
+				//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+			}
 		});
 		laydate.render({
 			elem : '#home_duration',
 			type : 'time',
 			btns : [ 'confirm' ],
-			format : 'H小时m分'
+			format : 'H小时m分',
+			value: '1小时0分',
+			done: function(value, date){
+				//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+			}
 		});
 		//地区联动选楼
 		form.on('select(home_area)', function(data) {
@@ -190,7 +206,9 @@
 								'<strong>'+n.personCount+'人</strong>'+
 								'</h3>'+
 								'</div>'+
-								'<div class="layui-card-footer-a">预约</div>'+
+								'<div class="layui-card-footer-a" data-roomType="'+ n.roomType + 
+								'" data-roomId="'+ n.roomId + 
+								'" onclick="cardFooterAClick(this)">预约</div>'+
 								'</div>'+
 								'</div>');
 						$("#home_card_container").append(card.clone());
@@ -205,9 +223,32 @@
 			})
 			return false;
 		});
-		//处理高度
-		//$("#home_tab_content_container").height($(window).height()-$("#home_card_container").offset().top-50);
 	});
+	//footer下面的点击事件
+	function cardFooterAClick(e){
+		var roomId = $(e).attr("data-roomId");
+		var roomType = $(e).attr("data-roomType");
+		var d = $("#home_date").val();
+		d = d.replace("年","-");
+		d = d.replace("月","-");
+		d = d.replace("日","");
+		var t = $("#home_time").val();
+		t = t.replace("点","-");
+		t = t.replace("分","");
+		var duration = $("#home_duration").val();
+		duration = duration.replace("小时","-");
+		duration = duration.replace("分","");
+		if(roomId==undefined||roomType==undefined||d==undefined||t==undefined||duration==undefined) {
+			layer.alert("您缺少重要参数");
+			return false;
+		}
+		if(roomType=="视屏会议室"){
+			window.location.href = "${pageContext.request.contextPath }/meetroom/videoremeet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
+		}
+		else {
+			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
+		}
+	}
 </script>
 </body>
 </html>

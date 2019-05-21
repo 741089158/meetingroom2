@@ -70,10 +70,14 @@
 			var element = layui.element;
 		});
 		var url = window.location.pathname;
-		var ths = $("[href='${pageContext.request.contextPath}"
-				+ url
-				+ "']:not([href='${config.rootPath}/message/list']),[data-set*='"
-				+ url + "']");
+		var mark = url.split("/meetingroom/");
+		//console.log(mark);
+		if(mark[1]!="")
+		{
+			var ths = $("[href*='"+ url+ "'],[data-set*='"+ url + "']");
+			ths.addClass("layui-this");
+			ths.parents(".layui-nav-item").addClass("layui-nav-itemed");
+		}
 		ths.addClass("layui-this");
 		ths.parents(".layui-nav-item").addClass("layui-nav-itemed");
 	});
