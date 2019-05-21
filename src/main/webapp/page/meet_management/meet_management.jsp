@@ -5,7 +5,7 @@
 <body>
 <%@ include file="../top.jsp" %>
 
-<div class="layui-row">
+<div class="layui-row row_black">
     <%@ include file="../nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
         <%--<div class="layui-row block-bg-color block-border-top">
@@ -65,10 +65,11 @@
             // , layer = layui.layer //弹层
             , table = layui.table //表格
         ;
+        var h = $(window).height()-154;
         //第一个实例
         var MeetTable =table.render({
             elem: '#demo'
-            , height: 420
+            , height: h
             , url: '${pageContext.request.contextPath }/meet/findAll' //数据接口
             , page: true //开启分页
             //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档

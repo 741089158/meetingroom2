@@ -5,7 +5,7 @@
 <%@ include file="../page/common.jsp"%>
 <body>
 <%@ include file="../page/top.jsp"%>
-<div class="layui-row">
+<div class="layui-row row_black">
 	<%@ include file="../page/nav.jsp"%>
 	<div class="layui-col-md10 main-bg-color">
 		<div class="layui-row block-bg-color block-border-top">
