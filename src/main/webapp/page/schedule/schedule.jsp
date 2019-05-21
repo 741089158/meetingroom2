@@ -5,7 +5,18 @@
 
 <body>
 <%@ include file="../../page/top.jsp" %>
-
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+    }
+    #calendar {
+        width: 97%;
+        margin: 10px;
+    }
+</style>
 <div class="layui-row">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
@@ -25,20 +36,6 @@
 
     </div>
 </div>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 14px;
-    }
-    #calendar {
-        max-width: 1000px;
-       // max-height: 400px;
-        margin: 10px;
-        //float: right;
-    }
-</style>
 <script>
    /* layui.use(['laydate', 'laypage', 'layer', 'table'],function () {
         var  laypage = layui.laypage //分页
