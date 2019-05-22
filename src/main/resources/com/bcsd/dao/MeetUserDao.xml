@@ -12,27 +12,22 @@
 
 
     <insert id="add" parameterType="com.bcsd.entity.MeetUser">
-        insert into cj_user (subofficeid,username,suboffice,password,sex,email,createdate,tel,
-        order,status,isdisabled,operuser,operdate,deptId,name,isexternal)
-        values(#{subofficeid},#{username},#{suboffice},#{password},#{sex},#{email},#{createdate},
-        #{tel},#{order},#{status},#{isdisabled},#{operuser},#{operdate},#{deptid},#{name},#{isexternal})
+        insert into cj_user (subofficeid,username,suboffice,password,sex,email,createdate,tel,orderBy,status,isdisabled,operuser,operdate,deptId,uname,isExternal)
+        values(#{subofficeid},#{username},#{suboffice},#{password},#{sex},#{email},#{createdate},#{tel},#{orderBy},#{status},#{isdisabled},#{operuser},#{operdate},#{deptid},#{uname},#{isExternal})
     </insert>
 
 
     <select id="findById" resultType="java.util.Map">
-      SELECT u.id,u.subofficeid,u.username,u.suboffice,u.password,u.sex,u.email,u.tel,
+     SELECT u.id,u.subofficeid,u.username,u.suboffice,u.password,u.sex,u.email,u.tel,u.uname,
       u.status,u.operuser,u.operdate,u.deptid,d.deptname
-      from cj_user u left join cj_dept d on
-      u.deptid=d.deptid and  u.id=#{id}
+      from cj_user u , cj_dept d where
+      u.deptid=d.deptid and  u.id= #{id}
     </select>
 
 
     <!--</update>-->
     <update id="update" parameterType="com.bcsd.entity.MeetUser">
-        UPDATE cj_user SET
-        username=#{username},sex=#{sex},email=#{email},tel=#{tel},subofficeid=#{subofficeid}
-        ,suboffice=#{suboffice},deptid=#{deptid} WHERE
-        id=#{id}
+        UPDATE cj_user SET  subofficeid=#{subofficeid},username=#{username},suboffice=#{suboffice},password=#{password},sex=#{sex},email=#{email},tel=#{tel},operdate=#{operdate},uname=#{uname},deptid=#{deptid} WHERE id=#{id}
     </update>
 
 

@@ -30,7 +30,7 @@ public interface AppointmentMeetDao {
 
     List<HistoryMeet> findPageHistory(@Param("id") Integer id,@Param("meetName") String meetName);
 
-    List<User> findHistoryUser(Integer id);
+    List<MeetUser> findHistoryUser(Integer id);
 
     //取消会议
     void removeMeet(Integer meetId);

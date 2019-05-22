@@ -35,4 +35,5 @@ public interface MeetUserService {
 
 	void updateLinkman(UserInternal userInternal);
 
+    List<Map<String ,String>> findDept();
 }

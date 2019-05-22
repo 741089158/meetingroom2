@@ -63,7 +63,7 @@
     </select>
 
     <!--根据历史会议id查询参会人员-->
-    <select id="findHistoryUser" parameterType="java.lang.Integer" resultType="com.bcsd.entity.User">
+    <select id="findHistoryUser" parameterType="java.lang.Integer" resultType="com.bcsd.entity.MeetUser">
         select u.*
           from `cj_history_user` h,cj_historyroom m,cj_user u
           where h.mid=m.id and h.uid=u.id and h.mid=#{id}

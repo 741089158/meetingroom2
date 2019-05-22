@@ -30,4 +30,8 @@
         select subOfficeId,subOfficeName,remark,orderBy,subId,isDisabled,operUser,operDate from  cj_suboffice  group by  subOfficeName
     </select>
 
+    <select id="findDept" resultType="java.util.Map">
+        select deptid,deptname from cj_dept group  by deptname
+    </select>
+
 </mapper>

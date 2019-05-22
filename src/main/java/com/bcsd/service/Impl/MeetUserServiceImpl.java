@@ -1,5 +1,6 @@
 package com.bcsd.service.Impl;
 
+import com.bcsd.dao.MeetDeptDao;
 import com.bcsd.dao.MeetUserDao;
 import com.bcsd.entity.MeetUser;
 import com.bcsd.entity.UserInternal;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class MeetUserServiceImpl implements MeetUserService {
     @Autowired
     private MeetUserDao meetUserDao;
+
+    @Autowired
+    private MeetDeptDao meetDeptDao;
 
     public List<Map<String,String>> findAll(Integer page, Integer size, String username) {
         PageHelper.startPage(page, size);
@@ -123,4 +127,10 @@ public class MeetUserServiceImpl implements MeetUserService {
     public void updateLinkman(UserInternal userInternal) {
         meetUserDao.updateLinkman(userInternal);
     }
+
+    @Override
+    public List<Map<String ,String>> findDept() {
+        return meetDeptDao.findDept();
+    }
+
 }
