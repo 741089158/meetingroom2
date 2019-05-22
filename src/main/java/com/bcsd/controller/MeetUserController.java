@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author HOEP
@@ -102,13 +100,12 @@ public class MeetUserController {
 
     /**
      * 查询联系人
-     *
      * @param page       当前页码
      * @param size       每页显示数
      * @param internal 联系人
      * @return
      */
-    @RequestMapping("findInternal")
+    @RequestMapping("/findInternal")
     @ResponseBody
     public Object findInternal(Integer page, Integer size, String internal,String name){
         if (page == null || page == 0) {
@@ -120,6 +117,28 @@ public class MeetUserController {
         List<UserInternal> list = meetUserService.findInternal(page, size, internal,name);
         PageInfo pageInfo = new PageInfo<UserInternal>(list);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+        return data;
+    }
+
+
+    /**
+     * 查询联系人
+     * @param internal 联系人
+     * @return
+     */
+    @RequestMapping("/selectInternal")
+    @ResponseBody
+    public Object selectInternal(String internal,String name){
+        List<UserInternal> list = meetUserService.findInternal(internal,name);
+        ArrayList<Map<String, Object>> user = new ArrayList<>();
+        for (UserInternal userInternal : list) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id",userInternal.getId());
+            map.put("name",userInternal.getName());
+            map.put("value",userInternal.getId());
+            user.add(map);
+        }
+        ResponseData data = new ResponseData(user.size(), 0, "成功", user);
         return data;
     }
 

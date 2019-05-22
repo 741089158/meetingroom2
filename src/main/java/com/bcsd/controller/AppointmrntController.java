@@ -25,32 +25,33 @@ import java.util.List;
 @RequestMapping("/appointreet")
 public class AppointmrntController {
 
-	@Autowired
-	private AppointmentMeetService appointmentMeetService;
-	@Autowired
-	@Qualifier("reMeetRoomService")
-	private ReMeetRoomService reMeetRoomService;
-	@Autowired
-	private MeetUserService meetUserService;
-	@Autowired
-	private TaskMeetingService taskMeetingService;
+    @Autowired
+    private AppointmentMeetService appointmentMeetService;
+    @Autowired
+    @Qualifier("reMeetRoomService")
+    private ReMeetRoomService reMeetRoomService;
+    @Autowired
+    private MeetUserService meetUserService;
+    @Autowired
+    private TaskMeetingService taskMeetingService;
 
-	@RequestMapping("videoremeet")
-	public ModelAndView video(@Param("id") String id, @RequestParam(value = "date") String date,
-			@RequestParam(value = "time") String time, @RequestParam(value = "duration") String duration) {
-		String datetime = date.trim() + " " + time.trim();
-		ModelAndView vm = new ModelAndView();
-		MeetRoom meetRoom = reMeetRoomService.findById(id);
-		vm.addObject("datetime", datetime);
-		vm.addObject("duration", duration);
-		vm.addObject("meetRoom", meetRoom);
-		vm.setViewName("page/other/videomeet");
-		return vm;
-	}
+    @RequestMapping("videoremeet")
+    public ModelAndView video(@Param("id") String id, @RequestParam(value = "date") String date,
+                              @RequestParam(value = "time") String time, @RequestParam(value = "duration") String duration) {
+        String datetime = date.trim() + " " + time.trim();
+        ModelAndView vm = new ModelAndView();
+        MeetRoom meetRoom = reMeetRoomService.findById(id);
+        vm.addObject("datetime", datetime);
+        vm.addObject("duration", duration);
+        vm.addObject("meetRoom", meetRoom);
+        vm.setViewName("page/other/videomeet");
+        return vm;
+    }
 
 
     /**
      * 查询联系人
+     *
      * @param page
      * @param size
      * @param internal
@@ -58,7 +59,7 @@ public class AppointmrntController {
      * @return
      */
     @RequestMapping("findInternal")
-    public ModelAndView findInternal(Integer page, Integer size, String internal,String name){
+    public ModelAndView findInternal(Integer page, Integer size, String internal, String name) {
         if (page == null || page == 0) {
             page = 1;
         }
@@ -66,104 +67,105 @@ public class AppointmrntController {
             size = 5;
         }
 
-		ModelAndView vm = new ModelAndView();
-		List<UserInternal> list = meetUserService.findInternal(page, size, internal, name);
-		// PageInfo pageInfo = new PageInfo<>(list);
-		vm.addObject("Internal", list);
-		vm.setViewName("page/addUser/linkman1");
-		return vm;
-	}
+        ModelAndView vm = new ModelAndView();
+        List<UserInternal> list = meetUserService.findInternal(page, size, internal, name);
+        // PageInfo pageInfo = new PageInfo<>(list);
+        vm.addObject("Internal", list);
+        vm.setViewName("page/addUser/linkman1");
+        return vm;
+    }
 
-	/**
-	 * 查询我的预定会议
-	 *
-	 * @param page
-	 * @param size
-	 * @return
-	 */
-	@RequestMapping("myappointmeet")
-	public ModelAndView myappointmeet(Integer page, Integer size) {
-		if (page == null || page == 0) {
-			page = 1;
-		}
-		if (size == null || size == 0) {
-			size = 10;
-		}
-		ModelAndView vm = new ModelAndView();
-		List<Remeet> meets = appointmentMeetService.findPage(page, size);
-		PageInfo pageInfo = new PageInfo<Remeet>(meets);
-		vm.addObject("pageInfo", pageInfo);
-		vm.setViewName("page/meeting/meettable");
-		return vm;
-	}
+    /**
+     * 查询我的预定会议
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping("myappointmeet")
+    public ModelAndView myappointmeet(Integer page, Integer size) {
+        if (page == null || page == 0) {
+            page = 1;
+        }
+        if (size == null || size == 0) {
+            size = 10;
+        }
+        ModelAndView vm = new ModelAndView();
+        List<Remeet> meets = appointmentMeetService.findPage(page, size);
+        PageInfo pageInfo = new PageInfo<Remeet>(meets);
+        vm.addObject("pageInfo", pageInfo);
+        vm.setViewName("page/meeting/meettable");
+        return vm;
+    }
 
-	/**
-	 * 根据用户id查询我的历史会议
-	 *
-	 * @param page
-	 * @param size
-	 * @param id   用户id,暂时固定
-	 * @return
-	 */
-	@RequestMapping("/history")
-	@ResponseBody
-	public Object findHistory(Integer page, Integer size, Integer id, String meetName) {
-		if (page == null || page == 0) {
-			page = 1;
-		}
-		if (size == null || size == 0) {
-			size = 10;
-		}
-		id = 1;
-		List<HistoryMeet> list = appointmentMeetService.findPageHistory(page, size, id, meetName);
-		PageInfo pageInfo = new PageInfo<HistoryMeet>(list);
-		ResponseData data = new ResponseData((int)pageInfo.getTotal(),0,"查询成功",list);
-		return data;
-}
+    /**
+     * 根据用户id查询我的历史会议
+     *
+     * @param page
+     * @param size
+     * @param id   用户id,暂时固定
+     * @return
+     */
+    @RequestMapping("/history")
+    @ResponseBody
+    public Object findHistory(Integer page, Integer size, Integer id, String meetName) {
+        if (page == null || page == 0) {
+            page = 1;
+        }
+        if (size == null || size == 0) {
+            size = 10;
+        }
+        id = 1;
+        List<HistoryMeet> list = appointmentMeetService.findPageHistory(page, size, id, meetName);
+        PageInfo pageInfo = new PageInfo<HistoryMeet>(list);
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "查询成功", list);
+        return data;
+    }
 
-	/**
-	 * 根据历史会议id查询参会人员
-	 * @param page
-	 * @param size
-	 * @param id   历史会议id
-	 * @return
-	 */
-	@RequestMapping("/findHistoryUser")
-	@ResponseBody
-	public Object findHistoryUser(Integer page, Integer size, Integer id) {
-		if (page == null || page == 0) {
-			page = 1;
-		}
-		if (size == null || size == 0) {
-			size = 10;
-		}
-		List<MeetUser> list = appointmentMeetService.findHistoryUser(page, size, id);
-		PageInfo<MeetUser> pageInfo = new PageInfo<MeetUser>(list);
-		ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
-		return data;
-	}
 
-	/**
-	 * 查询所有循环会议列表
-	 * @param page
-	 * @param size
-	 * @param meetName
-	 * @return
-	 */
-	@RequestMapping("/findRepeatMeeting")
-	public ModelAndView findRepeatMeeting(Integer page, Integer size, String meetName) {
-		if (page == null || page == 0) {
-			page = 1;
-		}
-		if (size == null || size == 0) {
-			size = 10;
-		}
-		List<RepeatMeeting> list = taskMeetingService.findRepeatMeeting(page, size, meetName);
-		PageInfo<RepeatMeeting> pageInfo = new PageInfo<RepeatMeeting>(list);
-		ModelAndView vm = new ModelAndView();
-		vm.addObject("pageInfo", pageInfo);
-		vm.setViewName("page/meeting/repeatMeeting");
-		return vm;
-	}
+    /**
+     * 根据历史会议id查询参会人员
+     *
+     * @param page
+     * @param size
+     * @param id   历史会议id
+     * @return
+     */
+    @RequestMapping("/findHistoryUser")
+    @ResponseBody
+    public Object findHistoryUser(Integer page, Integer size, Integer id) {
+        if (page == null || page == 0) {
+            page = 1;
+        }
+        if (size == null || size == 0) {
+            size = 10;
+        }
+        List<MeetUser> list = appointmentMeetService.findHistoryUser(page, size, id);
+        PageInfo<MeetUser> pageInfo = new PageInfo<MeetUser>(list);
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+        return data;
+    }
+
+    /**
+     * 查询所有循环会议列表
+     * @param page
+     * @param size
+     * @param meetName
+     * @return
+     */
+    @RequestMapping("/findRepeatMeeting")
+    @ResponseBody
+    public Object findRepeatMeeting(Integer page, Integer size, String meetName) {
+        if (page == null || page == 0) {
+            page = 1;
+        }
+        if (size == null || size == 0) {
+            size = 10;
+        }
+        List<RepeatMeeting> list = taskMeetingService.findRepeatMeeting(page, size, meetName);
+        PageInfo<RepeatMeeting> pageInfo = new PageInfo<RepeatMeeting>(list);
+        ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
+        return data;
+    }
 
 }

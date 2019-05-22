@@ -20,7 +20,7 @@
 
     <insert id="appointmentMeet" parameterType="com.bcsd.entity.Remeet">
       insert into cj_appointment_meeting(id,meetName,meetDate,meetTime,meetlaber,meetDescription,meetType,meetRoomId,meetRoomName,state,userId,repeatType,rid)
-        VALUES (#{id},#{meetName},#{meetDate},#{meetTime},#{meetLaber},#{meetDescription},#{meetType},#{meetRoomId},#{meetRoomName},1,#{userId},#{repeatType}#{rid})
+        VALUES (#{id},#{meetName},#{meetDate},#{meetTime},#{meetLaber},#{meetDescription},#{meetType},#{meetRoomId},#{meetRoomName},1,#{userId},#{repeatType},#{rid})
     </insert>
 
     <insert id="appointmentVideoMeet" parameterType="com.bcsd.entity.Remeet">
@@ -75,7 +75,7 @@
 
     <update id="update" parameterType="com.bcsd.entity.Remeet">
         update cj_appointment_meeting  set meetName=#{meetName},meetDate=#{meetDate},meetTime=#{meetTime},
-        meetLaber=#{meetLaber},meetDescription=#{meetDescription},meetRoomId=#{meetRoomId},meetType=#{meetType},meetRoomName=#{meetRoomName}
+        meetLaber=#{meetLaber},meetDescription=#{meetDescription},meetRoomId=#{meetRoomId},meetType=#{meetType},meetRoomName=#{meetRoomName},userId=#{userId}
         where id=#{id}
     </update>
 

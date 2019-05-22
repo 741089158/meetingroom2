@@ -78,6 +78,12 @@ public class MeetUserServiceImpl implements MeetUserService {
     	map.put("data", list);
         return map;
 	}
+    @Override
+    public List<UserInternal> findInternal(String internal, String name) {
+        List<UserInternal> list = meetUserDao.findInternal(internal, name);
+        return list;
+    }
+
 
     /**
      * 添加联系人

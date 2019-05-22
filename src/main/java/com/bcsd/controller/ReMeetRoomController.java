@@ -6,6 +6,7 @@ import com.bcsd.service.*;
 
 import com.bcsd.util.DateChange;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -279,7 +280,8 @@ public class ReMeetRoomController {
      * @return
      */
     @RequestMapping("appointmeet")
-    public ModelAndView appointmmet(@RequestParam(value = "date")String date,
+    @ResponseBody
+    public void appointmmet(@RequestParam(value = "date")String date,
                                     @RequestParam(value = "time")String time,
                                     Remeet remeet){
         String datetime =date.trim()+" "+time.trim();
@@ -289,12 +291,12 @@ public class ReMeetRoomController {
         List<UserInternal> user =addUserService.findUserByMeetId(String.valueOf(remeet.getId()));
         //添加会议数据
         appointmentMeetService.appointmentMeet(remeet,user);
-        List<Remeet> meets=appointmentMeetService.findPage(1,10);
+       /* List<Remeet> meets=appointmentMeetService.findPage(1,10);
         vm.addObject("meets",meets);
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
         vm.addObject("pageInfo",pageInfo);
         vm.setViewName("page/meeting/meettable");
-        return vm;
+        return vm;*/
     }
 
     @Autowired
@@ -306,7 +308,8 @@ public class ReMeetRoomController {
      * @return
      */
     @RequestMapping("/reserve")
-    public ModelAndView reserve( @RequestParam(value = "time")String time,
+    @ResponseBody
+    public void reserve( @RequestParam(value = "time")String time,
                                     @RequestParam(value = "day")String day,
                                     @RequestParam(value = "createTime")String createTime,
                                     @RequestParam(value = "endTime")String endTime,
@@ -315,7 +318,7 @@ public class ReMeetRoomController {
         //设置时间
         String datetime =createTime.trim()+" "+time.trim();
         remeet.setMeetDate(datetime);
-        ModelAndView vm=new ModelAndView();
+        //ModelAndView vm=new ModelAndView();
         //增加联系人
         List<UserInternal> user =addUserService.findUserByMeetId(String.valueOf(remeet.getId()));
         List list=new ArrayList();
@@ -344,16 +347,15 @@ public class ReMeetRoomController {
             repeatMeeting.setWeeks(selectDay.toString());
         }
 
-        //System.out.println(weeks);
         taskMeetingService.addRepeatReserve(repeatMeeting);
 
        // appointmentMeetService.appointmentMeet(remeet,user);
-        List<Remeet> meets=appointmentMeetService.findPage(1,10);
+       /* List<Remeet> meets=appointmentMeetService.findPage(1,10);
         PageInfo pageInfo = new PageInfo<Remeet>(meets);
         vm.addObject("meets",meets);
         vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meeting/meettable");
-        return vm;
+        vm.setViewName("page/meeting/meettable");*/
+        //return vm;
     }
 
 
@@ -435,16 +437,17 @@ public class ReMeetRoomController {
      * 修改会议
      */
     @RequestMapping("/update")
-    //@ResponseBody
-    public ModelAndView update(Remeet remeet,@RequestParam(value = "date")String date,@RequestParam(value = "time")String time){
+    @ResponseBody
+    public void update(Remeet remeet,@RequestParam("date")String date,@RequestParam(value = "time")String time){
         String datetime =date.trim()+" "+time.trim();
         remeet.setMeetDate(datetime);
+        String strip = StringUtils.strip(remeet.getUserId(), "[]");
+        remeet.setUserId(strip);
         appointmentMeetService.update(remeet);
-        ModelAndView vm = new ModelAndView();
-        vm.setViewName(PREFIX+"/meettable");
-        return vm;
     }
 
+    @Autowired
+    private MeetUserService meetUserService;
     /**
      * 查询会议
      * @param id

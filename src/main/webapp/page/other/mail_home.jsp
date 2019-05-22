@@ -37,7 +37,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <%--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
     <%--<a class="layui-btn layui-btn-xs" lay-event="edit">未发送</a>--%>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">已发送</a>
 </script>
@@ -84,18 +84,18 @@
             var data = obj.data;
             // console.log(data.roomId)   //获取roomid
             if (obj.event === 'delete') {
-                layer.confirm('真的删除行么', function (index) {
-                    $.post("${pageContext.request.contextPath}/meet/delete", {roomId: data.roomId}, function (response) {
-                        /* var message = response.message;
+               /* layer.confirm('真的删除行么', function (index) {
+                    $.post("/meet/delete", {roomId: data.roomId}, function (response) {
+                        /!* var message = response.message;
                          layer.open({
                              type:2
                              ,area: '300px;'
                              ,value:message
-                         });*/
+                         });*!/
                         location.reload();
                     });
 
-                });
+                });*/
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2
@@ -112,17 +112,6 @@
                 });
             }
         });
-
-        $("#add").click(function () {
-            layer.open({
-                type: 2
-                , area: ['700px', '500px']
-                , title: '添加用户'
-                , content: "${pageContext.request.contextPath}/page/meet_management/room_add.jsp"
-            });
-        });
-
-
     });
 </script>
 </body>

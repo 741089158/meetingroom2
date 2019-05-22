@@ -25,7 +25,9 @@ public interface MeetUserService {
 
 	Map<String, Object> findInternalJSON(Integer page, Integer size, String internal, String name);
 
-	void addInternal(UserInternal internal);
+	List<UserInternal> findInternal(String internal, String name);
+
+    void addInternal(UserInternal internal);
 
 	void deleteInternal(Integer id);
 

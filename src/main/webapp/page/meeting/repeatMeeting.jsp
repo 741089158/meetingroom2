@@ -1,205 +1,161 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<%@ page isELIgnored="false"%>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Carbon - Admin Template</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath }/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/popper.js/popper.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/chart.js/chart.min.js"></script>
-    <script src="${pageContext.request.contextPath }/js/carbon.js"></script>
-    <script src="${pageContext.request.contextPath }/js/demo.js"></script>
-</head>
-<body class="sidebar-fixed header-fixed">
-<div class="content">
-    <div class="container-fluid">
-        <div class="card-header bg-light">
-            <div class="text-left">
-                <a href="#">首页</a><span>&nbsp&nbsp >&nbsp&nbsp  </span><a
-                    href="#">我的会议</a><span>&nbsp&nbsp >&nbsp&nbsp  </span><a href="#">我的预定会议</a>
-                <button class="btn btn-primary" style="float: right;margin-right: 10px" id="delSelected">取消选中</button>
-            </div>
-        </div>
-        <hr>
+<html>
+<%@ include file="../../page/common.jsp" %>
+<body>
+<%@ include file="../../page/top.jsp" %>
 
-        <div class="card-header bg-light">
-            <div class="row">
-                <div class="col-md-12">
-                    <form action="${pageContext.request.contextPath }/appointreet/findRepeatMeeting" method="post">
-                        <input type="text" class="form-control" style="width: 200px;float: left;margin: 5px" placeholder="搜索" name="meetName" value="${meetName}">
-                        <button type="submit" class="btn btn-default" style="width: 60px;float: left;margin: 5px">搜索</button>
-                    </form>
-                    <form method="post" action="${pageContext.request.contextPath}/addUser/deleteUser" id="form"><%--批量取消会议--%>
-                        <a href="${pageContext.request.contextPath }/appointreet/myappointmeet" class="btn btn-default"style="width: 100px;float: right;margin: 5px">本地会议</a>
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th class="active text-center"> <input type="checkbox" id="firstCb"/></th>
-                            <th class="text-center">会议名称</th>
-                            <th class="text-center">会议类型</th>
-                            <th class="text-center">创建时间</th>
-                            <th class="text-center">会议室</th>
-                            <th class="text-center">类型:</th>
-                            <th class="text-center">周期:</th>
-                            <th class="text-center">操作:</th>
-                        </tr>
-                        </thead>
-                        <div class="CollagePeople-bot">
-                        <tbody>
-                        <c:forEach items="${pageInfo.list}" var="list">
-                           <%-- <c:if test="${list.state==1}">--%>
-                                <tr>
-                                    <td class="active">
-                                        <center><input type="checkbox" name="id" value="${list.id}"/></center>
-                                    </td>
-                                    <td class="text-center">${list.meetName} </td>
-                                    <td class="text-center">${list.type}</td>
-                                    <td class="text-center">${list.createTime}</td>
-                                    <td class="text-center">${list.roomName}</td>
-                                    <td class="text-center">
-                                        <c:if test="${list.repeatType=='everydays'}"> 每日会议 </c:if>
-                                        <c:if test="${list.repeatType=='everyweeks'}"> 每周会议 </c:if>
-                                        <c:if test="${list.repeatType=='everymouths'}"> 每月会议 </c:if>
-                                    </td>
-                                    <td class="text-center" style="width: 200px;">${list.weeks}</td>
-                                    <td class="text-center">
-                                        <form class="navbar-form">
-                                           <%-- <a class="btn btn-default" href="${pageContext.request.contextPath}/meetroom/findOne?id=${list.id}">修改</a>--%>
-                                        <a class="btn btn-danger btn-sm"
-                                           href="javascript:deleteMeet(${list.id});">取消</a>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <%--</c:if>--%>
-                        </c:forEach>
-                        </tbody>
+<div class="layui-row row_black">
+    <%@ include file="../../page/nav.jsp" %>
+    <div class="layui-col-md10 main-bg-color">
+        <div class="layui-fluid">
+            <div class="layui-row block-bg-color block-margin-both">
+                <div class="layui-col-md12 block-padding-around" style="height: 30px">
+                    <div class="layui-form-item" style="margin: 0px">
+                        <div class="layui-inline">
+                            <h2>循环会议详情一览</h2>
                         </div>
-                    </table>
-
-                    </form>
-                    <%--分页查询--%>
-                    <div class="form-group form-inline">
-                        <div class="form-group form-inline">
-                            总共${pageInfo.pages}页，共${pageInfo.total} 条数据。 每页 10 条
-                        </div>&nbsp;&nbsp;
-                        <ul class="pagination">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/appointreet/findRepeatMeeting?page=1&size=${pageInfo.pageSize}"
-                                   aria-label="Previous">首页</a>
-                                <%-- <a href="${pageContext.request.contextPath}/mail/findPage?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a> --%>
-                            </li>
-                            <c:if test="${pageInfo.pageNum!=1}">
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/appointreet/findRepeatMeeting?page=${pageInfo.pageNum-1}&size=${pageInfo.pageSize}">&laquo;</a>
-                                </li>
-                            </c:if>
-                            <c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/appointreet/findRepeatMeeting?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a>
-                                </li>
-                            </c:forEach>
-                            <c:if test="${pageInfo.pages!=pageInfo.pageNum}">
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/appointreet/findRepeatMeeting?page=${pageInfo.pageNum+1}&size=${pageInfo.pageSize}">&raquo;</a>
-                                </li>
-                            </c:if>
-                            <li>
-                            <li>
-                                <a href="${pageContext.request.contextPath}/appointreet/findRepeatMeeting?page=${pageInfo.pages}&size=${pageInfo.pageSize}"
-                                   aria-label="Next">尾页</a>
-                            </li>
-                        </ul>
+                        <div class="layui-inline" style="float: right">
+                            <div class="layui-input-inline">
+                                <input class="layui-input" name="meetName" id="meetName" autocomplete="off"
+                                       placeholder="会议名称">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn" lay-submit="" data-type="getInfo" id="localMeeting">本地会议</button>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="layui-col-md12 block-padding-around">
+                    <table id="demo" lay-filter="test"></table>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
-</body>
-<script>
-    function deleteMeet(id) {
-        //alert(1);
-        //用户安全提示
-        if (confirm("您确定要取消吗？")) {
-            alert("取消成功!");
-            //访问路径
-           //location.href = "<%--${pageContext.request.contextPath}--%>/addUser/deleteUser?id="+id;
-        }
-    }
-
-    var a = '<%=request.getAttribute("msg")%>';
-    
-
-    window.onload = function () {
-        //给删除选中按钮添加单击事件
-        document.getElementById("delSelected").onclick = function () {
-            if (confirm("您确定要删除选中条目吗？")) {
-
-                var flag = false;
-                //判断是否有选中条目
-                var cbs = document.getElementsByName("id");
-                for (var i = 0; i < cbs.length; i++) {
-                    if (cbs[i].checked) {
-                        //alert(cbs[i]);
-                        //有一个条目选中了
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) {//有条目被选中
-                    //表单提交
-                    document.getElementById("form").submit();
-                }
-            }
-        };
-        //1.获取第一个cb
-        document.getElementById("firstCb").onclick = function () {
-            //2.获取下边列表中所有的cb
-            var cbs = document.getElementsByName("id");
-            //3.遍历
-            for (var i = 0; i < cbs.length; i++) {
-                //4.设置这些cbs[i]的checked状态 = firstCb.checked
-                cbs[i].checked = this.checked;
-            }
-        };
-
-    }
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" id="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
-<%--<script type="text/javascript">
-    $(function(){
-        updateEndTime();
-    });
-    function updateEndTime(){
-        var NowTime = new Date();
-        var time = NowTime.getTime();
-        $(".intDifftime").each(function(I){
-            var endDate =this.getAttribute("endTime");
-            console.log("aa",endDate);
-            var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
-            var endTime = endDate1.getTime();
-            var lag =Math.floor((endTime - time) / 1000);
-            console.log("秒数",endTime);
-            //			判断计时是否停止
-            if(lag > 0){
-                var day = Math.floor(lag / (60 * 60 * 24));var h = Math.floor(lag / 3600%24);var d = Math.floor(h/24);var m = Math.floor(lag/60%60);var s = lag%60;$(this).html(day+'天'+ h +"小时"+ m +"分钟"+ s +'秒');
-            }else{
-                console.log("倒计时结束");
-            }});
-        setTimeout("updateEndTime()",1000);
-    }
+<script>
 
-</script>--%>
+    layui.use(['laydate', 'laypage', 'layer', 'table'],function () {
+        var  laypage = layui.laypage //分页
+            , table = layui.table //表格
+        ;
+        var h = $(window).height()-155;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , height: h
+            , url: '${pageContext.request.contextPath }/appointreet/findRepeatMeeting' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', width: 40, fixed: 'left'}
+                , {field: 'meetName', title: '会议名称', width: 110}
+                , {field: 'createTime', title: '开始时间', width: 110}
+                , {field: 'endTime', title: '结束时间', width: 110}
+                , {field: 'roomId', title: '会议室Id', width: 110}
+                , {field: 'roomName', title: '会议室', width: 80}
+                , {field: 'meetTime', title: '时长', width: 80}
+                , {field: 'description', title: '描述', width: 80}
+                , {field: 'repeatType', title: '重复类型', width: 80}
+               /* , {field: 'time', title: '距离开会时间', width: 140,
+                    templet:function (e) {
+                        var now = new Date().getTime();//当前时间毫秒值
+                        var meetDate = e.meetDate;
+                        var time = meetDate.replace(new RegExp("-","gm"),"/");//开始时间
+                        var startTime = (new Date(time)).getTime();//开始时间毫秒值
+                        var meetTime = e.meetTime;//时长
+                        var split = meetTime.split(":");
+                        var second = parseInt(split[0]) * 60 * 60 * 1000 + parseInt(split[1])* 60 * 1000;
+                        var endTime = startTime+second;//结束时间毫秒值
+                        if (now <startTime){//会议未开始
+                            var str="";
+                            var lag = Math.floor((startTime - now) / 1000);
+                            var day = Math.floor(lag / (60 * 60 * 24));
+                            str+=day+'天';
+                            var hour = Math.floor(lag / 3600 % 24);
+                            str+=hour+'小时';
+                            var minutes = Math.floor(lag / 60 % 60);
+                            str+=minutes+'分钟';
+                            return str;
+                        }
+                        if (now>startTime&&now<endTime){//会议开始
+                            return "会议正在进行";
+                        }
+                        if (now>endTime){
+                            return "会议已结束"
+                        }
+                    }}*/
+                , {fixed: 'right',title: '操作', width: 155, align: 'center', toolbar: '#barDemo'}
+            ]] ,id:'table'
+        });
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'delete'){
+                layer.confirm('确定取消?', function(index){
+                    /*$.post("/meet/delete",{roomId:data.roomId},function (response) {
+                        layer.msg("删除成功");
+                        setTimeout(function () {
+                            active.reload();
+                        }, 800);
+                    });*/
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
+            }else if(obj.event === 'detail'){
+                location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
+            }
+        });
+
+        var active ={
+            reload:function(){
+                var reload = $("#demo");
+                //var index= layer.msg('查询中...',{icon:16,time:false,shade:0});
+                setTimeout(function () {
+                    table.reload('table',{//执行重载
+                        page:{curr:1},where:{name:reload.val()}});
+                    layer.close(index);
+                },500);
+            }
+        };//监听查询btn
+        $('.demo .layui-btn').on('click',function () {
+            var type=$(this).data('type');
+            active[type]?active[type].call(this):'';
+        });
+
+        var Meet = {
+            tableId: "table",
+            condition: {
+                meetName: ""
+            }
+        };
+        Meet.search = function(){
+            var queryData = {};
+            queryData['meetName'] = $("#meetName").val();
+            table.reload(Meet.tableId,{where:queryData});
+        };
+
+        // 搜索按钮点击事件
+        $('#search').click(function () {
+            Meet.search();
+        });
+
+        $('#localMeeting').click(function () {
+            location.href="${pageContext.request.contextPath}/page/meeting/meettable.jsp";
+        });
+
+    });
+</script>
+</body>
 </html>

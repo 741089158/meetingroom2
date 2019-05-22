@@ -15,7 +15,6 @@
             </div>
             <div class="layui-col-md12 block-padding-around">
                 <h2 class="block-bot-left">我的预订</h2>
-
             </div>
         </div>--%>
         <div class="layui-fluid">
@@ -32,6 +31,9 @@
                                </div>
                                <div class="layui-inline">
                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
+                               </div>
+                               <div class="layui-inline">
+                                   <button class="layui-btn" lay-submit="" data-type="getInfo" id="repeatMeeting">循环会议</button>
                                </div>
                            </div>
                        </div>
@@ -154,6 +156,10 @@
         // 搜索按钮点击事件
         $('#search').click(function () {
             Meet.search();
+        });
+
+        $('#repeatMeeting').click(function () {
+            location.href="${pageContext.request.contextPath}/page/meeting/repeatMeeting.jsp";
         });
 
     });

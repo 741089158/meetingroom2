@@ -233,8 +233,8 @@
 		d = d.replace("月","-");
 		d = d.replace("日","");
 		var t = $("#home_time").val();
-		t = t.replace("点","-");
-		t = t.replace("分","");
+		 t = t.replace("点",":");
+		 t = t.replace("分","");
 		var duration = $("#home_duration").val();
 		duration = duration.replace("小时","-");
 		duration = duration.replace("分","");
@@ -243,7 +243,8 @@
 			return false;
 		}
 		if(roomType=="视屏会议室"){
-			window.location.href = "${pageContext.request.contextPath }/meetroom/videoremeet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
+			/*window.location.href = "/meetroom/videoremeet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;*/
+			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
 		}
 		else {
 			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
