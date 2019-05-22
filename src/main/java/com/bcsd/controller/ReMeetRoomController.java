@@ -234,6 +234,27 @@ public class ReMeetRoomController {
         vm.setViewName("page/localmeet");
         return vm;
     }
+    
+    @RequestMapping("remmetbak")
+    public ModelAndView remmetbak(@Param("id")String id, @RequestParam(value = "date")String date, @RequestParam(value = "time")String time,
+                               @RequestParam(value = "duration")String duration, HttpSession session){
+
+        String datetime =date.trim()+" "+time.trim();
+        //System.out.println(id);
+        ModelAndView vm=new ModelAndView();
+        int num = (int)(Math.random()*1000000);
+        MeetRoom meetRoom=reMeetRoomService.findById(id);
+        session.setAttribute("meetid",num);
+        vm.addObject("date",date);
+        vm.addObject("time",time);
+        vm.addObject("datetime",datetime);
+        vm.addObject("duration",duration);
+        vm.addObject("meetRoom",meetRoom);
+        vm.addObject("meetId",num);
+        vm.addObject("meetRoomId",id);
+        vm.setViewName("page/localmeet_bak");
+        return vm;
+    }
 
     @RequestMapping("videoremeet")
     public ModelAndView video(@Param("id")String id,@RequestParam(value = "date")String date,@RequestParam(value = "time")String time,

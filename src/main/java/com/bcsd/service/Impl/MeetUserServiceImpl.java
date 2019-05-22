@@ -2,15 +2,15 @@ package com.bcsd.service.Impl;
 
 import com.bcsd.dao.MeetUserDao;
 import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 import com.bcsd.service.MeetUserService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +60,20 @@ public class MeetUserServiceImpl implements MeetUserService {
         return list;
     }
 
+    /**
+     * 查找内部联系人
+     */
+    @Override
+	public Map<String, Object> findInternalJSON(Integer page, Integer size, String internal, String name) {
+    	Page<Object> p =PageHelper.startPage(page, size);
+    	List<UserInternal> list = meetUserDao.findInternal(internal, name);
+    	Map<String, Object> map =new HashMap<>();
+    	map.put("code", 0);
+    	map.put("msg", "");
+    	map.put("count", p.getTotal());
+    	map.put("data", list);
+        return map;
+	}
 
     /**
      * 添加联系人
@@ -109,5 +123,4 @@ public class MeetUserServiceImpl implements MeetUserService {
     public void updateLinkman(UserInternal userInternal) {
         meetUserDao.updateLinkman(userInternal);
     }
-
 }

@@ -1,457 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>会议管理系统</title>
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath }/vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath }/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/popper.js/popper.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath }/vendor/chart.js/chart.min.js"></script>
-    <script src="${pageContext.request.contextPath }/js/carbon.js"></script>
-    <script src="${pageContext.request.contextPath }/js/demo.js"></script>
-</head>
-<body class="sidebar-fixed header-fixed">
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-light">
-                        <span class="fa fa-home">>首页>我的会议>预约会议</span>
-                    </div>
-
-                    <div class=" container-fluid">
-                        <form role="form" id="form" action="${pageContext.request.contextPath }/meetroom/appointmeet"
-                              method="post">
-                            <div class=" col-md-12 form-group row">
-
-                                <input name="id" value="${meetId}" hidden>
-                                <%--隐藏会议室id--%>
-                                <input name="meetRoomId" value="${meetRoomId}" hidden>
-
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>会议名称:</center>
-                                </label>
-                                <input id="meetName" name="meetName" style="height: 35px" class="form-control col-5"
-                                       type="text" class="form-control">
-                            </div>
-
-                            <div class=" col-md-12 form-group row">
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>会议室名称:</center>
-                                </label>
-                                <input readonly="readonly" name="meetRoomName" style="height: 35px"
-                                       class="form-control col-5" type="text" class="form-control"
-                                       value="${meetRoom.roomName}">
-                            </div>
-                            <div class=" col-md-12 form-group row">
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>会议室类型:</center>
-                                </label>
-                                <input readonly="readonly" name="meetType" style="height: 35px"
-                                       class="form-control col-5" type="text" class="form-control"
-                                       value="${meetRoom.roomType}">
-                            </div>
-
-                            <!--<div class=" col-md-12 form-group row">-->
-                            <!--<label  class=" form-control col-md-2 "style="border: 0px "><center>会议模式:</center></label>-->
-                            <!--<label  class=" form-control col-md-2 " style="border: 0px "><center><input  for="placeholder-input" id="speech" type="radio" name="model" value="no" checked="checked">演讲者模式</center></label>-->
-                            <!--<label  class=" form-control col-md-2" style="border: 0px "><center><input  for="placeholder-input" id="talk"   type="radio" name="model" value="everydays">讨论模式</center></label>-->
-                            <!--<label  class=" form-control col-md-2 " style="border: 0px "><center><input  for="placeholder-input" id="mute"   type="checkbox" name="model" value="everyweeks">入会静音</center></label>-->
-                            <!--</div>-->
-                            <div class=" col-md-12 form-group row">
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>开始时间:</center>
-                                </label>
-                                <input readonly="readonly" id="date" value="${date}" name="date" style="height: 35px"
-                                       class="form-control col-2" type="text" class="form-control">
-                                <input readonly="readonly" id="time" value="${time}" name="time" style="height: 35px"
-                                       class="form-control col-2" type="text" class="form-control">
-                            </div>
-
-                            <div class=" col-md-12 form-group row">
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>会议时长:</center>
-                                </label>
-                                <input readonly="readonly" id="meetTime" value="${duration}" name="meetTime"
-                                       style="height: 35px" class="form-control col-2" type="time" class="form-control">
-                            </div>
-
-
-                            <div class=" col-md-12 form-group row">
-
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>邀请参会人:</center>
-                                </label>
-                                <input readonly="readonly" name="UserId" style="height: 35px" class="form-control col-5"
-                                       type="text" class="form-control">
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center><a
-                                            href="${pageContext.request.contextPath }/addUser/findInternal?meetId=${meetId}">邀请参会人</a>
-                                    </center>
-                                </label>
-                            </div>
-
-                            <div class=" col-md-12 form-group row">
-                                <label class="  form-control col-md-2 " style="border: 0px ">
-                                    <center>会议标签:</center>
-                                </label>
-                                <select name="meetLaber" style="height: 35px" class="form-control col-3">
-                                    <option>普通会议</option>
-                                    <option>重要会议</option>
-                                    <option>高层会议</option>
-                                </select>
-                            </div>
-
-                            <%--重复周期--%>
-                            <div class=" col-md-12 form-group row" >
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>重复周期:</center>
-                                </label>
-                                <label class=" form-control col-md-2 bg-light">
-                                    <center><input for="placeholder-input" id="no" type="radio" name="day" value="no"
-                                                   checked="checked">无重复:
-                                    </center>
-                                </label>
-                                <label class=" form-control col-md-2 bg-light">
-                                    <center><input for="placeholder-input" id="everydays" type="radio" name="day"
-                                                   value="everydays">每日:
-                                    </center>
-                                </label>
-                                <label class=" form-control col-md-2 bg-light">
-                                    <center><input for="placeholder-input" id="everyweeks" type="radio" name="day"
-                                                   value="everyweeks">每周:
-                                    </center>
-                                </label>
-                                <label class=" form-control col-md-2 bg-light">
-                                    <center><input for="placeholder-input" id="everymouths  " type="radio" name="day"
-                                                   value="everymouths">每月:
-                                    </center>
-                                </label>
-                            </div>
-                            <%--重复周期div--%>
-                            <%--每天--%>
-                            <div style="display: none" id="everyday">
-                                <div class=" col-md-12 form-group row">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>开始日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="dayStartTime" name="createTime">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="radio" name="days"  checked="checked">每天:
-                                        </center>
-                                    </label>
-                                    <!--  <label  class=" form-control col-md-2 bg-light"><center>
-                                         <input  for="placeholder-input"  type="radio" name="days">每个工作日:</center></label> -->
-
-                                    <label class=" form-control col-md-2" style="border: 0px">
-                                        <center>结束日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="dayEndTime" name="endTime">
-                                </div>
-                            </div>
-                            <%--每周--%>
-                            <div style="display: none" id="everyweek">
-                                <div class=" col-md-12 form-group row">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>开始日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="weekStartTime" name="createTime">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="checkbox" name="weeks" value="星期一">星期一:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="checkbox" name="weeks" value="星期二">星期二:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="checkbox" name="weeks" value="星期三">星期三:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="checkbox" name="weeks" value="星期四">星期四:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>
-                                            <input for="placeholder-input" type="checkbox" name="weeks" value="星期五">星期五:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center><input for="placeholder-input" type="checkbox" name="weeks" value="星期六">星期六:
-                                        </center>
-                                    </label>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center><input for="placeholder-input" type="checkbox" name="weeks" value="星期日">星期日:
-                                        </center>
-                                    </label>
-
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>结束日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="weekEndTime" name="endTime">
-                                </div>
-                                <div class=" col-md-12 form-group row">
-                                </div>
-                            </div>
-                            <%--每月--%>
-                            <div style="display: none" id="everymouth">
-                                <div class=" col-md-12 form-group row">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>开始日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="monthStartTime" name="createTime">
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>每 月:</center>
-                                    </label>
-                                    <select class="form-control col-md-2 " style="height: 35px" id="dayOfMonth" name="selectDay">
-                                        <%-- <option>第一周</option>
-                                         <option>第二周</option>
-                                         <option>第三周</option>
-                                         <option>第四周</option>--%>
-                                    </select>
-                                    <%--  <label class=" form-control col-md-2 bg-light">
-                                         <center>星期:</center>
-                                     </label>
-                                    <select class="form-control col-md-2 " style="height: 35px">
-                                         <option>星期一</option>
-                                         <option>星期二</option>
-                                         <option>星期三</option>
-                                         <option>星期四</option>
-                                         <option>星期五</option>
-                                          <option>星期六</option>
-                                          <option>星期日</option>
-                                     </select>--%>
-                                    <label class=" form-control col-md-2 bg-light">
-                                        <center>结束日期:</center>
-                                    </label>
-                                    <input style="height: 35px" class="form-control col-2" type="date"
-                                           class="form-control" id="monthEndTime" name="endTime">
-                                </div>
-                            </div>
-
-                            <div class=" col-md-12 form-group row">
-
-                                <label class=" form-control col-md-2 " style="border: 0px ">
-                                    <center>会议描述:</center>
-                                </label>
-                                <textarea name="meetDescription" id="meetDescription" class="col-md-10"
-                                          style="height: 160px"></textarea>
-
-                            </div>
-
-                            <center><input type="submit" class="btn btn-primary" value="确定"
-                                           onclick="if(confirm('确认预定会议    ？')==false)return false;"></input>&nbsp;
-                                <button type="button" class="btn btn-info" onclick="window.history.back(-1)">返回</button>
-                            </center>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
-</div>
-
-
-<div id="login" class="modal fade" style="position: absolute;top: 150px">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <!--<h4 class="modal-title text-center">会议室名称:</h4>-->
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-12">姓名:</label>
-                        <div class="col-md-12">
-                            <input type="text" id="name" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-12">邮箱:</label>
-                        <div class="col-md-12">
-                            <input type="text" id="email" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-12">电话：</label>
-                        <div class="col-md-12">
-                            <input type="password" id="phone" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-12">部门：</label>
-                        <div class="col-md-12">
-                            <input type="password" id="bumen" class="form-control"/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 text-center">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    //获取每月天数
-    function getDaysInOneMonth(year, month) {
-        month = parseInt(month, 10);
-        var d = new Date(year, month, 0);
-        return d.getDate();
-    }
-
-    //获取每月天数下拉框
-    function getDays() {
-        var monthTime = $('#monthStartTime').val();//月时间
-        var yearNum = monthTime.toString().split("-")[0];
-        var monthNum = monthTime.toString().split("-")[1];
-        var daysInOneMonth = getDaysInOneMonth(yearNum, monthNum);//获取当月天数
-        //alert(daysInOneMonth)
-        for (var i = 1; i < daysInOneMonth + 1; i++) {
-            $("#dayOfMonth").append("<option value='"+i+"'>" + i + " 号</option>");
-        }
-    }
-
-    function changeTime() {
-        $("#dayOfMonth").empty();//清空数据
-        getDays();
-    }
-
-    /*//根据当前时间获取星期
-    function getWeek() {
-        var weekArray = new Array("日", "一", "二", "三", "四", "五", "六");
-        var monthTime = $('#monthStartTime').val();//月时间
-        alert(monthTime)
-
-        var week = weekArray[new Date(da).getDay()];
-    }*/
-
-
-    $(document).ready(function () {
-        var time = new Date();
-        var day = ("0" + time.getDate()).slice(-2);
-        var month = ("0" + (time.getMonth() + 1)).slice(-2);
-        var today = time.getFullYear() + "-" + (month) + "-" + (day);
-        //将当前时间设置为默认时间
-
-
-
-
-
-        /*  $("#monthStartTime").click(function () {
-
-          });*/
-
-
-        $("input").click(function () {
-            var a = $("input[name='day']:checked").val();
-            //alert(a)
-
-            if (a == 'everymouths') {
-                $("#everyday").hide();
-                $("#everyweek").hide();
-                $("#everymouth").show();
-                $("#date").hide();
-                var newUrl = '${pageContext.request.contextPath }/meetroom/reserve';    //设置新提交地址
-                $("#form").attr('action',newUrl);
-                $('#monthStartTime').attr("name","createTime");
-                $('#monthStartTime').val(today);
-                getDays();
-                $('#weekStartTime').removeAttr("name");
-                $('#dayStartTime').removeAttr("name");
-                $('#dayEndTime').removeAttr("name");
-                $('#weekEndTime').removeAttr("name");
-                $('#monthEndTime').attr("name","endTime");
-            }
-
-            if (a == 'no') {
-                $("#everyday").hide();
-                $("#everyweek").hide();
-                $("#everymouth").hide();
-                $("#date").show();
-                var newUrl = '${pageContext.request.contextPath }/meetroom/appointmeet';    //设置新提交地址
-                $("#form").attr('action',newUrl);
-                $('#dayStartTime').removeAttr("name");
-                $('#weekStartTime').removeAttr("name");
-                $('#monthStartTime').removeAttr("name");
-                $('#dayEndTime').removeAttr("name");
-                $('#weekEndTime').removeAttr("name");
-                $('#monthEndTime').removeAttr("name");
-            }
-
-            if (a == 'everyweeks') {
-                $("#everyday").hide();
-                $("#everyweek").show();
-                $("#everymouth").hide();
-                $("#date").hide();
-                var newUrl = '${pageContext.request.contextPath }/meetroom/reserve';    //设置新提交地址
-                $("#form").attr('action',newUrl);
-                $('#weekStartTime').attr("name","createTime");
-                $('#weekStartTime').val(today);
-                $('#dayStartTime').removeAttr("name");
-                $('#monthStartTime').removeAttr("name");
-                $('#dayEndTime').removeAttr("name");
-                $('#monthEndTime').removeAttr("name");
-                $('#weekEndTime').attr("name","endTime");
-            }
-
-            if (a == 'everydays') {
-                $("#everyday").show();
-                $("#everyweek").hide();
-                $("#everymouth").hide();
-                $("#date").hide();
-                var newUrl = '${pageContext.request.contextPath }/meetroom/reserve';    //设置新提交地址
-                $("#form").attr('action',newUrl);
-                $('#dayStartTime').attr("name","createTime");
-                $('#dayStartTime').val(today);
-                $('#monthStartTime').removeAttr("name");
-                $('#weekStartTime').removeAttr("name");
-                $('#weekEndTime').removeAttr("name");
-                $('#monthEndTime').removeAttr("name");
-                $('#dayEndTime').attr("name","endTime");
-            }
-
-        });
-    });
-</script>
-
+<html>
+<%@ include file="../page/common.jsp"%>
+<body>
+	<%@ include file="../page/top.jsp"%>
+	<div class="layui-row row_black">
+		<%@ include file="../page/nav.jsp"%>
+		<div class="layui-col-md10 main-bg-color">
+			<div class="layui-row block-bg-color block-border-top">
+				<div class="layui-col-md12 block-padding-around">
+					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>我的会议</cite></a>
+					</span>
+				</div>
+				<div class="layui-col-md12 block-padding-around">
+					<h2 class="block-bot-left">预约会议</h2>
+				</div>
+			</div>
+			<div class="layui-fluid">
+				<div class="layui-row block-bg-color block-margin-both">
+					<div class="layui-col-md12 block-padding-around" id="localmeet_content_container">
+						<form class="layui-form" action="">
+							<input name="id" value="${meetId}" type="hidden" /> <input name="meetRoomId" value="${meetRoomId}" type="hidden" />
+							<div class="layui-form-item">
+								<label class="layui-form-label">会议名称</label>
+								<div class="layui-input-block">
+									<input type="text" name="meetName" required lay-verify="required" placeholder="请输入议题" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">会议室名称</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" disabled="disabled" value="${meetRoom.roomName}" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">会议室类型</label>
+								<div class="layui-input-block">
+									<input type="text" name="text" class="layui-input" disabled="disabled" value="${meetRoom.roomType}" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">开始时间</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" disabled="disabled" value="${date} ${time}" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">会议时长</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" disabled="disabled" value="${duration}" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">参会人</label>
+								<div class="layui-input-block">
+									<input type="text" name="text" class="layui-input" readonly="readonly" id="peopleInMeeting"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">会议标签</label>
+								<div class="layui-input-block">
+									<select name="meetLaber" lay-verify="required">
+										<option value="0">普通会议</option>
+										<option value="1">重要会议</option>
+										<option value="2">高层会议</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">重复周期</label>
+								<div class="layui-input-block">
+									<input type="radio" name="day" value="no" title="无重复" checked="checked" lay-filter="day"/>
+									<input type="radio" name="day" value="everydays" title="每日"  lay-filter="day"/>
+									<input type="radio" name="day" value="everyweeks" title="每周"  lay-filter="day"/>
+									<input type="radio" name="day" value="everymonths" title="每月"  lay-filter="day"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">起始日期</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" id="localmeet_start" placeholder="yyyy年MM月dd日" readonly="readonly">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">截止日期</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" id="localmeet_end" placeholder="yyyy年MM月dd日" readonly="readonly">
+								</div>
+							</div>
+							<div class="layui-form-item" id="localmeet_everyweeks_option" style="display:none">
+								<label class="layui-form-label">重复日期</label>
+								<div class="layui-input-block">
+									<input type="checkbox" name="weeks" title="周一" value="周一"> 
+									<input type="checkbox" name="weeks" title="周二" value="周二"> 
+									<input type="checkbox" name="weeks" title="周三" value="周三">
+									<input type="checkbox" name="weeks" title="周四" value="周四">
+									<input type="checkbox" name="weeks" title="周五" value="周五">
+									<input type="checkbox" name="weeks" title="周六" value="周六">
+									<input type="checkbox" name="weeks" title="周日" value="周日">
+								</div>
+							</div>
+							<div class="layui-form-item" id="localmeet_everymonths_option" style="display:none">
+								<label class="layui-form-label">重复日期</label>
+								<div class="layui-input-block">
+									<c:forEach var="i" begin="1" end="31" step="1">
+									<input type="checkbox" name="weeks" title="${i}号" value="${i}">
+									</c:forEach>
+								</div>
+							</div>
+							<div class="layui-form-item layui-form-text">
+								<label class="layui-form-label">会议描述</label>
+								<div class="layui-input-block">
+									<textarea name="meetDescription" class="layui-textarea" style="width:100%"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/tableSelect.js"></script>
+	<script>
+		//被选中的人
+		var cbs = [];
+		layui.use([ 'form', 'laydate', 'layer'], function() {
+			//处理高度
+			$("#localmeet_content_container").css("min-height",$(window).height() - 170);//.height();
+			var laydate = layui.laydate;
+			var form = layui.form;
+			var layer = layui.layer;
+			laydate.render({
+				elem : '#localmeet_start',
+				format : 'yyyy年MM月dd日',
+				value: new Date(),
+				done: function(value, date){
+					//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+				}
+			});
+			laydate.render({
+				elem : '#localmeet_end',
+				format : 'yyyy年MM月dd日',
+				value: new Date(),
+				done: function(value, date){
+					//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+				}
+			});
+			form.on('radio(day)', function(data){
+				//console.log(data);
+				if (data.value == "everyweeks"){
+					$("#localmeet_everyweeks_option").show();
+					$("#localmeet_everymonths_option").hide();
+				}
+				else if (data.value == "everymonths") {
+					$("#localmeet_everyweeks_option").hide();
+					$("#localmeet_everymonths_option").show();
+				}
+				else {
+					$("#localmeet_everyweeks_option").hide();
+					$("#localmeet_everymonths_option").hide();
+				}
+			});
+		});
+		//配置 layui 第三方扩展组件存放的基础目录
+		layui.config({
+			base : '${pageContext.request.contextPath }/js/' 
+		}).extend({
+			tableSelect : 'tableSelect' //以 regionSelect 组件为例，定义该组件模块名
+		}).use([ 'tableSelect' ], function() {
+			var tableSelect = layui.tableSelect;
+			//执行实例
+			tableSelect.render({
+				elem: '#peopleInMeeting',	//定义输入框input对象 必填
+				checkedKey: 'id', //表格的唯一建值，非常重要，影响到选中状态 必填
+				searchKey: 'name',	//搜索输入框的name值 默认keyword
+				searchPlaceholder: '关键词搜索',	//搜索输入框的提示文字 默认关键词搜索
+				table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+					url:'${pageContext.request.contextPath}/addUser/findInternal.json',
+					cols: [[{ type: 'checkbox' },
+						{ field: 'id', title: 'ID', width: 100 },
+						{ field: 'name', title: '姓名', width: 100 },
+						{ field: 'company', title: '公司', width: 100 },
+						{ field: 'dept', title: '部门', width: 100 },
+						{ field: 'email', title: '邮件', width: 100 }]]
+				},
+				done : function(elem, data) {
+					//选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+					var NEWJSON = [];
+					cbs = [];
+					layui.each(data.data, function(index, item) {
+						NEWJSON.push(item.name);
+						cbs.push(item.id);
+					});
+					elem.val(NEWJSON.join(","));
+				}
+			});
+		});
+	</script>
 </body>
 </html>

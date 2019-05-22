@@ -1,8 +1,6 @@
 package com.bcsd.service;
 
 import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 
 import java.util.List;
@@ -13,28 +11,28 @@ import java.util.Map;
  * @data 2019/4/24
  */
 public interface MeetUserService {
-    List<Map<String, String>> findAll(Integer page, Integer size, String username);
+	List<Map<String, String>> findAll(Integer page, Integer size, String username);
 
-    void add(MeetUser meetUser);
+	void add(MeetUser meetUser);
 
-    Map<String,String> findById(Integer Id);
+	Map<String, String> findById(Integer Id);
 
-    void update(MeetUser meetUser);
+	void update(MeetUser meetUser);
 
-    void delete(Integer id);
+	void delete(Integer id);
 
-     List<UserInternal> findInternal(Integer page, Integer size, String internal, String name);
+	List<UserInternal> findInternal(Integer page, Integer size, String internal, String name);
 
-    void addInternal(UserInternal internal);
+	Map<String, Object> findInternalJSON(Integer page, Integer size, String internal, String name);
 
-    void deleteInternal(Integer id);
+	void addInternal(UserInternal internal);
 
-    void deleteInternal(Integer[] ids);
+	void deleteInternal(Integer id);
 
+	void deleteInternal(Integer[] ids);
 
-    UserInternal findOne(Integer id);
+	UserInternal findOne(Integer id);
 
-    void updateLinkman(UserInternal userInternal);
-
+	void updateLinkman(UserInternal userInternal);
 
 }
