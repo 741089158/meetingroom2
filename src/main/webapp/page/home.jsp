@@ -55,13 +55,13 @@
 							<div class="layui-inline">
 								<label class="layui-form-label">时间</label>
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="home_time" placeholder="H点m分" lay-verify="required">
+									<input type="text" class="layui-input" id="home_time" placeholder="HH:mm" lay-verify="required">
 								</div>
 							</div>
 							<div class="layui-inline">
 								<label class="layui-form-label">时长</label>
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="home_duration" placeholder="H点m分" lay-verify="required">
+									<input type="text" class="layui-input" id="home_duration" placeholder="HH:mm" lay-verify="required">
 								</div>
 							</div>
 							<!--
@@ -134,7 +134,7 @@
 		laydate.render({
 			elem : '#home_time',
 			type : 'time',
-			format : 'H点m分',
+			format : 'HH:mm',
 			value: new Date(),
 			done: function(value, date){
 				//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
@@ -144,8 +144,8 @@
 			elem : '#home_duration',
 			type : 'time',
 			btns : [ 'confirm' ],
-			format : 'H小时m分',
-			value: '1小时0分',
+			format : 'HH:mm',
+			value: '01:00',
 			done: function(value, date){
 				//layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
 			}
@@ -235,19 +235,19 @@
 		var t = $("#home_time").val();
 		 t = t.replace("点",":");
 		 t = t.replace("分","");
-		var duration = $("#home_duration").val();
-		duration = duration.replace("小时","-");
-		duration = duration.replace("分","");
-		if(roomId==undefined||roomType==undefined||d==undefined||t==undefined||duration==undefined) {
+		var meetTime = $("#home_duration").val();
+		// meetTime = meetTime.replace("小时",":");
+		// meetTime = meetTime.replace("分","");
+		if(roomId==undefined||roomType==undefined||d==undefined||t==undefined||meetTime==undefined) {
 			layer.alert("您缺少重要参数");
 			return false;
 		}
 		if(roomType=="视屏会议室"){
 			/*window.location.href = "/meetroom/videoremeet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;*/
-			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
+			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&meetTime="+meetTime;
 		}
 		else {
-			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;
+			window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id="+roomId+"&date="+d+"&time="+t+"&meetTime="+meetTime;
 		}
 	}
 </script>

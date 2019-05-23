@@ -3,6 +3,11 @@ package com.bcsd.entity;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ * 日程
+ */
+
+
 @Data
 @ToString
 public class Events {

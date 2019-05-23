@@ -23,7 +23,6 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     public void appointmentMeet(Remeet remeet,List<UserInternal> user) {
 
         for (UserInternal u:user){
-
             Mail mail=new Mail(u.getEmail(),remeet.getMeetName(),remeet.getMeetName(),remeet.getMeetDescription(),null,null,1,0,null);
             System.out.println(mail);
             mailDao.add(mail);
@@ -108,5 +107,15 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     @Override
     public Remeet findByRid(int rid) {
         return appointmentMeetDao.findByRid(rid);
+    }
+
+    @Override
+    public RepeatMeeting findRepeatMeeting(Integer id) {
+        return appointmentMeetDao.findRepeatMeeting(id);
+    }
+
+    @Override
+    public void updateState(Integer id) {
+        appointmentMeetDao.updateState(id);
     }
 }

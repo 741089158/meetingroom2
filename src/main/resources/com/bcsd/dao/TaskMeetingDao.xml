@@ -15,8 +15,8 @@
     </update>
 
     <insert id="addRepeatReserve" parameterType="com.bcsd.entity.RepeatMeeting">
-        insert into cj_task_meeting (createTime,endTime,meetName,roomName,type,meetTime,description,repeatType,status,isDefault,userId,title,roomId,weeks)
-        values (#{createTime},#{endTime},#{meetName},#{roomName},#{type},#{meetTime},#{description},#{repeatType},#{status},#{isDefault},#{userId},#{title},#{roomId},#{weeks})
+        insert into cj_task_meeting (createTime,endTime,meetName,meetRoomName,type,meetTime,description,repeatType,status,isDefault,userId,title,roomId,weeks)
+        values (#{createTime},#{endTime},#{meetName},#{meetRoomName},#{type},#{meetTime},#{description},#{repeatType},#{status},#{isDefault},#{userId},#{title},#{roomId},#{weeks})
     </insert>
 
     <select id="findRepeatMeeting"  parameterType="java.lang.String" resultType="com.bcsd.entity.RepeatMeeting">

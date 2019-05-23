@@ -33,14 +33,14 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">会议室名称</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" disabled="disabled"
+                                <input type="text" class="layui-input" disabled="disabled" name="meetRoomName"
                                        value="${meetRoom.roomName}"/>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">会议室类型</label>
                             <div class="layui-input-block">
-                                <input type="text" name="text" class="layui-input" disabled="disabled"
+                                <input type="text" name="meetType" class="layui-input" disabled="disabled"
                                        value="${meetRoom.roomType}"/>
                             </div>
                         </div>
@@ -48,35 +48,38 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">开始时间</label>
                                 <div class="layui-input-block">
-                                    <input type="text" class="layui-input" name="date" disabled="disabled" value="${date}"/>
+                                    <input type="text" class="layui-input" name="date" disabled="disabled"
+                                           value="${date}"/>
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <div class="layui-input-block">
-                                    <input type="text" class="layui-input" name="time" disabled="disabled" value="${time}"/>
+                                    <input type="text" class="layui-input" name="time" disabled="disabled"
+                                           value="${time}"/>
                                 </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">会议时长</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" disabled="disabled" value="${duration}"/>
+                                <input type="text" class="layui-input" name="meetTime" disabled="disabled"
+                                       value="${meetTime}"/>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">参会人</label>
                             <div class="layui-input-block">
-                                <input type="text" name="text" class="layui-input" readonly="readonly"
-                                       id="peopleInMeeting"/>
+                                <input type="text" name="userId" class="layui-input" readonly="readonly"
+                                       id="userId"/>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">会议标签</label>
                             <div class="layui-input-block">
                                 <select name="meetLaber" lay-verify="required">
-                                    <option value="0">普通会议</option>
-                                    <option value="1">重要会议</option>
-                                    <option value="2">高层会议</option>
+                                    <option value="普通会议">普通会议</option>
+                                    <option value="重要会议">重要会议</option>
+                                    <option value="高层会议">高层会议</option>
                                 </select>
                             </div>
                         </div>
@@ -93,34 +96,37 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">起始日期</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" id="localmeet_start" placeholder="yyyy年MM月dd日"
-                                       readonly="readonly">
+                                <input type="text" class="layui-input" id="createTime" placeholder="yyyy年MM月dd日"
+                                       readonly="readonly" name="createTime">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">截止日期</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" id="localmeet_end" placeholder="yyyy年MM月dd日"
-                                       readonly="readonly">
+                                <input type="text" class="layui-input" id="endTime" required lay-verify="required"
+                                       placeholder="yyyy-MM-dd HH:mm" name="endTime"
+                                       readonly="readonly" autocomplete="off">
                             </div>
                         </div>
                         <div class="layui-form-item" id="localmeet_everyweeks_option" style="display:none">
                             <label class="layui-form-label">重复日期</label>
                             <div class="layui-input-block">
-                                <input type="checkbox" name="weeks" title="周一" value="周一">
-                                <input type="checkbox" name="weeks" title="周二" value="周二">
-                                <input type="checkbox" name="weeks" title="周三" value="周三">
-                                <input type="checkbox" name="weeks" title="周四" value="周四">
-                                <input type="checkbox" name="weeks" title="周五" value="周五">
-                                <input type="checkbox" name="weeks" title="周六" value="周六">
-                                <input type="checkbox" name="weeks" title="周日" value="周日">
+                                <input type="hidden" name="week" id="week">
+                                <input type="checkbox" name="weeks" title="周一" value="周一" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周二" value="周二" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周三" value="周三" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周四" value="周四" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周五" value="周五" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周六" value="周六" lay-filter="weeks">
+                                <input type="checkbox" name="weeks" title="周日" value="周日" lay-filter="weeks">
                             </div>
                         </div>
                         <div class="layui-form-item" id="localmeet_everymonths_option" style="display:none">
                             <label class="layui-form-label">重复日期</label>
                             <div class="layui-input-block">
+                                <input type="hidden" name="months" id="months">
                                 <c:forEach var="i" begin="1" end="31" step="1">
-                                    <input type="checkbox" name="weeks" title="${i}号" value="${i}">
+                                    <input type="checkbox" name="selectDay" title="${i}号" value="${i}"  lay-filter="selectDay">
                                 </c:forEach>
                             </div>
                         </div>
@@ -158,7 +164,6 @@
             if (data.field.day == "no") {//普通会议
                 $.post("${pageContext.request.contextPath }/meetroom/appointmeet", data.field, function (resp) {
                     layer.msg("预约成功");
-                    console.log(data.field);
                     setTimeout(function () {
                         location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
                     }, 2000)
@@ -177,23 +182,43 @@
 
 
         laydate.render({
-            elem: '#localmeet_start',
-            format: 'yyyy年MM月dd日',
+            elem: '#createTime',
+            format: 'yyyy-MM-dd',
             value: new Date(),
             done: function (value, date) {
                 //layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
             }
         });
         laydate.render({
-            elem: '#localmeet_end',
-            format: 'yyyy年MM月dd日',
-            value: new Date(),
+            elem: '#endTime',
+            format: 'yyyy-MM-dd HH:mm',
+            //value: new Date(),
             done: function (value, date) {
                 //layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
             }
         });
+
+        form.on('checkbox(weeks)',function (data) {
+            var week=[];
+            var month=[];
+            $("input[name='weeks']:checked").each(function(){
+                week.push(this.value);
+            });
+           // console.log(week);
+            $("#week").val(week)
+        });
+
+        form.on('checkbox(selectDay)',function (data) {
+            var week=[];
+            var month=[];
+            $("input[name='selectDay']:checked").each(function(){
+                month.push(this.value);
+            });
+            console.log(month);
+            $("#months").val(month)
+        });
+
         form.on('radio(day)', function (data) {
-            //console.log(data);
             if (data.value == "everyweeks") {
                 $("#localmeet_everyweeks_option").show();
                 $("#localmeet_everymonths_option").hide();
@@ -215,7 +240,7 @@
         var tableSelect = layui.tableSelect;
         //执行实例
         tableSelect.render({
-            elem: '#peopleInMeeting',	//定义输入框input对象 必填
+            elem: '#userId',	//定义输入框input对象 必填
             checkedKey: 'id', //表格的唯一建值，非常重要，影响到选中状态 必填
             searchKey: 'name',	//搜索输入框的name值 默认keyword
             searchPlaceholder: '关键词搜索',	//搜索输入框的提示文字 默认关键词搜索
@@ -237,6 +262,7 @@
                     cbs.push(item.id);
                 });
                 elem.val(NEWJSON.join(","));
+                $("#userId").val(cbs);
             }
         });
     });

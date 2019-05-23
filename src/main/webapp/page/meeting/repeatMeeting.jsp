@@ -62,7 +62,7 @@
                 , {field: 'createTime', title: '开始时间', width: 110}
                 , {field: 'endTime', title: '结束时间', width: 110}
                 , {field: 'roomId', title: '会议室Id', width: 110}
-                , {field: 'roomName', title: '会议室', width: 80}
+                , {field: 'meetRoomName', title: '会议室', width: 80}
                 , {field: 'meetTime', title: '时长', width: 80}
                 , {field: 'description', title: '描述', width: 80}
                 , {field: 'repeatType', title: '重复类型', width: 80}
@@ -112,9 +112,9 @@
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){
-                location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
+                location.href="${pageContext.request.contextPath}/meetroom/findRepeatMeeting?id="+data.id
             }else if(obj.event === 'detail'){
-                location.href="${pageContext.request.contextPath}/meetroom/findOne?id="+data.id
+                location.href="${pageContext.request.contextPath}/meetroom/findRepeatMeeting?id="+data.id
             }
         });
 

@@ -27,6 +27,25 @@
 	body {
 		background-color: #393D49
 	}
+	/*.row_black {
+		background-color: #2c5ae4
+	}
+	.layui-nav {
+		position: relative;
+		padding: 0 20px;
+		background-color: #2e54c5;
+		color: #fff;
+		border-radius: 2px;
+		font-size: 0;
+		box-sizing: border-box;
+	}
+	element.style {
+		text-align: center;
+		font-size: 20px;
+		padding: 20px 0 20px 0;
+		background-color: #445cd0;
+		color: #fff;
+	}*/
 
 	.main-bg-color {
 		background-color: #C0C0C0

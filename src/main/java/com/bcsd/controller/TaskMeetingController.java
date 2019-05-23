@@ -7,6 +7,7 @@ import com.bcsd.entity.UserInternal;
 import com.bcsd.service.AddUserService;
 import com.bcsd.service.AppointmentMeetService;
 import com.bcsd.service.TaskMeetingService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -31,9 +32,10 @@ public class TaskMeetingController {
     /**
      * 日重复会议
      */
-    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
-    //@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次
+    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    @Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次
     public void dayRepeat() throws ParseException {
+        System.out.println("执行定时任务everydays");
         //查询状态为 1 且重复类型为 "每日"  的会议
         Integer state = 1;
         String repeatType = "everydays";
@@ -68,16 +70,23 @@ public class TaskMeetingController {
             if (date.compareTo(createTime) > 0 && date.compareTo(endTime) < 0 && workDay.contains(s)) {
                 //将当前次会议添加到预定会议中
                 //增加联系人
-                List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+                //List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+                List user = getInternal(repeatMeeting.getUserId());
+                //处理此次会议开会议时间
+                String[] time = repeatMeeting.getCreateTime().split(" ");
+                String format1 = format.format(date);
+                String[] split1 = format1.split(" ");
+                String startTime=split1[0]+" "+time[1];
                 //添加会议数据
                 Remeet remeet = new Remeet();
                 remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
-                remeet.setMeetDate(sf.format(createTime));//设置当前会议时间
+                remeet.setMeetDate(startTime);//设置当前会议时间
+                //System.out.println(startTime);
                 remeet.setMeetDescription(repeatMeeting.getDescription());//描述
                 remeet.setMeetLaber("重复会议");
                 remeet.setMeetType("循环会议");
                 remeet.setMeetRoomId(repeatMeeting.getRoomId());//会议室id
-                remeet.setMeetRoomName(repeatMeeting.getRoomName());//会议室名
+                remeet.setMeetRoomName(repeatMeeting.getMeetRoomName());//会议室名
                 remeet.setState(1);
                 remeet.setRepeatType(repeatMeeting.getRepeatType());
                 remeet.setMeetTime(repeatMeeting.getMeetTime());//时长
@@ -105,9 +114,10 @@ public class TaskMeetingController {
      * 周重复会议
      */
     //@Scheduled(cron = "0/20 * * * * MON ") // 每周一凌晨执行
-    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
-    //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
+    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    @Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void weekRepeat() throws ParseException {
+        System.out.println("执行定时任务everyweeks");
         //查询状态为 1 且重复类型为 "每日"  的会议
         Integer status = 1;
         String repeatType = "everyweeks";
@@ -133,16 +143,23 @@ public class TaskMeetingController {
             if (date.compareTo(createTime) > 0 && date.compareTo(endTime) < 0&&strings.contains(weekOfDate)) {
                 //将当前次会议添加到预定会议中
                 //增加联系人
-                List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+               // List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+                List user = getInternal(repeatMeeting.getUserId());
+
+                //处理此次会议开会议时间
+                String[] time = repeatMeeting.getCreateTime().split(" ");
+                String format1 = format.format(date);
+                String[] split1 = format1.split(" ");
+                String startTime=split1[0]+" "+time[1];
                 //添加会议数据
                 Remeet remeet = new Remeet();
                 remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
-                remeet.setMeetDate(format.format(createTime));//设置当前会议时间
+                remeet.setMeetDate(startTime);//设置当前会议时间
                 remeet.setMeetDescription(repeatMeeting.getDescription());//描述
                 remeet.setMeetLaber("重复会议");
                 remeet.setMeetType("循环会议");
                 remeet.setMeetRoomId(repeatMeeting.getRoomId());//会议室id
-                remeet.setMeetRoomName(repeatMeeting.getRoomName());//会议室名
+                remeet.setMeetRoomName(repeatMeeting.getMeetRoomName());//会议室名
                 remeet.setState(1);
                 remeet.setRepeatType(repeatMeeting.getRepeatType());
                 remeet.setMeetTime(repeatMeeting.getMeetTime());//时长
@@ -170,11 +187,13 @@ public class TaskMeetingController {
     /**
      * 月重复会议
      */
-    @Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
-    //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
+    //@Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
+    @Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void monthRepeat() throws ParseException {
+
+        System.out.println("执行定时任务everymonths");
         Integer status = 1;
-        String repeatType = "everymouths";
+        String repeatType = "everymonths";
         List<RepeatMeeting> list = taskMeetingService.findMeeting(status, repeatType);
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         //获取当前时间
@@ -187,32 +206,41 @@ public class TaskMeetingController {
             //结束时间
             Date endTime = sf.parse(repeatMeeting.getEndTime());
             //获取预定日
-            int repeatDay = Integer.parseInt(repeatMeeting.getWeeks());
+            // int repeatDay = Integer.parseInt(repeatMeeting.getWeeks());
+            String[] split = repeatMeeting.getWeeks().split(",");
+            List<String> strings = Arrays.asList(split);
             //获取当月天数
             int dayNum = getDayOfMonth();
             //获取今天多少号
-            int today = Calendar.getInstance().getTime().getDate();
+            String i = Calendar.getInstance().get(Calendar.DATE)+"";
 
             //当前时间大于开始时间   &&   当前时间 小于结束时间
             //当月要包含预定日  -->预定日<=当月天数       当前日期<=预定日
-            if (date.compareTo(createTime) > 0 && date.compareTo(endTime) < 0 && repeatDay<=dayNum && today<= repeatDay) {
+            if (date.compareTo(createTime) > 0 && date.compareTo(endTime) < 0 && strings.contains(i)) {
                 //将当前次会议添加到预定会议中
                 //增加联系人
-                List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+                //List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
+                List user = getInternal(repeatMeeting.getUserId());
+                //处理此次会议开会议时间
+                String[] time = repeatMeeting.getCreateTime().split(" ");
+                String format1 = format.format(date);
+                String[] split1 = format1.split(" ");
+                String startTime=split1[0]+" "+time[1];
                 //添加会议数据
                 Remeet remeet = new Remeet();
                 remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
-                remeet.setMeetDate(format.format(createTime));//设置当前会议时间
+                remeet.setMeetDate(startTime);//设置当前会议时间
                 remeet.setMeetDescription(repeatMeeting.getDescription());//描述
                 remeet.setMeetLaber("重复会议");
                 remeet.setMeetType("循环会议");
                 remeet.setMeetRoomId(repeatMeeting.getRoomId());//会议室id
-                remeet.setMeetRoomName(repeatMeeting.getRoomName());//会议室名
+                remeet.setMeetRoomName(repeatMeeting.getMeetRoomName());//会议室名
                 remeet.setState(1);
                 remeet.setRepeatType(repeatMeeting.getRepeatType());
                 remeet.setMeetTime(repeatMeeting.getMeetTime());//时长
                 remeet.setUserId(repeatMeeting.getUserId());
                 remeet.setRid(repeatMeeting.getId());//添加循环会议id
+                //根据循环会议id查询
                 Remeet meeting = appointmentMeetService.findByRid(repeatMeeting.getId());
                 if (meeting == null) {//会议不存在
                     //如果当前时间在结束时间之前,  发送邮件,添加到我的预定会议中
@@ -223,7 +251,7 @@ public class TaskMeetingController {
                 //跳过
                 continue;
             }
-            // 如果当前时间超过结束时间,修改会议状态(逻辑删除)
+            // 如果当前时间超过结束时间,修改会议状态(删除)
             //修改循环会议的状态为0
             if (date.compareTo(endTime)>0){
                 taskMeetingService.update(repeatMeeting.getId());
@@ -264,7 +292,7 @@ public class TaskMeetingController {
      * @return 当前日期是星期几
      */
     public static String getWeekOfDate(Date dt) {
-        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(dt);
 
@@ -284,5 +312,18 @@ public class TaskMeetingController {
         return day;
     }
 
+
+    //根据会议id查询参会人员
+    public List getInternal(String userId){
+        //查询联系人
+        List<UserInternal> user =new ArrayList<UserInternal>();
+        String strip = StringUtils.strip(userId, "[]");
+        String[] split = strip.split(",");
+        for (String s : split) {
+            UserInternal internal = addUserService.findByUserId(Integer.parseInt(s));
+            user.add(internal);
+        }
+        return user;
+    }
 
 }

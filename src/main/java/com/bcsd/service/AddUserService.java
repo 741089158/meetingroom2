@@ -11,4 +11,6 @@ public interface AddUserService {
    List<UserInternal> findUserByMeetId(String userId);
 
    void deleteUser(String userId,String meetId);
+
+   UserInternal findByUserId(int id);
 }

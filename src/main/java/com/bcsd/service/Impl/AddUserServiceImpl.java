@@ -34,4 +34,9 @@ public class AddUserServiceImpl implements AddUserService {
     public void deleteUser(String userId, String meetId) {
         addUserDao.deleteUser(userId,meetId);
     }
+
+    @Override
+    public UserInternal findByUserId(int id) {
+        return addUserDao.findByUserId(id);
+    }
 }

@@ -19,12 +19,12 @@
 				<dd>
 					<a href="${pageContext.request.contextPath}/page/meet_management/meet_management.jsp">会议室维护</a>
 				</dd>
-				<dd>
+				<%--<dd>
 					<a href="${pageContext.request.contextPath}/page/meet_management/meet_management.jsp">常用会议室</a>
-				</dd>
+				</dd>--%>
 			</dl>
 		</li>
-		<li class="layui-nav-item"><a href="javascript:;">会议统计</a>
+		<%--<li class="layui-nav-item"><a href="javascript:;">会议统计</a>
 			<dl class="layui-nav-child">
 				<dd>
 					<a href="${pageContext.request.contextPath}/page/report/meet_report.jsp">会议报表</a>
@@ -33,7 +33,7 @@
 					<a href="${pageContext.request.contextPath}/page/report/history_report.jsp">历史报表</a>
 				</dd>
 			</dl>
-		</li>
+		</li>--%>
 		<li class="layui-nav-item"><a href="javascript:;">系统管理</a>
 			<dl class="layui-nav-child">
 				<dd>
@@ -55,9 +55,9 @@
 				<dd>
 					<a href="${pageContext.request.contextPath}/page/dict/dict_home.jsp">字典管理</a>
 				</dd>
-				<dd>
+				<%--<dd>
 					<a href="${pageContext.request.contextPath}/page/other/limit.jsp">权限管理</a>
-				</dd>
+				</dd>--%>
 			</dl>
 		</li>
 	</ul>

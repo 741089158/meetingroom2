@@ -83,4 +83,15 @@
         select *from cj_appointment_meeting where rid = #{rid}
     </select>
 
+
+    <select id="findRepeatMeeting" parameterType="java.lang.Integer" resultType="com.bcsd.entity.RepeatMeeting">
+        select createTime,endTime,meetName,meetRoomName,type,meetTime,description,repeatType,status,isdefault,userId,title,roomId,weeks
+        from cj_task_meeting
+        where id = #{id}
+    </select>
+
+    <update id="updateState" parameterType="java.lang.Integer">
+        update cj_appointment_meeting set state = 0 where id = #{id}
+    </update>
+
 </mapper>

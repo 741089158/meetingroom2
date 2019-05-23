@@ -45,4 +45,8 @@ public interface AppointmentMeetDao {
     List<Remeet> findMeeting(@Param("state") Integer state,@Param("repeatType") String repeatType);
 
     Remeet findByRid(int rid);
+
+    RepeatMeeting findRepeatMeeting(Integer id);
+
+    void updateState(Integer id);
 }

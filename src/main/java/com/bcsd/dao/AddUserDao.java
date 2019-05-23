@@ -15,4 +15,6 @@ public interface AddUserDao {
    void deleteUser(@Param("userId") String  userId,@Param("meetId") String meetId);
 
    List<UserInternal> findUserByMeetId(String id);
+
+    UserInternal findByUserId(int id);
 }

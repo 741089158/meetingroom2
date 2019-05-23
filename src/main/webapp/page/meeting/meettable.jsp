@@ -67,7 +67,7 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 60, fixed: 'left'}
-                , {field: 'meetName', title: '会议名称', width: 130}
+                , {field: 'meetName', title: '会议名称', width: 150}
                 , {field: 'meetRoomName', title: '会议室', width: 80}
                 , {field: 'meetDate', title: '开始时间', width: 150}
                 , {field: 'meetTime', title: '时长', width: 80}
@@ -83,6 +83,12 @@
                         var second = parseInt(split[0]) * 60 * 60 * 1000 + parseInt(split[1])* 60 * 1000;
                         var endTime = startTime+second;//结束时间毫秒值
                         if (now <startTime){//会议未开始
+                            setTimeout(function () {
+                                $.post("${pageContext.request.contextPath}/meetroom/startMeet",e,function (resp) {
+                                    console.log(e);
+                                    layer.msg(e.meetName+"开始了!!")
+                                })
+                            }, (startTime-now));
                             var str="";
                             var lag = Math.floor((startTime - now) / 1000);
                             var day = Math.floor(lag / (60 * 60 * 24));
@@ -97,6 +103,14 @@
                             return "会议正在进行";
                         }
                         if (now>endTime){
+                            //一个小时后将结束会议删除
+                            setTimeout(function () {
+                                //console.log(e);
+                                $.post("${pageContext.request.contextPath}/meetroom/updateState",{id:e.id},function (resp) {
+                                    console.log(e.id);
+                                    //active.reload();
+                                })
+                            }, 1000*10);
                             return "会议已结束"
                         }
                     }}
@@ -128,7 +142,7 @@
         var active ={
             reload:function(){
                 var reload = $("#demo");
-                //var index= layer.msg('查询中...',{icon:16,time:false,shade:0});
+                var index= layer.msg('查询中...',{icon:16,time:false,shade:0});
                 setTimeout(function () {
                     table.reload('table',{//执行重载
                         page:{curr:1},where:{name:reload.val()}});

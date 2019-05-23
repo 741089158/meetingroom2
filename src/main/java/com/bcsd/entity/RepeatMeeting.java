@@ -15,7 +15,7 @@ public class RepeatMeeting {
     private String meetName;
     private String lastMeetingTime;
     private String nextMeetingTime;
-    private String roomName;
+    private String meetRoomName;
     private String type;
     private String meetTime;
     private String description;
@@ -99,12 +99,12 @@ public class RepeatMeeting {
         this.nextMeetingTime = nextMeetingTime;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getMeetRoomName() {
+        return meetRoomName;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setMeetRoomName(String meetRoomName) {
+        this.meetRoomName = meetRoomName;
     }
 
     public String getType() {

@@ -30,20 +30,20 @@
     <div class="layui-form-item">
         <label class="layui-form-label">地址</label>
         <div class="layui-input-block">
-            <input name="roomAreaName" value="${meetRoom.roomAreaName}" placeholder="会议室地址" type="text"
+            <input name="roomAreaName" value="${meetRoom.roomAreaName}" placeholder="会议室地址" type="text" lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">楼层</label>
         <div class="layui-input-block">
-            <input name="roomFloor" placeholder="会议室楼层" value="${meetRoom.roomFloor}" type="text" class="layui-input"/>
+            <input name="roomFloor" placeholder="会议室楼层" value="${meetRoom.roomFloor}" type="text" lay-verify="required" class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">容纳人数</label>
         <div class="layui-input-block">
-            <input name="personCount" value="${meetRoom.personCount}" placeholder="容纳人数" type="text"
+            <input name="personCount" value="${meetRoom.personCount}" placeholder="容纳人数" type="text" lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
@@ -52,7 +52,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">公司</label>
             <div class="layui-input-inline">
-                <select name="meetingSubdept">
+                <select name="meetingSubdept" lay-verify="required">
                     <option value="武汉分部" <c:if test="${meetRoom.isStart=='武汉分部'}">selected='selected'</c:if>>武汉分部
                     </option>
                     <option value="上海分部" <c:if test="${meetRoom.isStart=='上海分部'}">selected='selected'</c:if>>上海分部
