@@ -64,15 +64,16 @@
             , height: h
             , url: '${pageContext.request.contextPath }/meetroom/myappointmeet' //数据接口
             , page: true //开启分页
+            ,cellMinWidth: 60
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 60, fixed: 'left'}
-                , {field: 'meetName', title: '会议名称', width: 150}
-                , {field: 'meetRoomName', title: '会议室', width: 80}
-                , {field: 'meetDate', title: '开始时间', width: 150}
-                , {field: 'meetTime', title: '时长', width: 80}
-                , {field: 'meetType', title: '会议类型', width: 100}
-                , {field: 'time', title: '距离开会时间', width: 140,
+                , {field: 'id', title: 'ID',width: 40,  fixed: 'left'}
+                , {field: 'meetName', title: '会议名称'}
+                , {field: 'meetRoomName', title: '会议室'}
+                , {field: 'meetDate', title: '开始时间'}
+                , {field: 'meetTime', title: '时长'}
+                , {field: 'meetType', title: '会议类型'}
+                , {field: 'time', title: '距离开会时间',
                     templet:function (e) {
                         var now = new Date().getTime();//当前时间毫秒值
                         var meetDate = e.meetDate;
@@ -114,7 +115,7 @@
                             return "会议已结束"
                         }
                     }}
-                , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
+                , {fixed: 'right',title: '操作', width: 155, align: 'center', toolbar: '#barDemo'}
             ]] ,id:'table'
         });
         //监听行工具事件

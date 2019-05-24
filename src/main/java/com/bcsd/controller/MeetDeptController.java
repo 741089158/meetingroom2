@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
@@ -47,8 +48,8 @@ public class MeetDeptController {
         if (size==null||size==0){
             size=10;
         }
-        List<MeetDept> meetDeptList = meetDeptService.fidnAll(page,size,deptName);
-        PageInfo<MeetDept> pageInfo = new PageInfo<MeetDept>(meetDeptList);
+        List<Map<String,String>> meetDeptList = meetDeptService.fidnAll(page,size,deptName);
+        PageInfo<Map<String,String>> pageInfo = new PageInfo<Map<String,String>>(meetDeptList);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", meetDeptList);
         return data;
     }

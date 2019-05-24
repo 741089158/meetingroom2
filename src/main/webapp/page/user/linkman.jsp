@@ -57,16 +57,17 @@
             , height: h
             , url: '${pageContext.request.contextPath }/user/findInternal' //数据接口
             , page: true //开启分页
+            ,cellMinWidth: 60
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 50, fixed: 'left'}
-                , {field: 'name', title: '名称', width: 60}
-                , {field: 'sex', title: '性别', width: 50}
-                , {field: 'tel', title: '电话', width: 100}
-                , {field: 'dept', title: '部门', width: 100}
-                , {field: 'email', title: '邮箱', width: 100}
-                , {field: 'company', title: '公司', width: 100}
-                , {field: 'internal', title: '分类', width: 100}
+                , {field: 'id', title: 'ID', width: 40, fixed: 'left'}
+                , {field: 'name', title: '名称'}
+                , {field: 'sex', title: '性别'}
+                , {field: 'tel', title: '电话'}
+                , {field: 'dept', title: '部门'}
+                , {field: 'email', title: '邮箱'}
+                , {field: 'company', title: '公司'}
+                , {field: 'internal', title: '分类'}
                 , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]  ,id:'table'
         });

@@ -38,9 +38,9 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" id="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" id="detail">查看</a>
+   <%-- <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
+   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>--%>
 </script>
 <script>
 
@@ -55,17 +55,18 @@
             , height: h
             , url: '${pageContext.request.contextPath }/appointreet/findRepeatMeeting' //数据接口
             , page: true //开启分页
+            ,cellMinWidth: 60
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 40, fixed: 'left'}
-                , {field: 'meetName', title: '会议名称', width: 110}
-                , {field: 'createTime', title: '开始时间', width: 110}
-                , {field: 'endTime', title: '结束时间', width: 110}
-                , {field: 'roomId', title: '会议室Id', width: 110}
-                , {field: 'meetRoomName', title: '会议室', width: 80}
-                , {field: 'meetTime', title: '时长', width: 80}
-                , {field: 'description', title: '描述', width: 80}
-                , {field: 'repeatType', title: '重复类型', width: 80}
+                , {field: 'meetName', title: '会议名称'}
+                , {field: 'createTime', title: '开始时间'}
+                , {field: 'endTime', title: '结束时间'}
+                , {field: 'roomId', title: '会议室Id'}
+                , {field: 'meetRoomName', title: '会议室'}
+                , {field: 'meetTime', title: '时长'}
+                , {field: 'description', title: '描述'}
+                , {field: 'repeatType', title: '重复类型'}
                /* , {field: 'time', title: '距离开会时间', width: 140,
                     templet:function (e) {
                         var now = new Date().getTime();//当前时间毫秒值

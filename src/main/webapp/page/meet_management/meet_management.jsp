@@ -72,18 +72,19 @@
             , height: h
             , url: '${pageContext.request.contextPath }/meet/findAll' //数据接口
             , page: true //开启分页
+            ,cellMinWidth: 60
             //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
            // , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'roomId', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'roomName', title: '名称', width: 100}
-                , {field: 'roomType', title: '类型', width: 100}
-                , {field: 'personCount', title: '容纳人数', width: 60}
-                , {field: 'roomAreaName', title: '地址', width: 80}
-                , {field: 'roomFloor', title: '楼层', width: 80}
-                , {field: 'manager', title: '管理员', width: 80}
-                , {field: 'isStart', title: '是否启用', width: 80
+                , {field: 'roomName', title: '名称'}
+                , {field: 'roomType', title: '类型'}
+                , {field: 'personCount', title: '容纳人数'}
+                , {field: 'roomAreaName', title: '地址'}
+                , {field: 'roomFloor', title: '楼层'}
+                , {field: 'manager', title: '管理员'}
+                , {field: 'isStart', title: '是否启用'
                     ,templet: function(e){
                         if(e.isStart*1==1){
                             return "启用";
@@ -93,7 +94,7 @@
                         }
                         return e.isStart;
                     }}
-                , {field: 'callIp', title: '呼叫地址', width: 100}
+                , {field: 'callIp', title: '呼叫地址'}
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]], id:'table'
         });

@@ -56,17 +56,17 @@
             , height: h
             , url: '${pageContext.request.contextPath }/mail/findPage' //数据接口
             , page: true //开启分页
-            //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-            , totalRow: true //开启合计行
+            ,cellMinWidth: 60
+           // , totalRow: true //开启合计行
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 50, fixed: 'left'}
-                , {field: 'receivemailaccount', title: '收件人邮箱', width: 150}
-                , {field: 'mailtitle', title: '邮件标题', width: 150}
-                , {field: 'mailsubject', title: '邮件主题', width: 150}
-                , {field: 'mailcontent', title: '邮件内容', width: 120}
-                , {field: 'createdate', title: '创建时间', width: 130}
-                , {fixed: 'right', title: '状态', width: 130, align: 'center', toolbar: '#barDemo'}
+                , {field: 'id', title: 'ID', width: 60, fixed: 'left'}
+                , {field: 'receivemailaccount', title: '收件人邮箱'}
+                , {field: 'mailtitle', title: '邮件标题'}
+                , {field: 'mailsubject', title: '邮件主题'}
+                , {field: 'mailcontent', title: '邮件内容'}
+               /* , {field: 'createdate', title: '创建时间'}*/
+                , {fixed: 'right', title: '状态', align: 'center', toolbar: '#barDemo'}
             ]]
             , id: 'reload'
             /*, done: function (res, curr, count) {

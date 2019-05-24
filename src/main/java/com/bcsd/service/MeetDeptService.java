@@ -5,13 +5,14 @@ import com.bcsd.entity.MeetRoom;
 import com.bcsd.entity.SubOffice;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author HOEP
  * @data 2019/4/23
  */
 public interface MeetDeptService {
-    List<MeetDept> fidnAll(Integer page,Integer size,String deptName);
+    List<Map<String,String>> fidnAll(Integer page, Integer size, String deptName);
 
     MeetDept findByid(String deptId);
     void update (MeetDept meetDept);

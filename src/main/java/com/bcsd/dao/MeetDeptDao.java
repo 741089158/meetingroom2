@@ -12,7 +12,7 @@ import java.util.Map;
  * @data 2019/4/23
  */
 public interface MeetDeptDao {
-    List<MeetDept> findAll(@Param("deptName") String deptName);
+    List<Map<String,String>> findAll(@Param("deptName") String deptName);
 
     MeetDept findByid(String deptId);
 

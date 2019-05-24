@@ -68,14 +68,15 @@
             , height: h
             , url: '${pageContext.request.contextPath }/dict/findPage' //数据接口
             , page: true //开启分页
+            ,cellMinWidth: 60
             ,method:'post'
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'dictId', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'name', title: '名称', width: 150}
-                , {field: 'code', title: '字典编码', width: 150}
-                , {field: 'description', title: '详情', width: 150}
-                , {field: 'pid', title: '备注', width: 150}
+                , {field: 'dictId', title: 'ID', width: 80, fixed: 'left'}
+                , {field: 'name', title: '名称'}
+                , {field: 'code', title: '字典编码'}
+                , {field: 'description', title: '详情'}
+                , {field: 'pid', title: '备注'}
                 , {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]  , id:'table'
         });

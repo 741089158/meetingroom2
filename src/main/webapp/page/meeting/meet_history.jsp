@@ -43,16 +43,17 @@
             elem: '#demo',
             height: h,
             url: '${pageContext.request.contextPath }/appointreet/history' //数据接口
-            ,
+            ,cellMinWidth: 60,
             page: true //开启分页
             ,
             cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'meetName', title: '会议名称', width: 150}
-                , {field: 'meetType', title: '会议类型', width: 150}
-                , {field: 'starttime', title: '开始时间', width: 240}
-                , {field: 'duration', title: '时长', width: 100}
+                ,{field: 'id', title: 'ID', width: 40, fixed: 'left'}
+                , {field: 'meetName', title: '会议名称'}
+                , {field: 'meetRoom', title: '会议名称'}
+                , {field: 'meetType', title: '会议类型'}
+                , {field: 'starttime', title: '开始时间'}
+                , {field: 'duration', title: '时长'}
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
                 ]],id:'table'
         });

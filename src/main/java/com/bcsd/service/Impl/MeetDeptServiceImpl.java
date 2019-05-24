@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -21,7 +22,7 @@ public class MeetDeptServiceImpl implements MeetDeptService {
     @Autowired
     private MeetDeptDao meetDeptDao;
 
-    public List<MeetDept> fidnAll(Integer page,Integer size,String deptName) {
+    public List<Map<String,String>> fidnAll(Integer page, Integer size, String deptName) {
         PageHelper.startPage(page,size);
         return  meetDeptDao.findAll(deptName);
     }

@@ -54,15 +54,16 @@
 			, height: h
 			, url: '${pageContext.request.contextPath }/dept/findAll' //数据接口
 			, page: true //开启分页
+			,cellMinWidth: 60
 			,method:"post"
 			, cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}
-				, {field: 'deptid', title: 'ID', width: 80, fixed: 'left'}
-				, {field: 'deptname', title: '部门名称', width: 120}
-				, {field: 'deptaddr', title: '部门地址', width: 120}
-				, {field: 'depttel', title: '部门电话', width: 150}
-				, {field: 'email', title: '部门邮箱', width: 150}
-				, {field: 'subofficename', title: '公司', width: 120}
+				, {field: 'deptid', title: 'ID', width: 60, fixed: 'left'}
+				, {field: 'deptname', title: '部门名称'}
+				, {field: 'deptaddr', title: '部门地址'}
+				, {field: 'depttel', title: '部门电话'}
+				, {field: 'email', title: '部门邮箱'}
+				, {field: 'subofficename', title: '公司'}
 				, {fixed: 'right',title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
 			]],id:'table'
 		});
