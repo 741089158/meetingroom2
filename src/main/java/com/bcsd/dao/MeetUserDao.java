@@ -37,4 +37,6 @@ public interface MeetUserDao {
     UserInternal findOne(Integer id);
 
     void updateLinkman(UserInternal userInternal);
+
+    MeetUser findByUsername(String username);
 }
