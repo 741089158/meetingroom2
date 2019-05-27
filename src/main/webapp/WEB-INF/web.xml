@@ -46,7 +46,7 @@
 		<location>/500.jsp</location>
 	</error-page>
 	<welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>start.jsp</welcome-file>
 	</welcome-file-list>
 
 	<!--<filter>

@@ -118,4 +118,9 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     public void updateState(Integer id) {
         appointmentMeetDao.updateState(id);
     }
+
+    @Override
+    public List<Remeet> findMeetByUserId(Integer id) {
+        return appointmentMeetDao.findMeetByUserId(id);
+    }
 }

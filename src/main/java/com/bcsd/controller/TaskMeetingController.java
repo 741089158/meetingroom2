@@ -32,8 +32,8 @@ public class TaskMeetingController {
     /**
      * 日重复会议
      */
-    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
-    @Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次
+    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    //@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次
     public void dayRepeat() throws ParseException {
         System.out.println("执行定时任务everydays");
         //查询状态为 1 且重复类型为 "每日"  的会议
@@ -114,8 +114,8 @@ public class TaskMeetingController {
      * 周重复会议
      */
     //@Scheduled(cron = "0/20 * * * * MON ") // 每周一凌晨执行
-    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
-    @Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
+    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void weekRepeat() throws ParseException {
         System.out.println("执行定时任务everyweeks");
         //查询状态为 1 且重复类型为 "每日"  的会议
@@ -187,8 +187,8 @@ public class TaskMeetingController {
     /**
      * 月重复会议
      */
-    //@Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
-    @Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
+    @Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
+    //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void monthRepeat() throws ParseException {
 
         System.out.println("执行定时任务everymonths");

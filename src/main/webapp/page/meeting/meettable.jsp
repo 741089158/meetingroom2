@@ -35,6 +35,12 @@
                                <div class="layui-inline">
                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="repeatMeeting">循环会议</button>
                                </div>
+                              <%-- <div class="layui-inline">
+                                   <a class="layui-btn layui-btn-sm layui-btn-normal"
+                                      href="${pageContext.request.contextPath}/page/schedule/userSchedule.jsp">
+                                       <i class="layui-icon layui-icon-date"></i> 日程
+                                   </a>
+                               </div>--%>
                            </div>
                        </div>
                 </div>

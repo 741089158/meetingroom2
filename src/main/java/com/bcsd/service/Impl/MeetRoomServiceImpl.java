@@ -68,4 +68,9 @@ public class MeetRoomServiceImpl implements MeetRoomService {
     public Object findRoom() {
         return meetRoomDao.findAll("");
     }
+
+    @Override
+    public List<MeetRoom> findList() {
+        return meetRoomDao.findAll("");
+    }
 }

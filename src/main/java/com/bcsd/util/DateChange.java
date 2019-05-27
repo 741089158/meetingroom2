@@ -16,4 +16,17 @@ public class DateChange {
         String newTime=new SimpleDateFormat("yyyy-MM-dd HH:mm").format(times) ;
         return newTime;
     }
+
+
+    /**
+     *
+     * @param time  格式  HH:mm
+     * @return
+     * @throws ParseException
+     */
+    public static int changeTime(String time) throws ParseException {
+        String[] split = time.split(":");
+        int i = Integer.parseInt(split[0]) * 60 * 60 * 1000 + Integer.parseInt(split[1]) * 60 * 1000;
+        return i;
+    }
 }

@@ -43,7 +43,6 @@ public class MeetRoomController {
 
     /**
      * 查询所有会议室
-     *
      * @param
      * @return
      */
@@ -65,33 +64,21 @@ public class MeetRoomController {
 
     /**
      * 查询所有会议室
-     *
      * @param
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/findList")
     @ResponseBody
-    public Object list(Integer page, Integer limit, String roomName) {
-        if (page == null || page == 0) {
-            page = 1;
-        }
-        if (limit == null || limit == 0) {
-            limit = 10;
-        }
-        //System.out.println("查询所有会议室");
-
-        List<MeetRoom> meetRoomList = meetRoomService.findAll(page, limit, roomName);
+    public Object findList() {
+        List<MeetRoom> meetRoomList = meetRoomService.findList();
         PageInfo pageInfo=new PageInfo<MeetRoom>(meetRoomList);
-        //String result = JSONObject.toJSONString(meetRoomList);
-        ResponseData data = new ResponseData((int)pageInfo.getTotal(), 0, "查询成功", meetRoomList);
-
+        ResponseData data = new ResponseData(meetRoomList.size(), 0, "查询成功", meetRoomList);
         return data;
     }
 
 
     /**
      * 会议室日程列表
-     *
      * @return
      */
     @RequestMapping(value = "/fullCalendar", method = RequestMethod.GET)
@@ -104,6 +91,25 @@ public class MeetRoomController {
         }
         return fullCalendar;
     }
+
+    /**
+     * 会议室日程列表
+     * @return
+     */
+    @RequestMapping(value = "/userFullCalendar", method = RequestMethod.GET)
+    @ResponseBody
+    public Object userFullCalendar(HttpServletRequest request) {
+        //获取用户id
+        Integer id = (Integer) request.getSession().getAttribute("id");
+        List<Remeet> list = appointmentMeetService.findMeetByUserId(id);
+       // List<MeetRoom> list = (List<MeetRoom>) meetRoomService.findRoom();
+        List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
+        for (Remeet remeet : list) {
+            fullCalendar.add(new FullCalendar(remeet.getId().toString(), remeet.getMeetName(), "blue"));
+        }
+        return fullCalendar;
+    }
+
 
     /**
      * 会议室日程使用事件
@@ -130,10 +136,8 @@ public class MeetRoomController {
             String endTime = sf.format(new Date(time + second));
             String[] s1 = endTime.split(" ");
             String end = s1[0] + "T" + s1[1];
-            list.add(new Events(remeet.getMeetRoomId(), start, end, remeet.getMeetDescription()));
+            list.add(new Events(remeet.getMeetRoomId(), start, end, remeet.getMeetName()));
         }
-        //String result =JSONObject.toJSONString(list);
-
         return list;
     }
 

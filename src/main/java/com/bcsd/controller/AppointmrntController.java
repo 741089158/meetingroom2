@@ -6,9 +6,9 @@ import com.bcsd.service.MeetUserService;
 import com.bcsd.service.ReMeetRoomService;
 import com.bcsd.entity.MeetRoom;
 import com.bcsd.entity.Remeet;
-import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 import com.bcsd.service.*;
+import com.bcsd.util.DateChange;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -166,6 +170,42 @@ public class AppointmrntController {
         PageInfo<RepeatMeeting> pageInfo = new PageInfo<RepeatMeeting>(list);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
         return data;
+    }
+
+    /**
+     * 预定会议冲突检查
+     * @param date 日期   格式  yyyy-MM-dd
+     * @param time 时间   格式  HH:mm
+     * @param duration 时长  格式  HH:mm
+     * @return
+     */
+    @RequestMapping("/checkTime")
+    @ResponseBody
+    public Object checkTime(String date,String time,String duration) throws ParseException {
+        String dateTime = date+" "+time;
+        //1:查询所有预订会议
+        List<Remeet> list = appointmentMeetService.findMeetByUserId(null);
+        //2:获取会议开始事件结束事件
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date startTime = sf.parse(dateTime);//预订会议开始时间
+        Date endTime = new Date(startTime.getTime() + DateChange.changeTime(time));//预订会议结束时间
+        System.out.println(startTime);
+        System.out.println(endTime);
+
+        List<Remeet> meets=new ArrayList<Remeet>();
+        //3判断改事件段内是否有被占用的会议室
+        for (Remeet remeet : list) {
+            String meetDate = remeet.getMeetDate();
+            String meetTime = remeet.getMeetTime();//已预订会议时长
+            Date startTime1 = sf.parse(meetDate);//已预订会议开始时间
+            Date endTime1 = new Date(startTime1.getTime() + DateChange.changeTime(meetTime));//已预订会议结束时间
+
+            if ((startTime.compareTo(startTime1)>0&&startTime.compareTo(endTime1)<0)||(endTime.compareTo(endTime1)<0&&endTime.compareTo(startTime1)>0)){
+                meets.add(remeet);
+            }
+        }
+        //ResponseData data = new ResponseData(list.size(), 0, "成功", meets);
+        return meets;
     }
 
 }

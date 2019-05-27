@@ -30,47 +30,54 @@
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">会议室名称</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" disabled="disabled" name="meetRoomName"
-                                       value="${meetRoom.roomName}"/>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">会议室类型</label>
-                            <div class="layui-input-block">
-                                <input type="text" name="meetType" class="layui-input" disabled="disabled"
-                                       value="${meetRoom.roomType}"/>
-                            </div>
-                        </div>
+
                         <div class="layui-form-item">
                             <div class="layui-inline">
-                                <label class="layui-form-label">开始时间</label>
+                                <label class="layui-form-label">会议室名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" disabled="disabled" name="meetRoomName"
+                                           value="${meetRoom.roomName}"/>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">会议室类型</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="meetType" class="layui-input" disabled="disabled"
+                                           value="${meetRoom.roomType}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">日期</label>
                                 <div class="layui-input-block">
                                     <input type="text" class="layui-input" name="date" disabled="disabled"
                                            value="${date}"/>
                                 </div>
                             </div>
                             <div class="layui-inline">
+                                <label class="layui-form-label">时间</label>
                                 <div class="layui-input-block">
                                     <input type="text" class="layui-input" name="time" disabled="disabled"
                                            value="${time}"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">会议时长</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="meetTime" disabled="disabled"
-                                       value="${meetTime}"/>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">会议时长</label>
+                                <div class="layui-input-block">
+                                    <input type="text" class="layui-input" name="meetTime" disabled="disabled"
+                                           value="${meetTime}"/>
+                                </div>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">参会人</label>
                             <div class="layui-input-block">
-                                <input type="text" name="userId" class="layui-input" readonly="readonly"
+                                <input type="hidden" name="userId" class="layui-input" readonly="readonly"
                                        id="userId"/>
+                                <input type="text" name="username" class="layui-input"
+                                       id="username"/>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -89,21 +96,23 @@
                                 <input type="radio" name="day" value="no" title="无重复" checked="checked"
                                        lay-filter="day"/>
                                 <input type="radio" name="day" value="everydays" title="每日" lay-filter="day"/>
+                                <input type="radio" name="day" value="everyworks" title="工作日" lay-filter="day"/>
                                 <input type="radio" name="day" value="everyweeks" title="每周" lay-filter="day"/>
                                 <input type="radio" name="day" value="everymonths" title="每月" lay-filter="day"/>
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item" id="createDiv">
                             <label class="layui-form-label">起始日期</label>
                             <div class="layui-input-block">
                                 <input type="text" class="layui-input" id="createTime" placeholder="yyyy年MM月dd日"
                                        readonly="readonly" name="createTime">
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item" id="endDiv">
                             <label class="layui-form-label">截止日期</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" id="endTime" required lay-verify="required"
+                                <input type="text" class="layui-input"
+                                       id="endTime" <%--required lay-verify="required"--%>
                                        placeholder="yyyy-MM-dd HH:mm" name="endTime"
                                        readonly="readonly" autocomplete="off">
                             </div>
@@ -126,7 +135,8 @@
                             <div class="layui-input-block">
                                 <input type="hidden" name="months" id="months">
                                 <c:forEach var="i" begin="1" end="31" step="1">
-                                    <input type="checkbox" name="selectDay" title="${i}号" value="${i}"  lay-filter="selectDay">
+                                    <input type="checkbox" name="selectDay" title="${i}号" value="${i}"
+                                           lay-filter="selectDay">
                                 </c:forEach>
                             </div>
                         </div>
@@ -198,25 +208,26 @@
             }
         });
 
-        form.on('checkbox(weeks)',function (data) {
-            var week=[];
-            var month=[];
-            $("input[name='weeks']:checked").each(function(){
+        form.on('checkbox(weeks)', function (data) {
+            var week = [];
+            var month = [];
+            $("input[name='weeks']:checked").each(function () {
                 week.push(this.value);
             });
-           // console.log(week);
+            // console.log(week);
             $("#week").val(week)
         });
 
-        form.on('checkbox(selectDay)',function (data) {
-            var week=[];
-            var month=[];
-            $("input[name='selectDay']:checked").each(function(){
+        form.on('checkbox(selectDay)', function (data) {
+            var week = [];
+            var month = [];
+            $("input[name='selectDay']:checked").each(function () {
                 month.push(this.value);
             });
             console.log(month);
             $("#months").val(month)
         });
+
 
         form.on('radio(day)', function (data) {
             if (data.value == "everyweeks") {
@@ -229,7 +240,21 @@
                 $("#localmeet_everyweeks_option").hide();
                 $("#localmeet_everymonths_option").hide();
             }
+            if (data.value == 'no') {
+                $("#createDiv").hide();
+                $("#endDiv").hide();
+            } else {
+                $("#createDiv").show();
+                $("#endDiv").show();
+            }
         });
+        // $("input").click(function () {
+        var a = $("input[name='day']:checked").val();
+        if (a == 'no') {
+            $("#createDiv").hide();
+            $("#endDiv").hide();
+        }
+        // });
     });
     //配置 layui 第三方扩展组件存放的基础目录
     layui.config({
@@ -240,7 +265,7 @@
         var tableSelect = layui.tableSelect;
         //执行实例
         tableSelect.render({
-            elem: '#userId',	//定义输入框input对象 必填
+            elem: '#username',	//定义输入框input对象 必填
             checkedKey: 'id', //表格的唯一建值，非常重要，影响到选中状态 必填
             searchKey: 'name',	//搜索输入框的name值 默认keyword
             searchPlaceholder: '关键词搜索',	//搜索输入框的提示文字 默认关键词搜索
@@ -263,6 +288,8 @@
                 });
                 elem.val(NEWJSON.join(","));
                 $("#userId").val(cbs);
+                $("#username").val(NEWJSON);
+                //console.log(NEWJSON)
             }
         });
     });

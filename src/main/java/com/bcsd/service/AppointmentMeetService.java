@@ -49,4 +49,6 @@ public interface AppointmentMeetService {
     RepeatMeeting findRepeatMeeting(Integer id);
 
     void updateState(Integer id);
+
+    List<Remeet> findMeetByUserId(Integer id);
 }

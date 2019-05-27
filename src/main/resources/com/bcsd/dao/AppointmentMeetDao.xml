@@ -94,4 +94,14 @@
         update cj_appointment_meeting set state = 0 where id = #{id}
     </update>
 
+    <select id="findMeetByUserId" parameterType="java.lang.Integer" resultType="com.bcsd.entity.Remeet">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from cj_appointment_meeting
+        where state = 1
+        <if test="id !=null and id !=''">
+            AND id =#{id}
+        </if>
+    </select>
+
 </mapper>

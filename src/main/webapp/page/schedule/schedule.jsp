@@ -84,7 +84,8 @@
                         header: {
                             left: 'today prev,next',
                             center: 'title',
-                            right: 'resourceTimelineDay,resourceTimelineThreeDays,timeGridWeek,dayGridMonth'
+                            right: 'resourceTimelineDay'
+                            /*'resourceTimelineDay,resourceTimelineThreeDays,timeGridWeek,dayGridMonth'*/
                         },
                         /* 默认视图 */
                         defaultView: 'resourceTimelineDay',
@@ -116,7 +117,7 @@
                         },
                         /* 标题 */
                         resourceLabelText: '会议室',
-
+                        resourceAreaWidth :'100px',
                         /* 会议室列表 */
                         resources: '${pageContext.request.contextPath }/meet/fullCalendar',
                         events: '${pageContext.request.contextPath }/meet/fullEvents'
@@ -126,5 +127,6 @@
                 calendar.render();
             });
 </script>
+
 </body>
 </html>

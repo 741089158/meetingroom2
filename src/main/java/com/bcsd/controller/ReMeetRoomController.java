@@ -292,7 +292,12 @@ public class ReMeetRoomController {
         String strip = StringUtils.strip(userId, "[]");
         String[] split = strip.split(",");
         for (String s : split) {
-            UserInternal internal = addUserService.findByUserId(Integer.parseInt(s));
+            UserInternal internal = null;
+            try {
+                internal = addUserService.findByUserId(Integer.parseInt(s));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
             user.add(internal);
         }
         //添加会议数据
@@ -446,11 +451,13 @@ public class ReMeetRoomController {
         remeet.setMeetDate(datetime);
         String strip = StringUtils.strip(remeet.getUserId(), "[]");
         remeet.setUserId(strip);
-        appointmentMeetService.update(remeet);
+        try {
+            appointmentMeetService.update(remeet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Autowired
-    private MeetUserService meetUserService;
     /**
      * 查询会议
      * @param id

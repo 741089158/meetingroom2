@@ -40,6 +40,7 @@
                             <div class="layui-inline">
                                 <button class="layui-btn" lay-submit="" data-type="" id="add">添加</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'roomId', title: 'ID', width: 100, fixed: 'left'}
-                , {field: 'roomName', title: '名称'}
+                , {field: 'roomName', title: '名称', width: 100}
                 , {field: 'roomType', title: '类型'}
                 , {field: 'personCount', title: '容纳人数'}
                 , {field: 'roomAreaName', title: '地址'}

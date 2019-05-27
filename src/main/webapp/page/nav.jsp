@@ -4,10 +4,10 @@
 		<li class="layui-nav-item"><a href="javascript:;">我的会议</a>
 			<dl class="layui-nav-child">
 				<dd>
-					<a href="${pageContext.request.contextPath}/meetroom/remeetroom" data-set="/meetingroom/page/schedule/schedule.jsp,/meetingroom/meetroom/remmet">会议室预定</a>
+					<a href="${pageContext.request.contextPath}/meetroom/remeetroom" data-set="/meetingroom/page/schedule/schedule.jsp,/meetingroom/meetroom/remmet">会议室预订</a>
 				</dd>
 				<dd>
-					<a href="${pageContext.request.contextPath}/page/meeting/meettable.jsp">我的预定</a>
+					<a href="${pageContext.request.contextPath}/page/meeting/meettable.jsp">我的预订</a>
 				</dd>
 				<dd>
 						<a href="${pageContext.request.contextPath}/page/meeting/meet_history.jsp">我的历史会议</a>
