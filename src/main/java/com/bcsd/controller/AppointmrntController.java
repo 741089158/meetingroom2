@@ -188,7 +188,7 @@ public class AppointmrntController {
         //2:获取会议开始事件结束事件
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date startTime = sf.parse(dateTime);//预订会议开始时间
-        Date endTime = new Date(startTime.getTime() + DateChange.changeTime(time));//预订会议结束时间
+        Date endTime = new Date(startTime.getTime() + DateChange.changeTime(duration));//预订会议结束时间
         System.out.println(startTime);
         System.out.println(endTime);
 
@@ -199,8 +199,8 @@ public class AppointmrntController {
             String meetTime = remeet.getMeetTime();//已预订会议时长
             Date startTime1 = sf.parse(meetDate);//已预订会议开始时间
             Date endTime1 = new Date(startTime1.getTime() + DateChange.changeTime(meetTime));//已预订会议结束时间
-
-            if ((startTime.compareTo(startTime1)>0&&startTime.compareTo(endTime1)<0)||(endTime.compareTo(endTime1)<0&&endTime.compareTo(startTime1)>0)){
+            if ((startTime.compareTo(startTime1)>=0&&startTime.compareTo(endTime1)<=0)||
+                    (endTime.compareTo(endTime1)<=0&&endTime.compareTo(startTime1)>=0)||(startTime.compareTo(startTime1)<=0&&endTime.compareTo(endTime1)>=0)){
                 meets.add(remeet);
             }
         }

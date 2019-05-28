@@ -67,34 +67,6 @@
                 , {field: 'meetTime', title: '时长'}
                 , {field: 'description', title: '描述'}
                 , {field: 'repeatType', title: '重复类型'}
-               /* , {field: 'time', title: '距离开会时间', width: 140,
-                    templet:function (e) {
-                        var now = new Date().getTime();//当前时间毫秒值
-                        var meetDate = e.meetDate;
-                        var time = meetDate.replace(new RegExp("-","gm"),"/");//开始时间
-                        var startTime = (new Date(time)).getTime();//开始时间毫秒值
-                        var meetTime = e.meetTime;//时长
-                        var split = meetTime.split(":");
-                        var second = parseInt(split[0]) * 60 * 60 * 1000 + parseInt(split[1])* 60 * 1000;
-                        var endTime = startTime+second;//结束时间毫秒值
-                        if (now <startTime){//会议未开始
-                            var str="";
-                            var lag = Math.floor((startTime - now) / 1000);
-                            var day = Math.floor(lag / (60 * 60 * 24));
-                            str+=day+'天';
-                            var hour = Math.floor(lag / 3600 % 24);
-                            str+=hour+'小时';
-                            var minutes = Math.floor(lag / 60 % 60);
-                            str+=minutes+'分钟';
-                            return str;
-                        }
-                        if (now>startTime&&now<endTime){//会议开始
-                            return "会议正在进行";
-                        }
-                        if (now>endTime){
-                            return "会议已结束"
-                        }
-                    }}*/
                 , {fixed: 'right',title: '操作', width: 155, align: 'center', toolbar: '#barDemo'}
             ]] ,id:'table'
         });

@@ -32,10 +32,10 @@ public class TaskMeetingController {
     /**
      * 日重复会议
      */
-    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
     //@Scheduled(cron="0/10 * *  * * ? ")   //每10秒执行一次
     public void dayRepeat() throws ParseException {
-        System.out.println("执行定时任务everydays");
+        System.out.println("执行循环会议everydays");
         //查询状态为 1 且重复类型为 "每日"  的会议
         Integer state = 1;
         String repeatType = "everydays";
@@ -70,7 +70,6 @@ public class TaskMeetingController {
             if (date.compareTo(createTime) > 0 && date.compareTo(endTime) < 0 && workDay.contains(s)) {
                 //将当前次会议添加到预定会议中
                 //增加联系人
-                //List<UserInternal> user = addUserService.findUserByMeetId(String.valueOf(repeatMeeting.getId()));
                 List user = getInternal(repeatMeeting.getUserId());
                 //处理此次会议开会议时间
                 String[] time = repeatMeeting.getCreateTime().split(" ");
@@ -114,7 +113,7 @@ public class TaskMeetingController {
      * 周重复会议
      */
     //@Scheduled(cron = "0/20 * * * * MON ") // 每周一凌晨执行
-    @Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+    //@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
     //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void weekRepeat() throws ParseException {
         System.out.println("执行定时任务everyweeks");
@@ -187,7 +186,7 @@ public class TaskMeetingController {
     /**
      * 月重复会议
      */
-    @Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
+    //@Scheduled(cron = "0 0 0 * * ?")   // 每天凌晨执行
     //@Scheduled(cron="0/30 * *  * * ? ")   //每30秒执行一次
     public void monthRepeat() throws ParseException {
 
@@ -325,5 +324,10 @@ public class TaskMeetingController {
         }
         return user;
     }
+
+
+
+
+
 
 }

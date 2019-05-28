@@ -325,7 +325,7 @@ public class ReMeetRoomController {
                                     @RequestParam(value = "createTime")String createTime,
                                     @RequestParam(value = "endTime")String endTime,
                                     String week,String months,
-                                    Remeet remeet){
+                                    Remeet remeet) throws Exception {
         //设置时间
         String datetime =createTime.trim()+" "+time.trim();
         remeet.setMeetDate(datetime);
@@ -351,19 +351,7 @@ public class ReMeetRoomController {
         if (months!=null&&(week==null||week=="")){
             repeatMeeting.setWeeks(months);
         }
-
-        System.out.println(remeet);
-        System.out.println(repeatMeeting);
-
         taskMeetingService.addRepeatReserve(repeatMeeting);
-
-       // appointmentMeetService.appointmentMeet(remeet,user);
-       /* List<Remeet> meets=appointmentMeetService.findPage(1,10);
-        PageInfo pageInfo = new PageInfo<Remeet>(meets);
-        vm.addObject("meets",meets);
-        vm.addObject("pageInfo",pageInfo);
-        vm.setViewName("page/meeting/meettable");*/
-        //return vm;
     }
 
 

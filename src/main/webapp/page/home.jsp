@@ -165,9 +165,9 @@
                     '<strong>' + this.personCount + '人</strong>' +
                     '</h4>' +
                     '</div>' +
-                    '<div class="layui-card-footer-a" data-roomType="' + this.roomName +
+                    '<div class="layui-card-footer-a '+this.roomId+'" data-roomType="' + this.roomName +
                     '" data-roomId="' + this.roomId +
-                    '" onclick="cardFooterAClick(this)" id="'+this.roomId+'" style="background-color: #1E9FFF">预约</div>' +
+                    '" onclick="cardFooterAClick(this)" id="'+this.roomId+'" style="background-color: #1E9FFF" name="remeet">预约</div>' +
                     '</div>' +
                     '</div>');
                 $("#home_card_container").append(card.clone());
@@ -180,8 +180,18 @@
             format: 'yyyy-MM-dd',
             value: new Date(),
             done: function (value, date) {
-                //layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
-                //console.log(value);
+                var home_time = $("#home_time").val();             //时间
+                var check_duration = $("#home_duration").val();     //时长
+                var data={
+                    "date":value,
+                    "time":home_time,
+                    "duration":check_duration
+                };
+                if (home_time==""||check_duration==""){
+                    return ;
+                }
+                 console.log(data);
+                checkTime(data);
             }
         });
         laydate.render({
@@ -198,7 +208,10 @@
                     "time":value,
                     "duration":check_duration
                 };
-               // console.log(data);
+                if (check_date==""||check_duration==""){
+                    return ;
+                }
+                 console.log(data);
                 checkTime(data);
             }
         });
@@ -210,8 +223,18 @@
             value: '01:00',
             ready: formatMinutes,
             done: function (value, date) {
-                //layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
-                console.log(value);
+                var check_date = $("#home_date").val();             //日期
+                var check_time = $("#home_time").val();     //时间
+                var data={
+                    "date":check_date,
+                    "time":check_time,
+                    "duration":value
+                };
+                if (check_date==""||check_time==""){
+                    return ;
+                }
+                console.log(data);
+                checkTime(data);
             }
         });
 
@@ -242,6 +265,7 @@
                 "area": $("#home_area").val(),
                 "building": e.value
             };
+            $("#home_time").val("");
             $.post(url, data, function (result) {
                 $("#home_floor").empty();
                 $("#home_floor").append("<li data-floor='all' class='layui-this'>全部</li>");
@@ -267,15 +291,15 @@
                             '</h4>' +
                             '</div>' +
                             '</div>' +
-                            '<div class="layui-card-body home-point-body" style="height: 30px">' +
+                            '<div class="layui-card-body home-point-body " style="height: 30px">' +
                             /*'可容纳人数'+*/
                             '<h4>' +
                             '<strong>' + n.personCount + '人</strong>' +
                             '</h4>' +
-                            '</div>' +
-                            '<div class="layui-card-footer-a" data-roomType="' + n.roomName +
+                            '</div>' +   /*  class="layui-card-footer-a 191y9y9y13eihiaodh"    */
+                            '<div class="layui-card-footer-a '+this.roomId+'" data-roomType="' + n.roomName +
                             '" data-roomId="' + n.roomId +
-                            '" onclick="cardFooterAClick(this)" style="background-color: #1E9FFF">预约</div>' +
+                            '" onclick="cardFooterAClick(this)" id="'+this.roomId+'" style="background-color: #1E9FFF" name="'+this.roomId+'">预约</div>' +
                             '</div>' +
                             '</div>');
                         $("#home_card_container").append(card.clone());
@@ -340,11 +364,18 @@
         $.post("${pageContext.request.contextPath}/appointreet/checkTime",data,function (resp) {
             console.log(resp);
             $.each(resp,function () {
-                console.log(this.meetRoomId);
-                document.getElementById(this.meetRoomId).style.display = "none";
-                //$("#'+this.meetRoomId+'").attr("disabled",true);
-            })
 
+               // var cbs = document.getElementsByTagName(this.meetRoomId);
+
+                //console.log(cbs);
+
+                //console.log(this.meetRoomId);
+                if ((document.getElementById(this.meetRoomId))!=null){
+                    $("."+this.meetRoomId).hide();
+                    //$(".layui-card-footer-a "+this.meetRoomId+"").removeAttr("style");
+                    //document.getElementById(this.meetRoomId).style.display = "none";
+                }
+            })
         });
     }
 

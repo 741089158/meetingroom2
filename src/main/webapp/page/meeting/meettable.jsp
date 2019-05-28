@@ -90,12 +90,12 @@
                         var second = parseInt(split[0]) * 60 * 60 * 1000 + parseInt(split[1])* 60 * 1000;
                         var endTime = startTime+second;//结束时间毫秒值
                         if (now <startTime){//会议未开始
-                            setTimeout(function () {
+                           /* setTimeout(function () {
                                 $.post("${pageContext.request.contextPath}/meetroom/startMeet",e,function (resp) {
                                     console.log(e);
                                     layer.msg(e.meetName+"开始了!!")
                                 })
-                            }, (startTime-now));
+                            }, (startTime-now));*/
                             var str="";
                             var lag = Math.floor((startTime - now) / 1000);
                             var day = Math.floor(lag / (60 * 60 * 24));

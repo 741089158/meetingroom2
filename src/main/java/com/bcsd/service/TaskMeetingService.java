@@ -4,6 +4,7 @@ import com.bcsd.entity.Remeet;
 import com.bcsd.entity.RepeatMeeting;
 import com.bcsd.entity.UserInternal;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface TaskMeetingService {
@@ -11,7 +12,7 @@ public interface TaskMeetingService {
 
     void update(int id);
 
-    void addRepeatReserve(RepeatMeeting repeatMeeting);
+    void addRepeatReserve(RepeatMeeting repeatMeeting) throws Exception;
 
     List<RepeatMeeting> findRepeatMeeting(Integer page, Integer size, String meetName);
 }
