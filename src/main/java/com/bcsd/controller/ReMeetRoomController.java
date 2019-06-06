@@ -178,7 +178,7 @@ public class ReMeetRoomController {
     /*
     * 初始状态进入
     * */
-    @RequestMapping("getInto")
+   /* @RequestMapping("getInto")
     public ModelAndView getInto( HttpSession session) throws ParseException {
         ModelAndView vm=new ModelAndView();
         String areaid="c5539aa3-af34-463d-9415-1a7f8ae42727";
@@ -206,7 +206,7 @@ public class ReMeetRoomController {
         session.setAttribute("meetRoom",meetRooms);
       vm.setViewName("index");
       return vm;
-    }
+    }*/
 
 
 
@@ -236,7 +236,7 @@ public class ReMeetRoomController {
         return vm;
     }
     
-    @RequestMapping("remmetbak")
+   /* @RequestMapping("remmetbak")
     public ModelAndView remmetbak(@Param("id")String id, @RequestParam(value = "date")String date, @RequestParam(value = "time")String time,
                                @RequestParam(value = "duration")String duration, HttpSession session){
 
@@ -255,9 +255,9 @@ public class ReMeetRoomController {
         vm.addObject("meetRoomId",id);
         vm.setViewName("page/localmeet_bak");
         return vm;
-    }
+    }*/
 
-    @RequestMapping("videoremeet")
+   /* @RequestMapping("videoremeet")
     public ModelAndView video(@Param("id")String id,@RequestParam(value = "date")String date,@RequestParam(value = "time")String time,
                               @RequestParam(value = "duration")String duration,HttpSession session){
         String datetime =date.trim()+" "+time.trim();
@@ -272,7 +272,7 @@ public class ReMeetRoomController {
         vm.addObject("meetRoomId",id);
         vm.setViewName("page/other/videomeet");
         return vm;
-    }
+    }*/
 
     /**
      * 预定会议

@@ -10,16 +10,17 @@ import java.util.List;
 public class Role {
 
     private Integer id;
-    private String roleName;
-    private String createDate;
-    private String roleDesc;
-    private Integer priority;
-    private Integer status;
-    private String isDisabled;
-    private String operuser;
-    private String operdate;
-    private List<Menu> menu;
-    private List<MeetUser> user;
+    private String roleName;        //角色名称
+    private String createDate;      //创建时间
+    private String roleDesc;        //描述
+    private Integer priority;       //排序
+    private Integer status;         //状态
+    private String isDisabled;      //是否禁用
+    private String operuser;        //操作人
+    private String operdate;        //操作时间
+    private Integer pid;            //上级id
+    private List<Menu> menu;        //菜单集合
+    private List<MeetUser> user;    //用户集合
 
 
     public Integer getId() {

@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <%@ include file="../page/common.jsp" %>
@@ -10,11 +9,8 @@
     <div class="layui-col-md10 main-bg-color">
         <div class="layui-row block-bg-color block-border-top">
             <div class="layui-col-md12 block-padding-around">
-					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>我的会议</cite></a>
+					<span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>预约会议</cite></a>
 					</span>
-            </div>
-            <div class="layui-col-md12 block-padding-around">
-                <h2 class="block-bot-left">预约会议</h2>
             </div>
         </div>
         <div class="layui-fluid">

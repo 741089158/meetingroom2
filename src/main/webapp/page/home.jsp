@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <%@ include file="../page/common.jsp" %>
@@ -23,6 +22,12 @@
                 </div>
             </div>
         </div>--%>
+        <div class="layui-row block-bg-color block-border-top">
+            <div class="layui-col-md12 block-padding-around">
+                <span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>会议室预订</cite></a>
+                </span>
+            </div>
+        </div>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
@@ -33,10 +38,10 @@
                                     <label class="layui-form-label">地区</label>
                                     <div class="layui-input-inline">
                                         <select id="home_area" lay-filter="home_area" lay-verify="required">
-                                            <c:forEach items="${meetRoomArea}" var="area">
+                                            <%--<c:forEach items="${meetRoomArea}" var="area">
                                                 <option id="${area.areaId}"
                                                         value="${area.areaId}">${area.roomAreaName}</option>
-                                            </c:forEach>
+                                            </c:forEach>--%>
                                         </select>
                                     </div>
                                 </div>
@@ -165,9 +170,9 @@
                     '<strong>' + this.personCount + '人</strong>' +
                     '</h4>' +
                     '</div>' +
-                    '<div class="layui-card-footer-a '+this.roomId+'" data-roomType="' + this.roomName +
+                    '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + this.roomName +
                     '" data-roomId="' + this.roomId +
-                    '" onclick="cardFooterAClick(this)" id="'+this.roomId+'" style="background-color: #1E9FFF" name="remeet">预约</div>' +
+                    '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="remeet">预约</div>' +
                     '</div>' +
                     '</div>');
                 $("#home_card_container").append(card.clone());
@@ -182,15 +187,15 @@
             done: function (value, date) {
                 var home_time = $("#home_time").val();             //时间
                 var check_duration = $("#home_duration").val();     //时长
-                var data={
-                    "date":value,
-                    "time":home_time,
-                    "duration":check_duration
+                var data = {
+                    "date": value,
+                    "time": home_time,
+                    "duration": check_duration
                 };
-                if (home_time==""||check_duration==""){
-                    return ;
+                if (home_time == "" || check_duration == "") {
+                    return;
                 }
-                 console.log(data);
+                console.log(data);
                 checkTime(data);
             }
         });
@@ -203,15 +208,15 @@
             done: function (value, date) {
                 var check_date = $("#home_date").val();             //日期
                 var check_duration = $("#home_duration").val();     //时长
-                var data={
-                    "date":check_date,
-                    "time":value,
-                    "duration":check_duration
+                var data = {
+                    "date": check_date,
+                    "time": value,
+                    "duration": check_duration
                 };
-                if (check_date==""||check_duration==""){
-                    return ;
+                if (check_date == "" || check_duration == "") {
+                    return;
                 }
-                 console.log(data);
+                console.log(data);
                 checkTime(data);
             }
         });
@@ -225,18 +230,29 @@
             done: function (value, date) {
                 var check_date = $("#home_date").val();             //日期
                 var check_time = $("#home_time").val();     //时间
-                var data={
-                    "date":check_date,
-                    "time":check_time,
-                    "duration":value
+                var data = {
+                    "date": check_date,
+                    "time": check_time,
+                    "duration": value
                 };
-                if (check_date==""||check_time==""){
-                    return ;
+                if (check_date == "" || check_time == "") {
+                    return;
                 }
                 console.log(data);
                 checkTime(data);
             }
         });
+
+        $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result){
+            $(result).each(
+                function () {
+                    $("#home_area").append(
+                        "<option value='" + this.areaId + "'>"
+                        + this.roomAreaName
+                        + "</option>");
+                });
+            form.render('select');
+        },"json");
 
         //地区联动选楼
         form.on('select(home_area)', function (data) {
@@ -297,9 +313,9 @@
                             '<strong>' + n.personCount + '人</strong>' +
                             '</h4>' +
                             '</div>' +   /*  class="layui-card-footer-a 191y9y9y13eihiaodh"    */
-                            '<div class="layui-card-footer-a '+this.roomId+'" data-roomType="' + n.roomName +
+                            '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName +
                             '" data-roomId="' + n.roomId +
-                            '" onclick="cardFooterAClick(this)" id="'+this.roomId+'" style="background-color: #1E9FFF" name="'+this.roomId+'">预约</div>' +
+                            '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="' + this.roomId + '">预约</div>' +
                             '</div>' +
                             '</div>');
                         $("#home_card_container").append(card.clone());
@@ -308,6 +324,9 @@
                 });
             }, "json");
         });
+
+
+
         form.on('submit(home_search)', function (data) {
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
@@ -345,7 +364,7 @@
     }
 
     //删除时间控件秒   分钟间隔显示
-    function  formatMinutes(date) {
+    function formatMinutes(date) {
         var aa = $(".laydate-time-list li ol")[1];
         var showtime = $($(".laydate-time-list li ol")[1]).find("li");
         for (var i = 0; i < showtime.length; i++) {
@@ -361,17 +380,11 @@
     //冲突检查
     function checkTime(data) {
         //预定会议冲突检查  根据地区,建筑,日期,时间,时长
-        $.post("${pageContext.request.contextPath}/appointreet/checkTime",data,function (resp) {
+        $.post("${pageContext.request.contextPath}/appointreet/checkTime", data, function (resp) {
             console.log(resp);
-            $.each(resp,function () {
-
-               // var cbs = document.getElementsByTagName(this.meetRoomId);
-
-                //console.log(cbs);
-
-                //console.log(this.meetRoomId);
-                if ((document.getElementById(this.meetRoomId))!=null){
-                    $("."+this.meetRoomId).hide();
+            $.each(resp, function () {
+                if ((document.getElementById(this.meetRoomId)) != null) {
+                    $("." + this.meetRoomId).hide();
                     //$(".layui-card-footer-a "+this.meetRoomId+"").removeAttr("style");
                     //document.getElementById(this.meetRoomId).style.display = "none";
                 }
@@ -380,14 +393,15 @@
     }
 
 </script>
-<%--时间控件css--%>
+<%--时间控件css 去掉秒,时间以15分钟间隔--%>
 <style type="text/css">
-    .layui-laydate-content>.layui-laydate-list {
+    .layui-laydate-content > .layui-laydate-list {
         padding-bottom: 0px;
         overflow: hidden;
     }
-    .layui-laydate-content>.layui-laydate-list>li{
-        width:50%
+
+    .layui-laydate-content > .layui-laydate-list > li {
+        width: 50%
     }
 
     .merge-box .scrollbox .merge-list {

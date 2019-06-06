@@ -52,6 +52,7 @@ public class MeetUser implements Serializable {
 
     private List<Role> roles;
 
+
     public List<Role> getRoles() {
         return roles;
     }

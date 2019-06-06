@@ -68,6 +68,7 @@
         table.render({
             elem: '#demo'
             , height: h
+            ,method:"post"
             , url: '${pageContext.request.contextPath }/meetroom/myappointmeet' //数据接口
             , page: true //开启分页
             ,cellMinWidth: 60

@@ -3,7 +3,8 @@
 <html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../../page/common.jsp" %>
-<form id="roomForm" <%--lay-filter="roomForm"--%> class="layui-form" style="background-color: white;padding: 10px">
+<body class="layui-form" style="background-color: white;padding: 10px">
+<form id="roomForm" <%--lay-filter="roomForm"--%> >
     <input name="roomId" type="hidden" id="roomId" value="${meetRoom.roomId}"/>
     <div class="layui-form-item">
         <label class="layui-form-label">名称<span style="color: red;">*</span></label>
@@ -30,20 +31,23 @@
     <div class="layui-form-item">
         <label class="layui-form-label">地址</label>
         <div class="layui-input-block">
-            <input name="roomAreaName" value="${meetRoom.roomAreaName}" placeholder="会议室地址" type="text" lay-verify="required"
+            <input name="roomAreaName" value="${meetRoom.roomAreaName}" placeholder="会议室地址" type="text"
+                   lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">楼层</label>
         <div class="layui-input-block">
-            <input name="roomFloor" placeholder="会议室楼层" value="${meetRoom.roomFloor}" type="text" lay-verify="required" class="layui-input"/>
+            <input name="roomFloor" placeholder="会议室楼层" value="${meetRoom.roomFloor}" type="text" lay-verify="required"
+                   class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">容纳人数</label>
         <div class="layui-input-block">
-            <input name="personCount" value="${meetRoom.personCount}" placeholder="容纳人数" type="text" lay-verify="required"
+            <input name="personCount" value="${meetRoom.personCount}" placeholder="容纳人数" type="text"
+                   lay-verify="required"
                    class="layui-input"/>
         </div>
     </div>
@@ -85,12 +89,14 @@
 
 
     <div class="layui-input-block" style="text-align: center">
+        <security:authorize access="hasAnyRole('ROLE_ROOM')">
         <button class="layui-btn" lay-submit="" lay-filter="demo">提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </security:authorize>
+        <button type="reset" class="layui-btn layui-btn-primary" id="back">取消</button>
     </div>
 
 </form>
-
+</body>
 <script>
     layui.use(['form', 'layer'], function () {
         var layer = layui.layer, form = layui.form, $ = layui.jquery;

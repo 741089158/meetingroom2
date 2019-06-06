@@ -73,7 +73,23 @@
 
 
     <select id="findByUsername" parameterType="java.lang.String" resultType="com.bcsd.entity.MeetUser">
-        select * from cj_user where username = #{username}
+        select u.* from cj_user u where username = #{username}
+    </select>
+
+   <!-- <select id="findUserAndRoleAndMenuByUsername" parameterType="java.lang.String" resultType="com.bcsd.entity.MeetUser">
+        Select u.*, m.id,m.menuName
+        from cj_menu m ,cj_user u,cj_user_role ur, cj_role_menu rm
+        Where m.Id = rm.menuId and ur.roleId = rm.roleId and ur.userId = u.Id and u.username = #{username}
+    </select>-->
+
+    <select id="findMenuListByUsername" parameterType="java.lang.String" resultType="java.util.Map">
+        Select distinct m.code
+        from cj_menu m ,cj_user u,cj_user_role ur, cj_role_menu rm
+        Where m.Id = rm.menuId and ur.roleId = rm.roleId and ur.userId = u.Id and u.username = #{username}
+    </select>
+
+    <select id="getRoleIdByUserId" resultType="java.lang.Integer">
+        select roleId from cj_user_role where userId = #{id}
     </select>
 
 </mapper>

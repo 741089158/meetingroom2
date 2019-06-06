@@ -5,11 +5,10 @@ import com.bcsd.entity.*;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +26,17 @@ public class MeetUserController {
 
     @Autowired
     private MeetUserService meetUserService;
+
+   /* @RequestMapping("/username")
+    @ResponseBody
+    public Object username(){
+        MeetUser user=(MeetUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(user);
+        ResponseData data = new ResponseData();
+        data.setData(user);
+        return data;
+    }*/
+
 
     @RequestMapping("/findAll")
     @ResponseBody

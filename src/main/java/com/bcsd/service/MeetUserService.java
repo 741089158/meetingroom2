@@ -2,6 +2,7 @@ package com.bcsd.service;
 
 import com.bcsd.entity.MeetUser;
 import com.bcsd.entity.UserInternal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author HOEP
  * @data 2019/4/24
  */
-public interface MeetUserService {
+public interface MeetUserService extends UserDetailsService{
 	List<Map<String, String>> findAll(Integer page, Integer size, String username);
 
 	void add(MeetUser meetUser);
@@ -38,4 +39,8 @@ public interface MeetUserService {
 	void updateLinkman(UserInternal userInternal);
 
     List<Map<String ,String>> findDept();
+
+    MeetUser findByUsername(String username);
+
+	List<Integer> getRoleIdByUserId(Integer id);
 }

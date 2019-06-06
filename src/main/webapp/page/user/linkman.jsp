@@ -46,8 +46,6 @@
 
     layui.use(['laydate', 'laypage', 'layer', 'table'],function () {
         var  laypage = layui.laypage //分页
-            // ,laydate = layui.laydate//日期
-            // , layer = layui.layer //弹层
             , table = layui.table //表格
         ;
         var h = $(window).height()-155;

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport"
@@ -148,5 +149,9 @@
         }
         window.history.pushState('forward', null, ''); //在IE中必须得有这两行
         window.history.forward(1);
+
+        $("#back").bind("click", function () {
+            window.parent.layer.closeAll();
+        });
     });
 </script>

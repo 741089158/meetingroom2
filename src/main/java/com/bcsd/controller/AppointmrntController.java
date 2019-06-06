@@ -39,7 +39,7 @@ public class AppointmrntController {
     @Autowired
     private TaskMeetingService taskMeetingService;
 
-    @RequestMapping("videoremeet")
+  /*  @RequestMapping("/videoremeet")
     public ModelAndView video(@Param("id") String id, @RequestParam(value = "date") String date,
                               @RequestParam(value = "time") String time, @RequestParam(value = "duration") String duration) {
         String datetime = date.trim() + " " + time.trim();
@@ -50,7 +50,7 @@ public class AppointmrntController {
         vm.addObject("meetRoom", meetRoom);
         vm.setViewName("page/other/videomeet");
         return vm;
-    }
+    }*/
 
 
     /**
@@ -62,7 +62,7 @@ public class AppointmrntController {
      * @param name
      * @return
      */
-    @RequestMapping("findInternal")
+   /* @RequestMapping("/findInternal")
     public ModelAndView findInternal(Integer page, Integer size, String internal, String name) {
         if (page == null || page == 0) {
             page = 1;
@@ -77,7 +77,7 @@ public class AppointmrntController {
         vm.addObject("Internal", list);
         vm.setViewName("page/addUser/linkman1");
         return vm;
-    }
+    }*/
 
     /**
      * 查询我的预定会议
@@ -86,7 +86,7 @@ public class AppointmrntController {
      * @param size
      * @return
      */
-    @RequestMapping("myappointmeet")
+   /* @RequestMapping("/myappointmeet")
     public ModelAndView myappointmeet(Integer page, Integer size) {
         if (page == null || page == 0) {
             page = 1;
@@ -100,7 +100,7 @@ public class AppointmrntController {
         vm.addObject("pageInfo", pageInfo);
         vm.setViewName("page/meeting/meettable");
         return vm;
-    }
+    }*/
 
     /**
      * 根据用户id查询我的历史会议
@@ -189,8 +189,8 @@ public class AppointmrntController {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date startTime = sf.parse(dateTime);//预订会议开始时间
         Date endTime = new Date(startTime.getTime() + DateChange.changeTime(duration));//预订会议结束时间
-        System.out.println(startTime);
-        System.out.println(endTime);
+//        System.out.println(startTime);
+//        System.out.println(endTime);
 
         List<Remeet> meets=new ArrayList<Remeet>();
         //3判断改事件段内是否有被占用的会议室

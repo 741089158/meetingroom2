@@ -38,9 +38,11 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <security:authorize access="hasAnyRole('ROLE_ROLE')">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">角色分配</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </security:authorize>
 </script>
 <script>
 
@@ -96,9 +98,9 @@
             } else if (obj.event === 'detail') {
                 layer.open({
                     type: 2
-                    , area: ['700px', '500px']
-                    , title: '查看用户'
-                    , content: "${pageContext.request.contextPath}/user/findUser?id=" + data.id
+                    , area: ['300px', '400px']
+                    , title: '角色分配'
+                    , content: "${pageContext.request.contextPath}/page/user/user_assign.jsp?id=" + data.id
                 });
             }
         });
@@ -135,7 +137,7 @@
         });
 
         var Meet = {
-            tableId: "demo",
+            tableId: "table",
             condition: {
                 username: ""
             }

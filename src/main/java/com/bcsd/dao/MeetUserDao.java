@@ -1,8 +1,6 @@
 package com.bcsd.dao;
 
 import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.MeetUserRole;
-import com.bcsd.entity.User;
 import com.bcsd.entity.UserInternal;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,4 +37,8 @@ public interface MeetUserDao {
     void updateLinkman(UserInternal userInternal);
 
     MeetUser findByUsername(String username);
+
+    List<Map<String,String>> findMenuListByUsername(String username);
+
+    List<Integer> getRoleIdByUserId(Integer id);
 }

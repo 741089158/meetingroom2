@@ -16,6 +16,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.3.3.RELEASE</spring.version>
+    <spring.security.version>5.0.1.RELEASE</spring.security.version>
     <junit.version>3.8.1</junit.version>
     <javax.servlet.version>3.1.0</javax.servlet.version>
     <aspectjweaver.version>1.8.6</aspectjweaver.version>
@@ -39,26 +40,30 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-core</artifactId>
-      <version>5.0.6.RELEASE</version>
-    </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>5.0.6.RELEASE</version>
+      <version>4.1.0.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>5.0.6.RELEASE</version>
+      <version>4.1.0.RELEASE</version>
+    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.security.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-taglibs</artifactId>
-      <version>5.0.6.RELEASE</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
     <dependency>
@@ -254,6 +259,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
@@ -393,6 +399,17 @@
                   <target>1.8</target>
               </configuration>
           </plugin>
+        <!--<plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            &lt;!&ndash; 指定端口 &ndash;&gt;
+            <port>9101</port>
+            &lt;!&ndash; 请求路径 &ndash;&gt;
+            <path>/</path>
+          </configuration>
+        </plugin>-->
       </plugins>
   </build>
 </project>
