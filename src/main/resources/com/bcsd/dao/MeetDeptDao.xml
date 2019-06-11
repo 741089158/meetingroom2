@@ -34,4 +34,8 @@
         select deptid,deptname from cj_dept group  by deptname
     </select>
 
+    <select id="findByDeptName" parameterType="java.lang.String" resultType="com.bcsd.entity.MeetDept">
+        select deptname  from cj_dept where deptname = #{deptname}
+    </select>
+
 </mapper>

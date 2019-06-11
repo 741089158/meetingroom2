@@ -98,7 +98,7 @@
             } else if (obj.event === 'detail') {
                 layer.open({
                     type: 2
-                    , area: ['300px', '400px']
+                    , area: ['300px', '350px']
                     , title: '角色分配'
                     , content: "${pageContext.request.contextPath}/page/user/user_assign.jsp?id=" + data.id
                 });

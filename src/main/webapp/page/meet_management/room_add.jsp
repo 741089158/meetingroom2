@@ -103,10 +103,10 @@
         form.on('submit(demo)', function (data) {
             var roomId = data.field.roomId;
             //alert();
-            if (roomId == null || roomId == '') {
+            if (roomId == '') {
                 add(data.field);
             }
-            if (roomId != null || roomId != '') {
+            if (roomId != '') {
                 update(data.field);
             }
             return false;
@@ -120,12 +120,16 @@
             url: "${pageContext.request.contextPath}/meet/add",
             data: data,
             success: function (res) {
-                window.parent.layer.closeAll();
-                /* console.log(1);
-                 layer.msg("添加成功");
-                 setTimeout(function () {
-                     window.parent.layer.closeAll();
-                 }, 2000);*/
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
+
             }
         })
     }
@@ -136,12 +140,15 @@
             url: "${pageContext.request.contextPath}/meet/update",
             data: data,
             success: function (res) {
-                window.parent.layer.closeAll();
-                /* layer.msg("修改成功");
-                 setTimeout(function () {
-                     window.parent.layer.closeAll();
-                 }, 2000);
-                 window.parent.location.reload();*/
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }

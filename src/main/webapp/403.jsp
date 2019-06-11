@@ -18,7 +18,7 @@
 	<div class="layui-col-md10 main-bg-color">
 		<div class="layui-row block-bg-color block-border-top">
 			<div class="layui-col-md12 block-padding-around">
-				<h2 class="block-bot-left">没有权限...</h2>
+				<h2 class="block-bot-left">没有权限...<a href="${pageContext.request.contextPath}/login.jsp" style="color: red">返回</a></h2>
 			</div>
 		</div>
 	</div>

@@ -35,12 +35,12 @@
                                <div class="layui-inline">
                                    <button class="layui-btn" lay-submit="" data-type="getInfo" id="repeatMeeting">循环会议</button>
                                </div>
-                              <%-- <div class="layui-inline">
+                               <div class="layui-inline">
                                    <a class="layui-btn layui-btn-sm layui-btn-normal"
                                       href="${pageContext.request.contextPath}/page/schedule/userSchedule.jsp">
                                        <i class="layui-icon layui-icon-date"></i> 日程
                                    </a>
-                               </div>--%>
+                               </div>
                            </div>
                        </div>
                 </div>
@@ -53,7 +53,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" id="detail">查看</a>
+   <%-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" id="detail">查看</a>--%>
     <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
@@ -92,7 +92,7 @@
                         var endTime = startTime+second;//结束时间毫秒值
                         if (now <startTime){//会议未开始
                            /* setTimeout(function () {
-                                $.post("${pageContext.request.contextPath}/meetroom/startMeet",e,function (resp) {
+                                $.post("/meetroom/startMeet",e,function (resp) {
                                     console.log(e);
                                     layer.msg(e.meetName+"开始了!!")
                                 })
@@ -113,12 +113,11 @@
                         if (now>endTime){
                             //一个小时后将结束会议删除
                             setTimeout(function () {
-                                //console.log(e);
                                 $.post("${pageContext.request.contextPath}/meetroom/updateState",{id:e.id},function (resp) {
                                     console.log(e.id);
                                     //active.reload();
                                 })
-                            }, 1000*10);
+                            }, 1000*5);
                             return "会议已结束"
                         }
                     }}

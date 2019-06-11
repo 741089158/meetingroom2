@@ -98,7 +98,7 @@
             } else if (obj.event === 'detail') {
                 layer.open({
                     type: 2
-                    , area: ['300px', '450px']
+                    , area: ['300px', '400px']
                     , title: '权限配置'
                     , content: "${pageContext.request.contextPath}/page/role/role_assign.jsp?id=" + data.id
                 });

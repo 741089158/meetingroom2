@@ -31,7 +31,7 @@ public class DateChange {
     }
 
     //日期转换成字符串
-    public static String date2String(Date date, String patt) {
+    public static String dateFormat(Date date, String patt) {
         SimpleDateFormat sdf = new SimpleDateFormat(patt);
         String format = sdf.format(date);
         return format;

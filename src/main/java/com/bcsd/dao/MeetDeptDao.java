@@ -25,4 +25,6 @@ public interface MeetDeptDao {
     List<SubOffice> findOffice();
 
     List<Map<String ,String>> findDept();
+
+    MeetDept findByDeptName(String deptname);
 }

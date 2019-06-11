@@ -38,14 +38,14 @@
 <div class="layui-row">
     <%@ include file="../../page/nav.jsp" %>
     <div class="layui-col-md10 main-bg-color">
-        <div class="layui-row block-bg-color block-border-top">
+       <%-- <div class="layui-row block-bg-color block-border-top">
             <div class="layui-col-md12 block-padding-around">
                 <span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>日程</cite></a>
                 </span>
             </div>
-        </div>
+        </div>--%>
 
-        <div class="layui-fluid">
+        <div class="layui-fluid" >
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
                     <form class="layui-form" action="">
@@ -85,92 +85,92 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-<script>
-    $(document).ready(
-        function () {
-            /* $("#home_tab_content_container").height(
-                 $(window).height() - 115);*/
-            var calendar = new FullCalendar.Calendar(
-                document.getElementById('calendar'),
-                {
-                    plugins: ['interaction', 'dayGrid',
-                        'timeGrid', 'resourceTimeline'],
-                    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-                    /* 设置事件,不设置默认为当前时间 */
-                    /* now: '2019-04-07', */
-                    /* 设置为中文*/
-                    locale: "ch",
-                    /* 是否允许事件可以被编辑 */
-                    editable: false,
-                    /* 设置高度 */
-                    aspectRatio: 2,
-                    /* 设置默认滚动到的时间点,默认是'06:00:00'(早上6点) */
-                    scrollTime: '08:00', // undo default 6am scrollTime
-                    /* 设置开始结束事件 */
-                    minTime: '08:00',
-                    maxTime: '20:00',
-
-                    /* 用于定义日历头部的按钮和标题 */
-                    header: {
-                        left: 'today prev,next',
-                        center: 'title',
-                        right: 'resourceTimelineDay'
-                        /*'resourceTimelineDay,resourceTimelineThreeDays,timeGridWeek,dayGridMonth'*/
-                    },
-                    /* 默认视图 */
-                    defaultView: 'resourceTimelineDay',
-                    buttonText: {
-                        today: '今天'
-                    },
-                    views: {
-                        resourceTimelineDay: {
-                            type: 'resourceTimeline',
-                            duration: {
-                                days: 1
-                            },
-                            buttonText: '天'
-                        },
-                        timeGridWeek: {
-                            type: 'timeGridWeek',
-                            duration: {
-                                weeks: 1
-                            },
-                            buttonText: '周'
-                        },
-                        dayGridMonth: {
-                            type: 'dayGridMonth',
-                            duration: {
-                                months: 1
-                            },
-                            buttonText: '月'
-                        }
-                    },
-                    /* 标题 */
-                    resourceLabelText: '会议室',
-                    resourceAreaWidth: '100px',
-                    /* 会议室列表 */
-                    resources: '${pageContext.request.contextPath }/meet/fullCalendar',
-                    events: '${pageContext.request.contextPath }/meet/fullEvents'
-
-                });
-            /* 立即渲染日历或者调整它的大小 */
-            calendar.render();
-        });
-</script>
-
 <script>
     layui.use(['form', 'laydate', 'layer'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
-        layer = layui.layer;
+        var layer = layui.layer;
+        $("#home_tab_content_container").height(
+            $(window).height() - 210);
+        var calendar;
+         calendar = new FullCalendar.Calendar(document.getElementById('calendar'),
+            {plugins: ['interaction', 'dayGrid',
+                    'timeGrid', 'resourceTimeline'],
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                /* 设置事件,不设置默认为当前时间 */
+                /* now: '2019-04-07', */
+                /* 设置为中文*/
+                locale: "ch",
+                /* 是否允许事件可以被编辑 */
+                editable: false,
+                /* 设置高度 */
+                aspectRatio: 2,
+                /* 设置默认滚动到的时间点,默认是'06:00:00'(早上6点) */
+                scrollTime: '08:00', // undo default 6am scrollTime
+                /* 设置开始结束事件 */
+                minTime: '08:00',
+                maxTime: '20:00',
+                height: 450,
+                /* 用于定义日历头部的按钮和标题 */
+                header: {
+                    left: 'today prev,next',
+                    center: 'title',
+                    right: 'resourceTimelineDay'
+                    /*'resourceTimelineDay,resourceTimelineThreeDays,timeGridWeek,dayGridMonth'*/
+                },
+                /* 默认视图 */
+                defaultView: 'resourceTimelineDay',
+                buttonText: {
+                    today: '今天'
+                },
+                views: {
+                    resourceTimelineDay: {
+                        type: 'resourceTimeline',
+                        duration: {
+                            days: 1
+                        },
+                        buttonText: '天'
+                    },
+                    timeGridWeek: {
+                        type: 'timeGridWeek',
+                        duration: {
+                            weeks: 1
+                        },
+                        buttonText: '周'
+                    },
+                    dayGridMonth: {
+                        type: 'dayGridMonth',
+                        duration: {
+                            months: 1
+                        },
+                        buttonText: '月'
+                    }
+                },
+                /* 标题 */
+                resourceLabelText: '会议室',
+                resourceAreaWidth: '100px',
+                method:'post',
+                /* 会议室列表 */
+                resources: '${pageContext.request.contextPath }/meet/fullCalendar',
+                events: '${pageContext.request.contextPath }/meet/fullEvents',
+
+                eventClick: function(calEvent, jsEvent, view) {
+                    var title = calEvent.event._def.title;
+                    var start = getFormatDate(calEvent.event.start);
+                    var end = getFormatDate(calEvent.event.end);
+                    layer.open({
+                        type: 1
+                        , content: '<div style="padding: 20px 100px;">'+"时间 : "+ start+"--"+end +'</div><div style="padding: 20px 100px;">'+"主题 : "+ title +'</div>'
+                    });
+                }
+            });
+        /* 立即渲染日历或者调整它的大小 */
+        calendar.render();
 
         $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result) {
-            //console.log(result);
             $.each(result,function (k,v) {
-                console.log(this.roomAreaName);
                 $("#home_area").append("<option id='"+this.areaId+"' value='"+this.areaId+"'>"+this.roomAreaName+"</option>");
             });
             form.render();
@@ -181,9 +181,7 @@
             $("#home_building").empty();
             $("#home_floor").empty();
             $.post("${pageContext.request.contextPath}/meetroom/meetbuilding", {"key":data.value}, function (result) {
-                console.log(result);
                 $.each(result,function (k,v) {
-                    console.log(this.roomBuilding);
                     $("#home_building").append("<option id='"+this.roomBuilding+"' value='"+this.roomBuilding+"'>"+this.roomBuilding+"</option>");
                 });
                 form.render();
@@ -195,19 +193,108 @@
             $("#home_floor").empty();
             var areaId = $("#home_area option:selected").val();
             $.post("${pageContext.request.contextPath}/meetroom/floor", {"area":areaId,"building":data.value}, function (result) {
-                console.log(result);
                 $.each(result,function (k,v) {
-                    console.log(this.roomFloor);
                     $("#home_floor").append("<option id='"+this.roomFloor+"' value='"+this.roomFloor+"'>"+this.roomFloor+"</option>");
                 });
                 form.render();
             });
-        })
+        });
+        form.on('select(home_floor)', function (data) {
+            var areaId = $("#home_area option:selected").val();
+            var building = $("#home_building option:selected").val();
+            $.post("${pageContext.request.contextPath }/meet/fullCalendar",{"areaId":areaId,"building":building,"floor":data.value},function (resp) {
+                calendar.destroy();
+                calendar = new FullCalendar.Calendar(document.getElementById('calendar'),
+                    {plugins: ['interaction', 'dayGrid',
+                            'timeGrid', 'resourceTimeline'],
+                        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                        locale: "ch",
+                        editable: false,
+                        aspectRatio: 2,
+                        scrollTime: '08:00',
+                        minTime: '08:00',
+                        maxTime: '20:00',
+                        height: 450,
+                        header: {
+                            left: 'today prev,next',
+                            center: 'title',
+                            right: 'resourceTimelineDay'
+                        },
+                        /* 默认视图 */
+                        defaultView: 'resourceTimelineDay',
+                        buttonText: {
+                            today: '今天'
+                        },
+                        views: {
+                            resourceTimelineDay: {
+                                type: 'resourceTimeline',
+                                duration: {
+                                    days: 1
+                                },
+                                buttonText: '天'
+                            },
+                            timeGridWeek: {
+                                type: 'timeGridWeek',
+                                duration: {
+                                    weeks: 1
+                                },
+                                buttonText: '周'
+                            },
+                            dayGridMonth: {
+                                type: 'dayGridMonth',
+                                duration: {
+                                    months: 1
+                                },
+                                buttonText: '月'
+                            }
+                        },
+                        resourceLabelText: '会议室',
+                        resourceAreaWidth: '100px',
+                        method:'post',
+                        resources: resp,
+                        events: '${pageContext.request.contextPath }/meet/fullEvents',
 
-
-
+                        eventClick: function(calEvent, jsEvent, view) {
+                            var title = calEvent.event._def.title;
+                            var start = getFormatDate(calEvent.event.start);
+                            var end = getFormatDate(calEvent.event.end);
+                            layer.open({
+                                type: 1
+                                , content: '<div style="padding: 20px 100px;">'+"时间 : "+ start+"--"+end +'</div><div style="padding: 20px 100px;">'+"主题 : "+ title +'</div>'
+                            });
+                        }
+                    });
+                calendar.render();
+            });
+        });
     });
-</script>
 
+    function getFormatDate(date) {
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var hour;
+        var minutes;
+        var currentDate;
+        if (date.getHours()==0 || date.getHours()<10){
+            hour = '0'+date.getHours();
+        } else {
+            hour =  date.getHours();
+        }
+        currentDate =hour+ ":";
+        if (date.getMinutes()==0||date.getMinutes()<10){
+            minutes = '0'+date.getMinutes();
+        } else {
+            minutes =  date.getMinutes();
+        }
+        currentDate+=minutes;
+        return currentDate;
+    }
+</script>
 </body>
 </html>

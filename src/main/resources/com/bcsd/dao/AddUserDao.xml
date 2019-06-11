@@ -10,11 +10,11 @@
         delete from cj_remeet_user where userId =#{userId} and meetId=#{meetId}
     </delete>
     <select id="findUserByMeetId" resultType="com.bcsd.entity.UserInternal">
-        select * from cj_user_internal where id in(select userid from cj_remeet_user where meetID = #{1})
+        select * from cj_user_internal where id in(select userid from cj_remeet_user where meetID = #{meetId})
     </select>
 
 
     <select id="findByUserId" parameterType="java.lang.Integer" resultType="com.bcsd.entity.UserInternal">
-        select *from cj_user_internal where id=#{id}
+        select * from cj_user_internal where id=#{id}
     </select>
 </mapper>

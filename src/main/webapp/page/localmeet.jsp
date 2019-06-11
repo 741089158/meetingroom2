@@ -169,14 +169,14 @@
 
             if (data.field.day == "no") {//普通会议
                 $.post("${pageContext.request.contextPath }/meetroom/appointmeet", data.field, function (resp) {
-                    layer.msg("预约成功");
+                    layer.msg(resp.message);
                     setTimeout(function () {
                         location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
                     }, 2000)
                 });
             } else {
                 $.post("${pageContext.request.contextPath }/meetroom/reserve", data.field, function (resp) {
-                    layer.msg("预约成功");
+                    layer.msg(resp.message);
                     console.log(data.field);
                     setTimeout(function () {
                         location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
@@ -267,12 +267,14 @@
             searchPlaceholder: '关键词搜索',	//搜索输入框的提示文字 默认关键词搜索
             table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
                 url: '${pageContext.request.contextPath}/addUser/findInternal.json',
+                method:'post',
                 cols: [[{type: 'checkbox'},
-                    {field: 'id', title: 'ID', width: 100},
+                    {field: 'id', title: 'ID', width: 60},
                     {field: 'name', title: '姓名', width: 100},
                     {field: 'company', title: '公司', width: 100},
                     {field: 'dept', title: '部门', width: 100},
-                    {field: 'email', title: '邮件', width: 100}]]
+                    {field: 'email', title: '邮件', width: 100},
+                    {field: 'tel', title: '电话', width: 100}]]
             },
             done: function (elem, data) {
                 //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
@@ -288,6 +290,7 @@
                 //console.log(NEWJSON)
             }
         });
+
     });
 </script>
 </body>

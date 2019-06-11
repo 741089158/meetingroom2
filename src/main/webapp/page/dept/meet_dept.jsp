@@ -17,7 +17,7 @@
 						</div>
 						<div class="layui-inline" style="float: right">
 							<div class="layui-input-inline">
-								<input class="layui-input" name="deptName" id="deptName" autocomplete="off"
+								<input class="layui-input" name="deptname" id="deptname" autocomplete="off"
 									   placeholder="部门名称">
 							</div>
 							<div class="layui-inline">
@@ -40,7 +40,7 @@
 	</div>
 </div>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+	<%--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
 	<security:authorize access="hasAnyRole('ROLE_DEPT')">
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
@@ -137,14 +137,14 @@
 		});
 
 		var Meet = {
-			tableId: "demo",
+			tableId: "table",
 			condition: {
-				deptName: ""
+				deptname: ""
 			}
 		};
 		Meet.search = function(){
 			var queryData = {};
-			queryData['deptName'] = $("#deptName").val();
+			queryData['deptname'] = $("#deptname").val();
 			table.reload(Meet.tableId,{where:queryData});
 		};
 

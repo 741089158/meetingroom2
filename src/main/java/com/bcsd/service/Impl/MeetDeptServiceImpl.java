@@ -33,7 +33,6 @@ public class MeetDeptServiceImpl implements MeetDeptService {
     }
 
     public void update(MeetDept meetDept) {
-        System.out.println(meetDept);
         meetDeptDao.update(meetDept);
     }
 
@@ -52,5 +51,10 @@ public class MeetDeptServiceImpl implements MeetDeptService {
     @Override
     public List<SubOffice> findOffice() {
         return meetDeptDao.findOffice();
+    }
+
+    @Override
+    public MeetDept findByDeptName(String deptname) {
+        return meetDeptDao.findByDeptName(deptname);
     }
 }

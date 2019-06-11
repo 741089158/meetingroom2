@@ -62,7 +62,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 e.printStackTrace();
             }
             //增加联系人
-            List user = getInternal(repeatMeeting.getUserId());
+            List<UserInternal> user = getInternal(repeatMeeting.getUserId());
             Date date=null;
             for (int i = 0; i < days; i++) {
                 //开会时间
@@ -73,6 +73,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 }
                 //添加会议数据
                 Remeet remeet = new Remeet();
+               // remeet.setId(repeatMeeting.getId());
                 remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
                 remeet.setMeetDate(sf.format(date)+" "+s[1]);//设置当前会议时间
                 remeet.setMeetDescription(repeatMeeting.getDescription());//描述
@@ -86,7 +87,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 remeet.setUserId(repeatMeeting.getUserId());
                 remeet.setRid(repeatMeeting.getId());//添加循环会议id
                 try {
-                    appointmentMeetService.appointmentMeet(remeet, user);//添加会议
+                    appointmentMeetService.repeatMeet(remeet, user);//添加会议
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -103,7 +104,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 e.printStackTrace();
             }
             //增加联系人
-            List user = getInternal(repeatMeeting.getUserId());
+            List<UserInternal> user = getInternal(repeatMeeting.getUserId());
             Date date=null;
             for (int i = 0; i < days; i++) {
                 //开会时间
@@ -121,6 +122,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 }else {
                     //添加会议数据
                     Remeet remeet = new Remeet();
+                   // remeet.setId(repeatMeeting.getId());
                     remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
                     remeet.setMeetDate(sf.format(date)+" "+s[1]);//设置当前会议时间
                     remeet.setMeetDescription(repeatMeeting.getDescription());//描述
@@ -134,7 +136,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                     remeet.setUserId(repeatMeeting.getUserId());
                     remeet.setRid(repeatMeeting.getId());//添加循环会议id
                     try {
-                        appointmentMeetService.appointmentMeet(remeet, user);//添加会议
+                        appointmentMeetService.repeatMeet(remeet, user);//添加会议
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -155,7 +157,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 e.printStackTrace();
             }
             //增加联系人
-            List user = getInternal(repeatMeeting.getUserId());
+            List<UserInternal> user = getInternal(repeatMeeting.getUserId());
             Date date=null;
 
             String week = repeatMeeting.getWeeks();
@@ -176,10 +178,11 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                     if (weekOfDate.equals(string)){
                         //添加会议数据
                         Remeet remeet = new Remeet();
+                       // remeet.setId(repeatMeeting.getId());
                         remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
                         remeet.setMeetDate(sf.format(date)+" "+s[1]);//设置当前会议时间
                         remeet.setMeetDescription(repeatMeeting.getDescription());//描述
-                        remeet.setMeetLaber("重复会议");
+                        remeet.setMeetLaber("周重复会议");
                         remeet.setMeetType("循环会议");
                         remeet.setMeetRoomId(repeatMeeting.getRoomId());//会议室id
                         remeet.setMeetRoomName(repeatMeeting.getMeetRoomName());//会议室名
@@ -189,7 +192,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                         remeet.setUserId(repeatMeeting.getUserId());
                         remeet.setRid(repeatMeeting.getId());//添加循环会议id
                         try {
-                            appointmentMeetService.appointmentMeet(remeet, user);//添加会议
+                            appointmentMeetService.repeatMeet(remeet, user);//添加会议
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -209,7 +212,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                 e.printStackTrace();
             }
             //增加联系人
-            List user = getInternal(repeatMeeting.getUserId());
+            List<UserInternal> user = getInternal(repeatMeeting.getUserId());
             Date date=null;
 
 
@@ -231,10 +234,11 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                     if (Integer.parseInt(string)==num){
                         //添加会议数据
                         Remeet remeet = new Remeet();
+                        //remeet.setId(repeatMeeting.getId());
                         remeet.setMeetName(repeatMeeting.getMeetName());//设置会议名
                         remeet.setMeetDate(sf.format(date)+" "+s[1]);//设置当前会议时间
                         remeet.setMeetDescription(repeatMeeting.getDescription());//描述
-                        remeet.setMeetLaber("重复会议");
+                        remeet.setMeetLaber("月重复会议");
                         remeet.setMeetType("循环会议");
                         remeet.setMeetRoomId(repeatMeeting.getRoomId());//会议室id
                         remeet.setMeetRoomName(repeatMeeting.getMeetRoomName());//会议室名
@@ -244,7 +248,7 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
                         remeet.setUserId(repeatMeeting.getUserId());
                         remeet.setRid(repeatMeeting.getId());//添加循环会议id
                         try {
-                            appointmentMeetService.appointmentMeet(remeet, user);//添加会议
+                            appointmentMeetService.repeatMeet(remeet, user);//添加会议
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -38,7 +38,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+   <%-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
@@ -55,11 +55,13 @@
             , height: h
             , url: '${pageContext.request.contextPath }/user/findInternal' //数据接口
             , page: true //开启分页
+            , method:'post'
             ,cellMinWidth: 60
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 40, fixed: 'left'}
                 , {field: 'name', title: '名称'}
+                , {field: 'username', title: '用户名'}
                 , {field: 'sex', title: '性别'}
                 , {field: 'tel', title: '电话'}
                 , {field: 'dept', title: '部门'}
@@ -74,11 +76,19 @@
             var data = obj.data;
             if(obj.event === 'delete'){
                 layer.confirm('确定删除?', function (index) {
-                    $.post("${pageContext.request.contextPath}/user/delete",{id:data.id},function (response) {
-                        layer.msg("删除成功");
-                        setTimeout(function () {
-                            active.reload();
-                        }, 800);
+                    $.post("${pageContext.request.contextPath}/user/delete",{id:data.id},function (resp) {
+                        if (resp.code==200){
+                            layer.msg(resp.message);
+                            setTimeout(function () {
+                                active.reload();
+                            }, 800);
+                        }
+                        if (resp.code==404){
+                            layer.msg(resp.message);
+                            setTimeout(function () {
+                                active.reload();
+                            }, 800);
+                        }
                     });
 
                 });

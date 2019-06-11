@@ -8,6 +8,7 @@ import com.bcsd.service.DictService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -88,8 +89,19 @@ public class DictController  {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public void update(Dict dict){
-        dictService.update(dict);
+    public ResponseData update(Dict dict){
+        ResponseData data = new ResponseData();
+        try {
+            dictService.update(dict);
+            data.setMessage("修改成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("修改失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
     /**
@@ -99,8 +111,19 @@ public class DictController  {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public void add(Dict dict) throws Exception {
-        dictService.add(dict);
+    public ResponseData add(Dict dict) throws Exception {
+        ResponseData data = new ResponseData();
+        try {
+            dictService.add(dict);
+            data.setMessage("添加成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("添加失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
 
@@ -111,13 +134,19 @@ public class DictController  {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public Object delete(@RequestParam(value="dictId") int dictId){
-        dictService.delete(dictId);
+    @Transactional
+    public ResponseData delete(@RequestParam(value="dictId") int dictId){
         ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        data.setCode(0);
-        return data;
+        try {
+            dictService.delete(dictId);
+            data.setMessage("删除成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("删除成功");
+            data.setCode(404);
+            return data;
+        }
     }
-
-
 }

@@ -5,9 +5,13 @@ import com.bcsd.entity.*;
 import com.bcsd.service.AppointmentMeetService;
 import com.bcsd.service.MeetRoomService;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +53,6 @@ public class MeetRoomController {
     @RequestMapping("/findAll")
     @ResponseBody
     public Object findAll(Integer page, Integer limit, String roomName) {
-        //System.out.println(roomName);
         if (page == null || page == 0) {
             page = 1;
         }
@@ -81,10 +84,11 @@ public class MeetRoomController {
      * 会议室日程列表
      * @return
      */
-    @RequestMapping(value = "/fullCalendar", method = RequestMethod.GET)
+    @RequestMapping(value = "/fullCalendar")
     @ResponseBody
-    public Object fullCalendar() {
-        List<MeetRoom> list = (List<MeetRoom>) meetRoomService.findRoom();
+    public Object fullCalendar(@Param("areaId") String areaId,@Param("building") String building, @Param("floor")String floor) {
+        //System.out.println(areaId+"--"+building+"--"+floor);
+        List<MeetRoom> list =  meetRoomService.findRoom(areaId,building,floor);
         List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
         for (MeetRoom meetRoom : list) {
             fullCalendar.add(new FullCalendar(meetRoom.getRoomId(), meetRoom.getRoomName(), "blue"));
@@ -93,26 +97,7 @@ public class MeetRoomController {
     }
 
     /**
-     * 会议室日程列表
-     * @return
-     */
-    @RequestMapping(value = "/userFullCalendar", method = RequestMethod.GET)
-    @ResponseBody
-    public Object userFullCalendar(HttpServletRequest request) {
-        //获取用户id
-        Integer id = (Integer) request.getSession().getAttribute("id");
-        List<Remeet> list = appointmentMeetService.findMeetByUserId(id);
-       // List<MeetRoom> list = (List<MeetRoom>) meetRoomService.findRoom();
-        List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
-        for (Remeet remeet : list) {
-            fullCalendar.add(new FullCalendar(remeet.getId().toString(), remeet.getMeetName(), "blue"));
-        }
-        return fullCalendar;
-    }
-
-
-    /**
-     * 会议室日程使用事件
+     * 会议室日程事件
      *
      * @return
      * @throws ParseException
@@ -141,6 +126,55 @@ public class MeetRoomController {
         return list;
     }
 
+    /**
+     * 根据登陆用户名查询预订会议日程列表
+     * @return
+     */
+    @RequestMapping(value = "/meetFullCalendar", method = RequestMethod.GET)
+    @ResponseBody
+    public Object userFullCalendar() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Remeet> list = appointmentMeetService.findMeetByUserName(user.getUsername());
+        List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
+        for (Remeet remeet : list) {
+            fullCalendar.add(new FullCalendar(remeet.getId().toString(), remeet.getMeetName(), "blue"));
+        }
+        return fullCalendar;
+    }
+
+    /**
+     * 会议日程事件
+     *
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/meetFullEvents")
+    @ResponseBody
+    public Object meetFullEvents() throws ParseException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Remeet> list = appointmentMeetService.findMeetByUserName(user.getUsername());
+        List<Events> events = new ArrayList<Events>();
+        for (Remeet remeet : list) {
+            //开始时间
+            String meetDate = remeet.getMeetDate();
+            String[] s = meetDate.split(" ");
+            String start = s[0] + "T" + s[1];
+            //结束时间
+            String meetTime = remeet.getMeetTime();
+            String[] split = meetTime.split(":");
+            long second = Integer.parseInt(split[0]) * 60 * 60 * 1000 + Integer.parseInt(split[1]) * 60 * 1000;
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            long time = sf.parse(meetDate).getTime();
+            String endTime = sf.format(new Date(time + second));
+            String[] s1 = endTime.split(" ");
+            String end = s1[0] + "T" + s1[1];
+            events.add(new Events(remeet.getId().toString(), start, end, remeet.getMeetName()));
+        }
+        return events;
+
+    }
+
+
 
     /**
      * 查询所有会议室
@@ -156,7 +190,6 @@ public class MeetRoomController {
         if (size == null || size == 0) {
             size = 10;
         }
-        System.out.println("查询所有会议室");
         ModelAndView vm = new ModelAndView();
         List<MeetRoom> meetRoomList = meetRoomService.findAll(page, size, roomName);
         PageInfo pageInfo = new PageInfo<MeetRoom>(meetRoomList);
@@ -190,8 +223,20 @@ public class MeetRoomController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public void add(MeetRoom meetRoom) throws Exception {
-        meetRoomService.add(meetRoom);
+    @Transactional
+    public ResponseData add(MeetRoom meetRoom) throws Exception {
+        ResponseData data = new ResponseData();
+        MeetRoom room = meetRoomService.findRoomByRoomName(meetRoom.getRoomName());
+        if (room==null){
+            meetRoomService.add(meetRoom);
+            data.setCode(200);
+            data.setMessage("添加成功");
+            return data;
+        }else {
+            data.setCode(404);
+            data.setMessage("会议室名已存在!");
+            return data;
+        }
     }
 
     /**
@@ -202,8 +247,21 @@ public class MeetRoomController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public void update(MeetRoom meetRoom) {
-        meetRoomService.update(meetRoom);
+    @Transactional
+    public ResponseData update(MeetRoom meetRoom) {
+        ResponseData data = new ResponseData();
+        try {
+            meetRoomService.update(meetRoom);
+            data.setCode(200);
+            data.setMessage("修改成功");
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            data.setCode(404);
+            data.setMessage("会议室名已存在!");
+            return data;
+        }
     }
 
     /**
@@ -215,31 +273,19 @@ public class MeetRoomController {
     @RequestMapping("/delete")
     @ResponseBody
     public Object delete(@RequestParam(value = "roomId") String roomId) {
-        meetRoomService.delete(roomId);
         ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        data.setCode(0);
-        return data;
-    }
-
-    /**
-     * 删除会议室
-     *
-     * @param
-     * @return
-     */
-    @RequestMapping("/deletes")
-    public String deletes(HttpServletRequest request) {
-        String[] ids = request.getParameterValues("roomId");
-        System.out.println(ids);
-        for (String roomId : ids) {
+        try {
             meetRoomService.delete(roomId);
+            data.setMessage("删除成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("删除失败");
+            data.setCode(404);
+            return data;
         }
-        return "redirect:findAll";
-    }
 
-    @RequestMapping("/findRoom")
-    public void findRoomByCondition() {
 
     }
 

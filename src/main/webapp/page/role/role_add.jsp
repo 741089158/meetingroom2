@@ -59,7 +59,7 @@
             if (id == '') {
                 add(data.field);
             }
-            if ( id != '') {
+            if (id != '') {
                 update(data.field);
             }
             return false;
@@ -73,11 +73,15 @@
             url: "${pageContext.request.contextPath}/role/add",
             data: data,
             success: function (res) {
-                window.parent.layer.closeAll();
-               /* layer.msg("添加成功");
-                setTimeout(function () {
-                window.parent.layer.closeAll();
-                }, 2000);*/
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }
@@ -88,12 +92,15 @@
             url: "${pageContext.request.contextPath}/role/update",
             data: data,
             success: function (res) {
-                window.parent.layer.closeAll();
-                /* layer.msg("修改成功");
-                setTimeout(function () {
-                window.parent.layer.closeAll();
-                }, 2000);
-                window.parent.location.reload();*/
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }

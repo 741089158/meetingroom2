@@ -72,8 +72,19 @@ public class RoleController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public void update(Role role){
-        roleService.update(role);
+    public ResponseData update(Role role){
+        ResponseData data = new ResponseData();
+        try {
+            roleService.update(role);
+            data.setMessage("修改成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("修改失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
     /**
@@ -83,9 +94,19 @@ public class RoleController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public void add(Role role) throws Exception {
-        System.out.println(role);
-        roleService.add(role);
+    public ResponseData add(Role role) throws Exception {
+        ResponseData data = new ResponseData();
+        try {
+            roleService.add(role);
+            data.setMessage("添加成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("添加失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
 
@@ -97,11 +118,19 @@ public class RoleController {
     @RequestMapping("/delete")
     @ResponseBody
     public Object delete(@RequestParam(value="id") int id){
-        roleService.delete(id);
         ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        data.setCode(0);
-        return data;
+        try {
+            roleService.delete(id);
+            data.setMessage("删除成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("删除失败");
+            data.setCode(404);
+            return data;
+        }
+
     }
 
     /**

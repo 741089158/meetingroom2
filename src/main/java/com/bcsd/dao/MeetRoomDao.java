@@ -20,4 +20,8 @@ public interface MeetRoomDao {
     void update(MeetRoom meetRoom);
 
     List<MeetRoom> findRoomName(@Param("areaid") String areaid, @Param("roombuilding")String roombuilding, @Param("roomfloor")String roomfloor);
+
+    MeetRoom findRoomByRoomName(String roomName);
+
+    List<MeetRoom> findRoom(@Param("areaid") String areaid, @Param("roombuilding")String roombuilding, @Param("roomfloor")String roomfloor);
 }

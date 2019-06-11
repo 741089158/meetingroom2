@@ -7,7 +7,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
@@ -76,10 +78,26 @@ public class MeetUserController {
      */
     @RequestMapping("/updateUser")
     @ResponseBody
-    public void update(MeetUser user){
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        user.setOperdate(sf.format(new Date()));
-        meetUserService.update(user);
+    @Transactional
+    public ResponseData update(MeetUser user){
+        ResponseData data = new ResponseData();
+        //先检查用户名是否已存在
+        MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
+        if (meetUser == null ){
+            User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            user.setOperuser(users.getUsername());
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            user.setOperdate(sf.format(new Date()));
+            meetUserService.update(user);
+            data.setCode(200);
+            data.setMessage("添加成功");
+            return data;
+        }else {
+            data.setCode(404);
+            data.setMessage("用户名已存在!");
+            return data;
+        }
+
     }
     /**
      * 添加用户
@@ -87,15 +105,30 @@ public class MeetUserController {
      */
     @RequestMapping("/addUser")
     @ResponseBody
-    public void addUser(MeetUser user){
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        user.setCreatedate(sf.format(new Date()));
-        user.setOrderBy(0);
-        user.setIsdisabled(0);
-        user.setStatus(0);
-        user.setOperuser("admin");
-        user.setIsExternal(0);
-        meetUserService.add(user);
+    @Transactional
+    public ResponseData addUser(MeetUser user){
+        ResponseData data = new ResponseData();
+        //先检查用户名是否已存在
+        MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
+        if (meetUser == null ){
+            User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            user.setCreatedate(sf.format(new Date()));
+            user.setOrderBy(0);
+            user.setIsdisabled(0);
+            user.setStatus(0);
+            user.setOperuser(users.getUsername());
+            user.setIsExternal(0);
+            meetUserService.add(user);
+            data.setCode(200);
+            data.setMessage("添加成功");
+            return data;
+        }else {
+            data.setCode(404);
+            data.setMessage("用户名已存在!");
+            return data;
+        }
+
     }
     /**
      * 删除用户
@@ -160,8 +193,19 @@ public class MeetUserController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public void addInternal(UserInternal internal) {
-        meetUserService.addInternal(internal);
+    public ResponseData addInternal(UserInternal internal) {
+        ResponseData data = new ResponseData();
+        try {
+            meetUserService.addInternal(internal);
+            data.setCode(200);
+            data.setMessage("添加成功");
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setCode(404);
+            data.setMessage("添加失败");
+            return data;
+        }
     }
 
 
@@ -171,11 +215,20 @@ public class MeetUserController {
      * @return
      */
     @RequestMapping("/delete")
-    public Object deleteInternal(Integer id) {
-        meetUserService.deleteInternal(id);
+    @ResponseBody
+    public ResponseData deleteInternal(Integer id) {
         ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        return data;
+        try {
+            meetUserService.deleteInternal(id);
+            data.setCode(200);
+            data.setMessage("删除成功");
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setCode(404);
+            data.setMessage("删除失败");
+            return data;
+        }
     }
 
 
@@ -186,8 +239,19 @@ public class MeetUserController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public void updateLinkman(UserInternal userInternal){
-        meetUserService.updateLinkman(userInternal);
+    public ResponseData updateLinkman(UserInternal userInternal){
+        ResponseData data = new ResponseData();
+        try {
+            meetUserService.updateLinkman(userInternal);
+            data.setCode(200);
+            data.setMessage("修改成功");
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setCode(404);
+            data.setMessage("修改失败");
+            return data;
+        }
     }
 
     /**

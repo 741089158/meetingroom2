@@ -21,4 +21,6 @@ public interface MeetDeptService {
     void delect(String  id);
 
     List<SubOffice> findOffice();
+
+    MeetDept findByDeptName(String deptname);
 }

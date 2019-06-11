@@ -21,6 +21,19 @@
         where roomid=#{id}
     </select>
 
+    <select id="findRoom" resultType="com.bcsd.entity.MeetRoom">
+        select * from cj_meetroom where roomstatus = 1
+        <if test="areaid != null and areaid !='' ">
+            and areaid=#{areaid}
+        </if>
+        <if test="roombuilding != null and roombuilding !='' ">
+            and roombuilding=#{roombuilding}
+        </if>
+        <if test="roomfloor != null and roomfloor !='' ">
+            and roomfloor=#{roomfloor}
+        </if>
+    </select>
+
     <insert id="add"  parameterType="com.bcsd.entity.MeetRoom">
         insert into cj_meetroom (roomId,roomCode,roomArea,roomFloor,roomName,personCount,roomStatus,createDate,createUser,
         lastUpdateDate,lastUpdateUser,manager,meetingSubdept,roomAreaName,callIp,isStart,roomType)
@@ -45,15 +58,19 @@
 
     <select id="findRoomName" resultType="com.bcsd.entity.MeetRoom">
         select roomname from cj_meetroom where 1 = 1
-        <if test="areaid!=null ||areaid !=''">
+        <if test="areaid!=null and areaid !=''">
             and areaid =#{areaid}
         </if>
-        <if test="roombuilding!=null ||roombuilding !=''">
+        <if test="roombuilding!=null and roombuilding !=''">
             and roombuilding =#{roombuilding}
         </if>
-        <if test="roomfloor!=null ||roomfloor !=''">
+        <if test="roomfloor!=null and roomfloor !=''">
             and roomfloor =#{roomfloor}
         </if>
+    </select>
+
+    <select id="findRoomByRoomName" parameterType="java.lang.String" resultType="com.bcsd.entity.MeetRoom">
+        select roomName from cj_meetroom where roomName = #{roomName}
     </select>
 
 </mapper>

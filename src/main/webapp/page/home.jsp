@@ -22,15 +22,15 @@
                 </div>
             </div>
         </div>--%>
-        <div class="layui-row block-bg-color block-border-top">
+       <%-- <div class="layui-row block-bg-color block-border-top">
             <div class="layui-col-md12 block-padding-around">
                 <span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>会议室预订</cite></a>
                 </span>
             </div>
-        </div>
+        </div>--%>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
-                <div class="layui-col-md12 block-padding-around">
+                <div class="layui-col-md12 block-padding-around" style="height: 130px">
                     <form class="layui-form" action="">
                         <div class="layui-form-item block-margin-both-15">
                             <div class="layui-form-item">
@@ -97,7 +97,7 @@
             </div>
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
-                    <div class="layui-tab layui-tab-brief" lay-filter="home_floor">
+                    <div class="layui-tab layui-tab-brief" lay-filter="home_floor" style="margin-top: 0px">
                         <ul class="layui-tab-title" id="home_floor">
                             <li class="layui-this">全部</li>
                         </ul>
@@ -164,8 +164,7 @@
                     '</h4>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="layui-card-body home-point-body" style="height: 30px">' +
-                    /*'可容纳人数'+*/
+                    '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" onclick="findMeeting(this)" style="height: 25px">' +
                     '<h4>' +
                     '<strong>' + this.personCount + '人</strong>' +
                     '</h4>' +
@@ -204,7 +203,6 @@
             type: 'time',
             format: 'HH:mm',
             ready: formatMinutes,
-            //value: new Date(),
             done: function (value, date) {
                 var check_date = $("#home_date").val();             //日期
                 var check_duration = $("#home_duration").val();     //时长
@@ -216,7 +214,6 @@
                 if (check_date == "" || check_duration == "") {
                     return;
                 }
-                console.log(data);
                 checkTime(data);
             }
         });
@@ -228,7 +225,7 @@
             value: '01:00',
             ready: formatMinutes,
             done: function (value, date) {
-                var check_date = $("#home_date").val();             //日期
+                var check_date = $("#home_date").val();      //日期
                 var check_time = $("#home_time").val();     //时间
                 var data = {
                     "date": check_date,
@@ -238,7 +235,6 @@
                 if (check_date == "" || check_time == "") {
                     return;
                 }
-                console.log(data);
                 checkTime(data);
             }
         });
@@ -307,7 +303,7 @@
                             '</h4>' +
                             '</div>' +
                             '</div>' +
-                            '<div class="layui-card-body home-point-body " style="height: 30px">' +
+                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" style="height: 25px" onclick="findMeeting(this)">' +
                             /*'可容纳人数'+*/
                             '<h4>' +
                             '<strong>' + n.personCount + '人</strong>' +
@@ -325,8 +321,6 @@
             }, "json");
         });
 
-
-
         form.on('submit(home_search)', function (data) {
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
@@ -335,6 +329,31 @@
         });
 
     });
+
+    //卡片中间的点击事件  e ->  roomId
+    function findMeeting(e) {
+        var roomId = $(e).attr("data-roomId");
+        layer.open({
+            type: 2
+            ,area: ['500px', '350px']
+            , content:'${pageContext.request.contextPath}/page/meeting/room_meeting.jsp?roomId=' + roomId
+        });
+        /*$.post("/appointreet/findMeetingByRoomId", {"roomId":roomId}, function (resp) {
+            var str ='';
+            if (resp.data.length != 0){
+                $.each(resp.data,function (k, v) {
+                   // console.log(resp.data);
+                    str += '<div style="padding: 15px 20px; border: 1px  solid #000">'+this.meetName+"    "+this.meetDate+'</div><div style="padding: 15px 50px;"></hr>'
+                });
+            }
+            layer.open({
+                type: 1,
+                area: ['500px', '300px']
+                , content: str
+            });
+            console.log(str);
+        });*/
+    }
 
     //footer下面的点击事件
     function cardFooterAClick(e) {

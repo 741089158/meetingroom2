@@ -48,12 +48,13 @@
             ,
             cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'id', title: 'ID', width: 40, fixed: 'left'}
+                ,{field: 'id', title: 'ID', width: 50, fixed: 'left'}
                 , {field: 'meetName', title: '会议名称'}
-                , {field: 'meetRoom', title: '会议名称'}
+                , {field: 'meetRoomName', title: '会议室'}
                 , {field: 'meetType', title: '会议类型'}
-                , {field: 'starttime', title: '开始时间'}
-                , {field: 'duration', title: '时长'}
+                , {field: 'meetDescription', title: '会议描述'}
+                , {field: 'meetDate', title: '开始时间'}
+                , {field: 'meetTime', title: '时长'}
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
                 ]],id:'table'
         });
@@ -67,8 +68,6 @@
                     , area: ['700px', '500px']
                     , title: '查看参会人员'
                     , content:'${pageContext.request.contextPath}/page/meeting/history_user.jsp?id=' + data.id
-                    ,success:function () {
-                    }
                 });
             }
         });

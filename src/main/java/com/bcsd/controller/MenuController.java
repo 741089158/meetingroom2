@@ -68,9 +68,20 @@ public class MenuController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public void update(Menu menu) {
+    public ResponseData update(Menu menu) {
         menu.setOperdate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-        menuService.update(menu);
+        ResponseData data = new ResponseData();
+        try {
+            menuService.update(menu);
+            data.setMessage("修改成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("修改失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
     /**
@@ -81,12 +92,24 @@ public class MenuController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public void add(Menu menu) throws Exception {
+    @Transactional
+    public ResponseData add(Menu menu) throws Exception {
         MeetUser user = (MeetUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         menu.setCreateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+        ResponseData data = new ResponseData();
         menu.setOperuser(user.getUsername());
         menu.setStatus(1);
-        menuService.add(menu);
+        try {
+            menuService.add(menu);
+            data.setMessage("添加成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("添加失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
 
@@ -99,11 +122,18 @@ public class MenuController {
     @RequestMapping("/delete")
     @ResponseBody
     public Object delete(@RequestParam(value = "id") int id) {
-        menuService.delete(id);
         ResponseData data = new ResponseData();
-        data.setMessage("删除成功");
-        data.setCode(0);
-        return data;
+        try {
+            menuService.delete(id);
+            data.setMessage("删除成功");
+            data.setCode(200);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setMessage("删除失败");
+            data.setCode(404);
+            return data;
+        }
     }
 
     /**
@@ -145,7 +175,6 @@ public class MenuController {
     @ResponseBody
     @Transactional
     public ResponseData setMenu(@RequestParam("menuId") String ids, @RequestParam("roleId") Integer roleId) {
-        System.out.println(ids + "---" + roleId);
         ResponseData data = new ResponseData();
         try {
             //先删除角色持有菜单

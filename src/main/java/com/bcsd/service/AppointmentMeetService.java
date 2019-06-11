@@ -15,16 +15,7 @@ public interface AppointmentMeetService {
     //预约视屏会议
     void appointmentVideoMeet(Remeet remmet, List<UserInternal> user);
 
-    //根据用户Id查询用户预约的会议
-    Remeet findRemeet(int userId);
 
-    //取消会议
-    void removeMeet(Integer meetId);
-
-    //会议结束
-    void endMeet(Integer meetId);
-
-    //根据用户Id查询所有预约的会议
     List<Remeet> findAll();
 
     List<Remeet> findPage(int index, int size, String meetName);
@@ -32,7 +23,7 @@ public interface AppointmentMeetService {
     List<Remeet> findPage(int index, int size);
 
 
-    List<HistoryMeet> findPageHistory(Integer page, Integer size, Integer id, String meetName);
+    List<HistoryMeet> findPageHistory(Integer page, Integer size, String username, String meetName);
 
     List<MeetUser> findHistoryUser(Integer page, Integer size, Integer id);
 
@@ -51,4 +42,14 @@ public interface AppointmentMeetService {
     void updateState(Integer id);
 
     List<Remeet> findMeetByUserId(Integer id);
+
+    List<Remeet> findMeetByUsername(Integer page, Integer size,String username,String meetName);
+
+    void insertUserIdAndMeetId(Integer id, Integer id1);
+
+    void repeatMeet(Remeet remeet, List<UserInternal> user);
+
+    List<Remeet> findMeetByUserName(String username);
+
+    List<Remeet> findMeetingByRoomId(String roomId);
 }

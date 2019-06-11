@@ -65,12 +65,17 @@ public class MeetRoomServiceImpl implements MeetRoomService {
     }
 
     @Override
-    public Object findRoom() {
-        return meetRoomDao.findAll("");
+    public List<MeetRoom> findRoom(String areaId,String roomBuilding,String floor) {
+        return meetRoomDao.findRoom(areaId,roomBuilding,floor);
     }
 
     @Override
     public List<MeetRoom> findList() {
         return meetRoomDao.findAll("");
+    }
+
+    @Override
+    public MeetRoom findRoomByRoomName(String roomName) {
+        return meetRoomDao.findRoomByRoomName(roomName);
     }
 }

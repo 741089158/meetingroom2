@@ -8,12 +8,12 @@
 				<img src="//t.cn/RCzsdCq" class="layui-nav-img"><security:authentication property="principal.username"></security:authentication>
 				</a>
 				<dl class="layui-nav-child">
-					<dd>
+					<%--<dd>
 						<a href="javascript:;">修改信息</a>
 					</dd>
 					<dd>
 						<a href="javascript:;">安全管理</a>
-					</dd>
+					</dd>--%>
 					<dd>
 						<a href="${pageContext.request.contextPath}/logout">退出</a>
 					</dd>

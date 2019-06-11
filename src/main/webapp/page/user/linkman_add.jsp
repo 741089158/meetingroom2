@@ -13,6 +13,13 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">用户名<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input name="username" placeholder="用户名" type="text" class="layui-input" lay-verify="required"
+                   required id="username" value="${user.username}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">性别<span style="color: red;">*</span></label>
         <div class="layui-input-block">
            <%-- <input id="pid" name="pid" type="hidden">--%>
@@ -64,10 +71,10 @@
         var layer = layui.layer, form = layui.form,$ = layui.jquery;
         form.on('submit(demo)', function(data){
             var userId = data.field.id;
-            if (userId==null||userId==''){
+            if (userId==''){
                 add(data.field);
             }
-            if (userId!=null||userId!=''){
+            if (userId!=''){
                 update(data.field);
             }
             return false;
@@ -80,10 +87,15 @@
             url:"${pageContext.request.contextPath}/user/add",
             data:data,
             success:function (res) {
-                layer.msg("添加成功");
-                setTimeout(function () {
-                    window.parent.layer.closeAll();
-                }, 2000);
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }
@@ -93,10 +105,15 @@
             url:"${pageContext.request.contextPath}/user/update",
             data:data,
             success:function (res) {
-                layer.msg("修改成功");
-                setTimeout(function () {
-                    window.parent.layer.closeAll();
-                }, 2000);
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }

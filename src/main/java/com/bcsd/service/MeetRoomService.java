@@ -23,7 +23,9 @@ public interface MeetRoomService {
 
     List<MeetRoom> findRoomName(String areaid, String roombuilding, String roomfloor);
 
-    Object findRoom();
+    List<MeetRoom> findRoom(String areaId,String roomBuilding,String floor);
 
     List<MeetRoom> findList();
+
+    MeetRoom findRoomByRoomName(String roomName);
 }

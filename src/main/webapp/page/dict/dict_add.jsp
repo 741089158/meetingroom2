@@ -53,11 +53,10 @@
         var layer = layui.layer, form = layui.form,$ = layui.jquery;
         form.on('submit(demo)', function(data){
             var dictId = data.field.dictId;
-            //alert();
-            if (dictId==null||dictId==''){
+            if (dictId==''){
                 add(data.field);
             }
-            if (dictId!=null||dictId!=''){
+            if (dictId!=''){
                 update(data.field);
             }
             return false;
@@ -70,17 +69,19 @@
             url:"${pageContext.request.contextPath}/dict/add",
             data:data,
             success:function (res) {
-               /* window.parent.layer.closeAll();
-                window.parent.layer.msg("添加成功");
-                setTimeout(function () {
-                    //window.parent.location.reload();
-                    location.reload();
-                }, 2000);*/
-                layer.msg("添加成功");
+               /* layer.msg("添加成功");
                 setTimeout(function () {
                     window.parent.layer.closeAll();
-                }, 2000);
-                //window.parent.location.reload();
+                }, 2000);*/
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }
@@ -90,11 +91,15 @@
             url:"${pageContext.request.contextPath}/dict/update",
             data:data,
             success:function (res) {
-                layer.msg("修改成功");
-                setTimeout(function () {
-                    window.parent.layer.closeAll();
-                }, 2000);
-               // window.parent.active.reload();
+                if (res.code==404){
+                    layer.msg(res.message);
+                }
+                if (res.code ==200){
+                    layer.msg(res.message);
+                    setTimeout(function () {
+                        window.parent.layer.closeAll();
+                    },2000);
+                }
             }
         })
     }

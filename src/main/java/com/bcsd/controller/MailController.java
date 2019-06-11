@@ -53,7 +53,9 @@ public class MailController {
     		String mailIdArr [] = mailidArrStr.split(",");
     		for(String mailid : mailIdArr){
     			Mail mail = mailService.findByid(Integer.valueOf(mailid));
-    			boolean bool = SendMailHelper.sendMail(mail.getReceivemailaccount(), mail.getMailtitle(), mail.getMailsubject(), mail.getMailcontent());
+				boolean bool=false;  //注释掉
+				//放开
+    			//boolean bool = SendMailHelper.sendMail(mail.getReceivemailaccount(), mail.getMailtitle(), mail.getMailsubject(), mail.getMailcontent());
 	        	if(bool){
 	        		//发送成功
 	        		mail.setSenddate(new Date());

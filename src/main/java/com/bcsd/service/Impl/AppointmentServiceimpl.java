@@ -21,13 +21,13 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     private MailDao mailDao;
     //预定本地会议
     public void appointmentMeet(Remeet remeet,List<UserInternal> user) {
-
+        appointmentMeetDao.appointmentMeet(remeet);
         for (UserInternal u:user){
+            appointmentMeetDao.insertUserIdAndMeetId(u.getId(),remeet.getId());
             Mail mail=new Mail(u.getEmail(),remeet.getMeetName(),remeet.getMeetName(),remeet.getMeetDescription(),null,null,1,0,null);
-            System.out.println(mail);
             mailDao.add(mail);
         }
-        appointmentMeetDao.appointmentMeet(remeet);
+
     }
     //预定视屏会议
     public void appointmentVideoMeet(Remeet remeet,List<UserInternal> user) {
@@ -47,20 +47,6 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
 
         appointmentMeetDao.appointmentVideoMeet(remeet);
     }
-    //按用户查询会议
-    public Remeet findRemeet(int userId) {
-        return null;
-    }
-
-    @Override
-    public void removeMeet(Integer meetId) {
-        appointmentMeetDao.removeMeet(meetId);
-    }
-
-    @Override
-    public void endMeet(Integer meetId) {
-        appointmentMeetDao.endMeet(meetId);
-    }
 
     public List<Remeet> findAll() {
         return appointmentMeetDao.findAll();
@@ -79,9 +65,9 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
 
 
 
-    public List<HistoryMeet> findPageHistory(Integer page, Integer size, Integer id,String meetName) {
+    public List<HistoryMeet> findPageHistory(Integer page, Integer size, String username,String meetName) {
         PageHelper.startPage(page,size);
-        return appointmentMeetDao.findPageHistory(id,meetName);
+        return appointmentMeetDao.findPageHistory(username,meetName);
     }
 
     public List<MeetUser> findHistoryUser(Integer page, Integer size, Integer id) {
@@ -122,5 +108,36 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     @Override
     public List<Remeet> findMeetByUserId(Integer id) {
         return appointmentMeetDao.findMeetByUserId(id);
+    }
+
+    @Override
+    public List<Remeet> findMeetByUsername(Integer page, Integer size,String username, String meetName) {
+        PageHelper.startPage(page,size);
+        return appointmentMeetDao.findMeetByUsername(username,meetName);
+    }
+
+    @Override
+    public void insertUserIdAndMeetId(Integer userId, Integer meetId) {
+        appointmentMeetDao.insertUserIdAndMeetId(userId,meetId);
+    }
+
+    @Override
+    public void repeatMeet(Remeet remeet, List<UserInternal> user) {
+        appointmentMeetDao.repeatMeet(remeet);
+        for (UserInternal u:user){
+            appointmentMeetDao.insertUserIdAndMeetId(u.getId(),remeet.getId());
+            Mail mail=new Mail(u.getEmail(),remeet.getMeetName(),remeet.getMeetName(),remeet.getMeetDescription(),null,null,1,0,null);
+            mailDao.add(mail);
+        }
+    }
+
+    @Override
+    public List<Remeet> findMeetByUserName(String username) {
+        return appointmentMeetDao.findMeetByUsername(username,"");
+    }
+
+    @Override
+    public List<Remeet> findMeetingByRoomId(String roomId) {
+        return appointmentMeetDao.findMeetingByRoomId(roomId);
     }
 }

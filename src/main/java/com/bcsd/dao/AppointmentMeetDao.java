@@ -8,10 +8,6 @@ import java.util.List;
 
 public interface AppointmentMeetDao {
 
-    //根据用户Id查询用户预约的会议
-    Remeet findRemeet(int userId);
-
-
     //根据用户Id查询所有预约的会议
     List<Remeet>  findAll();
     //条件查询
@@ -24,19 +20,10 @@ public interface AppointmentMeetDao {
     //增加预约视屏会议
     void appointmentVideoMeet(Remeet remeet);
 
-    //
-    void addUser(@Param("user") List<MeetUser> user);
 
-
-    List<HistoryMeet> findPageHistory(@Param("id") Integer id,@Param("meetName") String meetName);
+    List<HistoryMeet> findPageHistory(@Param("username") String username,@Param("meetName") String meetName);
 
     List<MeetUser> findHistoryUser(Integer id);
-
-    //取消会议
-    void removeMeet(Integer meetId);
-
-    //会议结束
-      void endMeet(Integer meetId);
 
     Remeet findOne(Integer id);
 
@@ -51,4 +38,12 @@ public interface AppointmentMeetDao {
     void updateState(Integer id);
 
     List<Remeet> findMeetByUserId(@Param("id")Integer id);
+
+    List<Remeet> findMeetByUsername(@Param("username")String username,@Param("meetName") String meetName);
+
+    void insertUserIdAndMeetId(@Param("userId")Integer userId, @Param("meetId")Integer meetId);
+
+    void repeatMeet(Remeet remeet);
+
+    List<Remeet> findMeetingByRoomId(String roomId);
 }
