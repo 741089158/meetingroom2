@@ -374,7 +374,7 @@
         // meetTime = meetTime.replace("小时",":");
         // meetTime = meetTime.replace("分","");
         if (roomId == undefined || roomType == undefined || d == undefined || t == undefined || meetTime == undefined || startTime == "") {
-            layer.alert("您缺少重要参数");
+            layer.alert("请选择预约时间！");
             return false;
         }
         if (roomType == "视屏会议室") {
@@ -403,14 +403,16 @@
     function checkTime(data) {
         //预定会议冲突检查  根据地区,建筑,日期,时间,时长
         $.post("${pageContext.request.contextPath}/appointreet/checkTime", data, function (resp) {
-            console.log(resp);
-            $.each(resp, function () {
-                if ((document.getElementById(this.meetRoomId)) != null) {
-                    $("." + this.meetRoomId).hide();
-                    //$(".layui-card-footer-a "+this.meetRoomId+"").removeAttr("style");
-                    //document.getElementById(this.meetRoomId).style.display = "none";
-                }
-            })
+            
+            // Step1: 重置已被预约的项
+			$(".layui-card-footer-a").css("display", "block");
+			// Step2: 根据返回数据隐藏匹配的项
+			$.each(resp, function() {
+				if ((document.getElementById(this.meetRoomId)) != null) {
+					$("." + this.meetRoomId).hide();
+				}
+			})
+            
         });
     }
 

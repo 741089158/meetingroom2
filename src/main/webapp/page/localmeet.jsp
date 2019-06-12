@@ -164,27 +164,32 @@
         var form = layui.form;
         var layer = layui.layer;
 
-        form.on('submit(formSubmit)', function (data) {
-            console.log(data.field);
-
-            if (data.field.day == "no") {//普通会议
-                $.post("${pageContext.request.contextPath }/meetroom/appointmeet", data.field, function (resp) {
-                    layer.msg(resp.message);
-                    setTimeout(function () {
-                        location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
-                    }, 2000)
-                });
-            } else {
-                $.post("${pageContext.request.contextPath }/meetroom/reserve", data.field, function (resp) {
-                    layer.msg(resp.message);
-                    console.log(data.field);
-                    setTimeout(function () {
-                        location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
-                    }, 2000)
-                });
-            }
-            return false;
-        });
+		// 提交表单
+		form.on('submit(formSubmit)', function (data) {
+			if($(data.elem).hasClass("layui-btn-disabled")){
+				return false; // 阻止重复提交
+			}
+			$(data.elem).addClass("layui-btn-disabled");
+		    // 普通会议提交
+			if (data.field.day == "no") {
+				$.post("${pageContext.request.contextPath }/meetroom/appointmeet", data.field, function (resp) {
+						layer.msg(resp.message);
+						setTimeout(function () {
+							location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
+						}, 2000)
+				});
+			} 
+			// 非普通会议提交
+		    else {
+		    	$.post("${pageContext.request.contextPath }/meetroom/reserve", data.field, function (resp) {
+		    		layer.msg(resp.message);
+					setTimeout(function () {
+						location.href = "${pageContext.request.contextPath }/page/meeting/meettable.jsp"
+					}, 2000)
+		    	});
+			}
+			return false;
+		});
 
 
         laydate.render({
