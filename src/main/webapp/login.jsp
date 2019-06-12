@@ -78,26 +78,16 @@
     </div>
 </div>
 
-
-<%--<script type="text/javascript">
-    var Feng = {
-        ctxPath: "",
-        addCtx: function (ctx) {
-            if (this.ctxPath === "") {
-                this.ctxPath = ctx;
-            }
-        }
-    };
-    Feng.addCtx("${ctxPath}");
-</script>--%>
-
-
 <script>
     layui.use(['layer', 'form'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
 
+	<%-- 登录失败提示 --%>
+	if ("${param.login }" == "error") {
+		layer.alert('帐号或密码错误，请重新登录！'); 
+	}
         // 表单提交
         form.on('submit(login-submit)', function (obj) {
             $.ajax({

@@ -32,7 +32,7 @@
         <security:form-login
                 login-page="/login.jsp"
                 login-processing-url="/login"
-                authentication-failure-url="/403.jsp"
+                authentication-failure-url="/login.jsp?login=error"
                 default-target-url="/page/home.jsp"
         />
 
