@@ -50,7 +50,7 @@ public class MeetRoomController {
      * @param
      * @return
      */
-    @RequestMapping("/findAll")
+    @RequestMapping(value = "/findAll",method = RequestMethod.POST)
     @ResponseBody
     public Object findAll(Integer page, Integer limit, String roomName) {
         if (page == null || page == 0) {

@@ -1,18 +1,21 @@
 package com.bcsd.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bcsd.entity.*;
+import com.bcsd.entity.MeetUser;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.UserInternal;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,31 +45,31 @@ public class MeetUserController {
 
     @RequestMapping("/findAll")
     @ResponseBody
-    public Object findAll(Integer page,Integer size,String username) {
-        if (page==null||page==0){
-            page=1;
+    public Object findAll(Integer page, Integer size, String username) {
+        if (page == null || page == 0) {
+            page = 1;
         }
-        if (size==null||size==0){
-            size=10;
+        if (size == null || size == 0) {
+            size = 10;
         }
-        List<Map<String,String>> all = meetUserService.findAll(page,size,username);
-        PageInfo<Map<String,String>> pageInfo = new PageInfo<Map<String,String>>(all);
+        List<Map<String, String>> all = meetUserService.findAll(page, size, username);
+        PageInfo<Map<String, String>> pageInfo = new PageInfo<Map<String, String>>(all);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", all);
         return data;
 
     }
 
     @RequestMapping("/findUser")
-    public String findUser(@RequestParam(value = "id")Integer id, HttpServletRequest request){
-        Map<String,String> user = meetUserService.findById(id);
-        request.setAttribute("user",user);
-        return PREFIX+"/user_add";
+    public String findUser(@RequestParam(value = "id") Integer id, HttpServletRequest request) {
+        Map<String, String> user = meetUserService.findById(id);
+        request.setAttribute("user", user);
+        return PREFIX + "/user_add";
     }
 
 
-    @RequestMapping(value = "/findDept", produces={"application/json;charset=utf-8"})
+    @RequestMapping(value = "/findDept", produces = {"application/json;charset=utf-8"})
     @ResponseBody
-    public Object findDept(){
+    public Object findDept() {
         //List<Map<String ,String>> dept = meetUserService.findDept();
         return JSONObject.toJSONString(meetUserService.findDept());
     }
@@ -74,43 +77,47 @@ public class MeetUserController {
 
     /**
      * 修改用户
+     *
      * @param user
      */
     @RequestMapping("/updateUser")
     @ResponseBody
     @Transactional
-    public ResponseData update(MeetUser user){
+    public ResponseData update(MeetUser user) {
         ResponseData data = new ResponseData();
         //先检查用户名是否已存在
-        MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
-        if (meetUser == null ){
-            User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            user.setOperuser(users.getUsername());
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            user.setOperdate(sf.format(new Date()));
+
+        User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setOperuser(users.getUsername());
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setOperdate(sf.format(new Date()));
+
+        try {
             meetUserService.update(user);
             data.setCode(200);
-            data.setMessage("添加成功");
+            data.setMessage("修改成功");
             return data;
-        }else {
+        } catch (Exception e) {
+            e.printStackTrace();
             data.setCode(404);
-            data.setMessage("用户名已存在!");
+            data.setMessage("修改失败");
             return data;
         }
-
     }
+
     /**
      * 添加用户
+     *
      * @param user
      */
     @RequestMapping("/addUser")
     @ResponseBody
     @Transactional
-    public ResponseData addUser(MeetUser user){
+    public ResponseData addUser(MeetUser user) {
         ResponseData data = new ResponseData();
         //先检查用户名是否已存在
         MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
-        if (meetUser == null ){
+        if (meetUser == null) {
             User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             user.setCreatedate(sf.format(new Date()));
@@ -123,41 +130,44 @@ public class MeetUserController {
             data.setCode(200);
             data.setMessage("添加成功");
             return data;
-        }else {
+        } else {
             data.setCode(404);
             data.setMessage("用户名已存在!");
             return data;
         }
 
     }
+
     /**
      * 删除用户
+     *
      * @param id
      */
     @RequestMapping("/deleteUser")
     @ResponseBody
-    public void deleteUser(Integer id){
+    public void deleteUser(Integer id) {
         meetUserService.delete(id);
     }
 
 
     /**
      * 查询联系人
-     * @param page       当前页码
-     * @param size       每页显示数
+     *
+     * @param page     当前页码
+     * @param size     每页显示数
      * @param internal 联系人
      * @return
      */
     @RequestMapping("/findInternal")
     @ResponseBody
-    public Object findInternal(Integer page, Integer size, String internal,String name){
+    public Object findInternal(Integer page, Integer size, String internal, String name) {
         if (page == null || page == 0) {
             page = 1;
         }
         if (size == null || size == 0) {
             size = 10;
         }
-        List<UserInternal> list = meetUserService.findInternal(page, size, internal,name);
+        List<UserInternal> list = meetUserService.findInternal(page, size, internal, name);
         PageInfo pageInfo = new PageInfo<UserInternal>(list);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "成功", list);
         return data;
@@ -166,19 +176,20 @@ public class MeetUserController {
 
     /**
      * 查询联系人
+     *
      * @param internal 联系人
      * @return
      */
     @RequestMapping("/selectInternal")
     @ResponseBody
-    public Object selectInternal(String internal,String name){
-        List<UserInternal> list = meetUserService.findInternal(internal,name);
+    public Object selectInternal(String internal, String name) {
+        List<UserInternal> list = meetUserService.findInternal(internal, name);
         ArrayList<Map<String, Object>> user = new ArrayList<>();
         for (UserInternal userInternal : list) {
             Map<String, Object> map = new HashMap<>();
-            map.put("id",userInternal.getId());
-            map.put("name",userInternal.getName());
-            map.put("value",userInternal.getId());
+            map.put("id", userInternal.getId());
+            map.put("name", userInternal.getName());
+            map.put("value", userInternal.getId());
             user.add(map);
         }
         ResponseData data = new ResponseData(user.size(), 0, "成功", user);
@@ -188,6 +199,7 @@ public class MeetUserController {
 
     /**
      * 添加联系人
+     *
      * @param internal
      * @return
      */
@@ -211,6 +223,7 @@ public class MeetUserController {
 
     /**
      * 删除联系人
+     *
      * @param id
      * @return
      */
@@ -234,12 +247,13 @@ public class MeetUserController {
 
     /**
      * 修改联系人
+     *
      * @param userInternal
      * @return
      */
     @RequestMapping("/update")
     @ResponseBody
-    public ResponseData updateLinkman(UserInternal userInternal){
+    public ResponseData updateLinkman(UserInternal userInternal) {
         ResponseData data = new ResponseData();
         try {
             meetUserService.updateLinkman(userInternal);
@@ -256,14 +270,15 @@ public class MeetUserController {
 
     /**
      * 查询单个联系人
+     *
      * @param id
      * @return
      */
     @RequestMapping("/findOne")
-    public String findOne(Integer id,HttpServletRequest request){
+    public String findOne(Integer id, HttpServletRequest request) {
         UserInternal user = meetUserService.findOne(id);
-        request.setAttribute("user",user);
-        return PREFIX+"/linkman_add";
+        request.setAttribute("user", user);
+        return PREFIX + "/linkman_add";
     }
 
 }

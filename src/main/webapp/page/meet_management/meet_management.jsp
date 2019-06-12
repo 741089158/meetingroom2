@@ -76,6 +76,7 @@
             , url: '${pageContext.request.contextPath }/meet/findAll' //数据接口
             , page: true //开启分页
             ,cellMinWidth: 60
+            ,method:"post"
             //,toolbar: 'default'  //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
            // , totalRow: true //开启合计行
             , cols: [[ //表头

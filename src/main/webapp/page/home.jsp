@@ -164,7 +164,7 @@
                     '</h4>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" onclick="findMeeting(this)" style="height: 25px">' +
+                    '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'"  data-roomType="'+this.roomName+'"  onclick="findMeeting(this)" style="height: 25px">' +
                     '<h4>' +
                     '<strong>' + this.personCount + '人</strong>' +
                     '</h4>' +
@@ -303,7 +303,7 @@
                             '</h4>' +
                             '</div>' +
                             '</div>' +
-                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" style="height: 25px" onclick="findMeeting(this)">' +
+                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" data-roomType="'+this.roomName+'" style="height: 25px" onclick="findMeeting(this)">' +
                             /*'可容纳人数'+*/
                             '<h4>' +
                             '<strong>' + n.personCount + '人</strong>' +
@@ -333,8 +333,11 @@
     //卡片中间的点击事件  e ->  roomId
     function findMeeting(e) {
         var roomId = $(e).attr("data-roomId");
+        var roomName = $(e).attr("data-roomType");
+        console.log(roomName)
         layer.open({
             type: 2
+            ,title:roomName
             ,area: ['500px', '350px']
             , content:'${pageContext.request.contextPath}/page/meeting/room_meeting.jsp?roomId=' + roomId
         });

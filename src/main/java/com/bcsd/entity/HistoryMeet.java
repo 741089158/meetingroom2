@@ -19,25 +19,6 @@ public class HistoryMeet implements Serializable {
     private String param;
     private String type;
 
-    @Override
-    public String toString() {
-        return "HistoryMeet{" +
-                "id=" + id +
-                ", meetName='" + meetName + '\'' +
-                ", originator='" + originator + '\'' +
-                ", meetType='" + meetType + '\'' +
-                ", starttime='" + starttime + '\'' +
-                ", duration='" + duration + '\'' +
-                ", roomId='" + roomId + '\'' +
-                ", meetperson=" + meetperson +
-                ", meetTitle='" + meetTitle + '\'' +
-                ", meetDescribe='" + meetDescribe + '\'' +
-                ", meetRoom='" + meetRoom + '\'' +
-                ", param='" + param + '\'' +
-                ", type='" + type + '\'' +
-                '}';
-    }
-
     public Integer getId() {
         return id;
     }

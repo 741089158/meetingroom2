@@ -49,6 +49,12 @@
                     <a href="${pageContext.request.contextPath}/page/user/linkman.jsp">联系人</a>
                 </dd>
                 </security:authorize>
+                <dd>
+                    <a href="${pageContext.request.contextPath}/page/user">AD</a>
+                </dd>
+                <dd>
+                    <a href="${pageContext.request.contextPath}/page/user">OUTLOOK</a>
+                </dd>
             </dl>
         </li>
         <%--<security:authorize access="hasRole('ADMIN')">--%>
