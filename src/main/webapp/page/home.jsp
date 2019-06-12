@@ -22,12 +22,12 @@
                 </div>
             </div>
         </div>--%>
-       <%-- <div class="layui-row block-bg-color block-border-top">
-            <div class="layui-col-md12 block-padding-around">
-                <span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>会议室预订</cite></a>
-                </span>
-            </div>
-        </div>--%>
+        <%-- <div class="layui-row block-bg-color block-border-top">
+             <div class="layui-col-md12 block-padding-around">
+                 <span class="layui-breadcrumb"> <a href="/">首页</a> <a><cite>会议室预订</cite></a>
+                 </span>
+             </div>
+         </div>--%>
         <div class="layui-fluid">
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around" style="height: 130px">
@@ -164,7 +164,7 @@
                     '</h4>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'"  data-roomType="'+this.roomName+'"  onclick="findMeeting(this)" style="height: 25px">' +
+                    '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '"  data-roomType="' + this.roomName + '"  onclick="findMeeting(this)" style="height: 25px">' +
                     '<h4>' +
                     '<strong>' + this.personCount + '人</strong>' +
                     '</h4>' +
@@ -239,7 +239,7 @@
             }
         });
 
-        $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result){
+        $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result) {
             $(result).each(
                 function () {
                     $("#home_area").append(
@@ -248,7 +248,7 @@
                         + "</option>");
                 });
             form.render('select');
-        },"json");
+        }, "json");
 
         //地区联动选楼
         form.on('select(home_area)', function (data) {
@@ -303,7 +303,7 @@
                             '</h4>' +
                             '</div>' +
                             '</div>' +
-                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId +'" data-roomType="'+this.roomName+'" style="height: 25px" onclick="findMeeting(this)">' +
+                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName + '" style="height: 25px" onclick="findMeeting(this)">' +
                             /*'可容纳人数'+*/
                             '<h4>' +
                             '<strong>' + n.personCount + '人</strong>' +
@@ -334,12 +334,12 @@
     function findMeeting(e) {
         var roomId = $(e).attr("data-roomId");
         var roomName = $(e).attr("data-roomType");
-        console.log(roomName)
+        //console.log(roomName);
         layer.open({
             type: 2
-            ,title:roomName
-            ,area: ['500px', '350px']
-            , content:'${pageContext.request.contextPath}/page/meeting/room_meeting.jsp?roomId=' + roomId
+            , title: roomName
+            , area: ['500px', '350px']
+            , content: '${pageContext.request.contextPath}/page/meeting/room_meeting.jsp?roomId=' + roomId
         });
         /*$.post("/appointreet/findMeetingByRoomId", {"roomId":roomId}, function (resp) {
             var str ='';
