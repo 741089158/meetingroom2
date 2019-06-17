@@ -249,77 +249,67 @@
                 });
             form.render('select');
         }, "json");
-
-        //地区联动选楼
-        form.on('select(home_area)', function (data) {
-            url = "${pageContext.request.contextPath}"
-                + "/meetroom/meetbuilding";
-            var str = "";
-            $("#home_building").empty();
-            $.post(url, {
-                "key": data.value
-            }, function (result) {
-                $(result).each(
-                    function () {
-                        $("#home_building").append(
-                            "<option value='" + this.roomBuilding + "'>"
-                            + this.roomBuilding
-                            + "</option>");
-                    });
-                form.render('select');
-            }, "json");
-        });
-        //楼联动楼层
-        form.on('select(home_building)', function (e) {
-            url = "${pageContext.request.contextPath}"
-                + "/meetroom/meetfloor";
-            var data = {
-                "area": $("#home_area").val(),
-                "building": e.value
-            };
-            $("#home_time").val("");
-            $.post(url, data, function (result) {
-                $("#home_floor").empty();
-                $("#home_floor").append("<li data-floor='all' class='layui-this'>全部</li>");
-                //$("ul>li").not(":eq(0)").remove();
-                //$("ul>li").not(":first").remove();//保留第一个,其他删除
-                $("#home_card_container_parent").siblings().remove();
-                $("#home_card_container").empty();
-                $.each(result, function (k, v) {
-                    $("#home_floor").append("<li data-floor='" + k + "'>" + k + "F</li>");
-                    var top_tmp = $('<div class="layui-tab-item"></div>');
-                    var tmp = $('<div class="layui-row layui-col-space20"></div>');
-                    top_tmp.append(tmp);
-                    $("#home_tab_content_container").append(top_tmp);
-                    $.each(v, function (i, n) {
-                        //console.log(n);
-                        var card = $('<div class="layui-col-md2" >' +
-                            '<div class="layui-card box">' +
-                            '<div class="layui-card-header">' +
-                            '<div class="home-point">' + k + 'F</div>' +
-                            '<div class="home-point-label">' +
-                            '<h4>' +
-                            '<strong>' + n.roomName + '</strong>' +
-                            '</h4>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName + '" style="height: 25px" onclick="findMeeting(this)">' +
-                            /*'可容纳人数'+*/
-                            '<h4>' +
-                            '<strong>' + n.personCount + '人</strong>' +
-                            '</h4>' +
-                            '</div>' +   /*  class="layui-card-footer-a 191y9y9y13eihiaodh"    */
-                            '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName +
-                            '" data-roomId="' + n.roomId +
-                            '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="' + this.roomId + '">预约</div>' +
-                            '</div>' +
-                            '</div>');
-                        $("#home_card_container").append(card.clone());
-                        tmp.append(card);
-                    });
-                });
-            }, "json");
-        });
+<%--  Amendment passed Start --%>
+<%-- 渲染会议室区域 --%>
+function renderRoom(area, building) {
+	var data = {
+		area : area,
+		building : building
+	};
+	$("#home_time").val("");
+	var url = "${pageContext.request.contextPath}/meetroom/meetfloor";
+	$.post(url, data, function(result) {
+		$("#home_floor").empty();
+		$("#home_floor").append("<li data-floor='all' class='layui-this'>全部</li>");
+		$("#home_card_container_parent").siblings().remove();
+		$("#home_card_container").empty();
+		$.each(result, function(k, v) {
+			$("#home_floor").append("<li data-floor='" + k + "'>" + k + "F</li>");
+			var top_tmp = $('<div class="layui-tab-item"></div>');
+			var tmp = $('<div class="layui-row layui-col-space20"></div>');
+			top_tmp.append(tmp);
+			$("#home_tab_content_container").append(top_tmp);
+			$.each(v, function(i, n) {
+				var card = $('<div class="layui-col-md2" >' + '<div class="layui-card box">' + '<div class="layui-card-header">' + '<div class="home-point">' + k + 'F</div>'
+						+ '<div class="home-point-label">' + '<h4>' + '<strong>' + n.roomName + '</strong>' + '</h4>' + '</div>' + '</div>'
+						+ '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName + '" style="height: 25px" onclick="findMeeting(this)">'
+						+ '<h4>' + '<strong>' + n.personCount + '人</strong>' + '</h4>' + '</div>' + '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName
+						+ '" data-roomId="' + n.roomId + '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="' + this.roomId + '">预约</div>' + '</div>'
+						+ '</div>');
+				$("#home_card_container").append(card.clone());
+				tmp.append(card);
+			});
+		});
+	}, "JSON");
+}
+<%--
+	地区联动: 刷新区域，并且刷新会议室视图
+--%>
+form.on('select(home_area)', function(data) {
+	var url = "${pageContext.request.contextPath}/meetroom/meetbuilding";
+	var key = data.value;
+	$("#home_building").empty(); // 清空区域
+	$.post(url, {
+		key : key
+	}, function(result) {
+		$(result).each(function() {
+			var htmlArray = [ "<option value='", this.roomBuilding, "'>", this.roomBuilding, "</option>" ];
+			$("#home_building").append(htmlArray.join("")); // 添加新的区域
+		});
+		form.render('select'); // 重新渲染
+		// 重新渲染会议室区域
+		var area = $("#home_area").val();
+		var building = $("#home_building").val();
+		renderRoom(area, building);
+	}, "JSON");
+});
+<%-- 楼层联动 --%>
+form.on('select(home_building)', function(e) {
+	var area = $("#home_area").val();
+	var building = e.value;
+	renderRoom(area, building);
+});
+<%--  Amendment passed End --%>
 
         form.on('submit(home_search)', function (data) {
             layer.alert(JSON.stringify(data.field), {
