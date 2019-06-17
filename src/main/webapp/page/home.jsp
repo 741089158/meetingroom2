@@ -142,7 +142,7 @@
         var laydate = layui.laydate;
         var form = layui.form;
         layer = layui.layer;
-
+<%--
         //显示所有会议室
         $.post("${pageContext.request.contextPath}/meet/findList", {}, function (result) {
             $("#home_floor").empty();
@@ -178,6 +178,7 @@
                 tmp.append(card);
             });
         }, "json");
+--%>
 
         laydate.render({
             elem: '#home_date',
@@ -239,17 +240,17 @@
             }
         });
 
-        $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result) {
-            $(result).each(
-                function () {
-                    $("#home_area").append(
-                        "<option value='" + this.areaId + "'>"
-                        + this.roomAreaName
-                        + "</option>");
-                });
-            form.render('select');
-        }, "json");
-<%--  Amendment passed Start --%>
+<%-- Amendment passed Start --%>
+<%-- 初始化 地区 区域 --%>
+$.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function(result) {
+	$(result).each(function() {
+		$("#home_area").append("<option value='" + this.areaId + "'>" + this.roomAreaName + "</option>");
+	});
+	form.render('select');
+	// 渲染区域
+	var key = $("#home_area").val();
+	renderBuilding(key)
+}, "JSON");
 <%-- 渲染会议室区域 --%>
 function renderRoom(area, building) {
 	var data = {
@@ -285,9 +286,9 @@ function renderRoom(area, building) {
 <%--
 	地区联动: 刷新区域，并且刷新会议室视图
 --%>
-form.on('select(home_area)', function(data) {
+function renderBuilding(areaKey) {
 	var url = "${pageContext.request.contextPath}/meetroom/meetbuilding";
-	var key = data.value;
+	var key = areaKey;
 	$("#home_building").empty(); // 清空区域
 	$.post(url, {
 		key : key
@@ -302,6 +303,10 @@ form.on('select(home_area)', function(data) {
 		var building = $("#home_building").val();
 		renderRoom(area, building);
 	}, "JSON");
+}
+form.on('select(home_area)', function(data) {
+	var key = data.value;
+	renderBuilding(key);
 });
 <%-- 楼层联动 --%>
 form.on('select(home_building)', function(e) {
