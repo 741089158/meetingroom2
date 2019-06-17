@@ -157,7 +157,7 @@ public class AppointmrntController {
     @RequestMapping("/checkTime")
     @ResponseBody
     public Object checkTime(String date,String time,String duration) throws ParseException {
-        System.out.println(date + "---" + time  + "---" + duration);
+        //System.out.println(date + "---" + time  + "---" + duration);
         String dateTime = date+" "+time;
         //1:查询所有预订会议
         List<Remeet> list = appointmentMeetService.findAll();
@@ -173,8 +173,8 @@ public class AppointmrntController {
             String meetTime = remeet.getMeetTime();//已预订会议时长
             Date startTime1 = sf.parse(meetDate);//已预订会议开始时间
             Date endTime1 = new Date(startTime1.getTime() + DateChange.changeTime(meetTime));//已预订会议结束时间
-            if ((startTime.compareTo(startTime1)>=0&&startTime.compareTo(endTime1)<=0)||
-                    (endTime.compareTo(endTime1)<=0&&endTime.compareTo(startTime1)>=0)||
+            if ((startTime.compareTo(startTime1)>=0&&startTime.compareTo(endTime1)<0)||
+                    (endTime.compareTo(endTime1)<=0&&endTime.compareTo(startTime1)>0)||
                     (startTime.compareTo(startTime1)<=0&&endTime.compareTo(endTime1)>=0)){
                 meets.add(remeet);
             }

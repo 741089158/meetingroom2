@@ -177,7 +177,7 @@ public class RoleController {
             List<String> id = Arrays.asList(ids.split(","));
             roleService.addRole(userId,id);
         }else {//没有逗号
-            if (ids!=null){
+            if (ids!=null && ids!=""){
                 List<String> id = Arrays.asList(ids);
                 roleService.addRole(userId,id);
             }

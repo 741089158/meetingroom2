@@ -88,7 +88,6 @@ public class SendMailHelper {
     }
     /**
      * 创建一封只包含文本的简单邮件
-     *
      * @param session 和服务器交互的会话
      * @param sendMailAccount 发件人邮箱
      * @param receiveMailAccount 收件人邮箱

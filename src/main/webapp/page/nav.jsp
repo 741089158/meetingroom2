@@ -23,9 +23,9 @@
                     <a href="${pageContext.request.contextPath}/page/meet_management/meet_management.jsp">会议室维护</a>
                 </dd>
                 </security:authorize>
-                <dd>
+               <%-- <dd>
                     <a href="${pageContext.request.contextPath}/page/meet_management/common_room.jsp">常用会议室</a>
-                </dd>
+                </dd>--%>
             </dl>
         </li>
 
@@ -49,12 +49,9 @@
                     <a href="${pageContext.request.contextPath}/page/user/linkman.jsp">联系人</a>
                 </dd>
                 </security:authorize>
-                <dd>
-                    <a href="${pageContext.request.contextPath}/page/user">AD</a>
-                </dd>
-                <dd>
-                    <a href="${pageContext.request.contextPath}/page/user">OUTLOOK</a>
-                </dd>
+                <%--<dd>
+                    <a href="${pageContext.request.contextPath}/page/config/config_home.jsp">配置管理</a>
+                </dd>--%>
             </dl>
         </li>
         <%--<security:authorize access="hasRole('ADMIN')">--%>
