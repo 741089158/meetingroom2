@@ -168,36 +168,145 @@
             });
         /* 立即渲染日历或者调整它的大小 */
         calendar.render();
+        
+<%-- 渲染方法 --%>
+function renderCalendar(areaId, building, floor) {
+	var paramData = {
+		"areaId" : areaId,
+		"building" : building,
+		"floor" : floor
+	};
+	$.post("${pageContext.request.contextPath }/meet/fullCalendar", paramData, function(resp) {
+		calendar.destroy(); // 摧毁当前日历组件
+		var calendarDoc = document.getElementById('calendar'); // 日历DOC
+		calendar = new FullCalendar.Calendar(calendarDoc, {
+			plugins : [ 'interaction', 'dayGrid', 'timeGrid', 'resourceTimeline' ],
+			schedulerLicenseKey : 'CC-Attribution-NonCommercial-NoDerivatives',
+			locale : "ch",
+			editable : false,
+			aspectRatio : 2,
+			scrollTime : '08:00',
+			minTime : '08:00',
+			maxTime : '20:00',
+			height : 450,
+			header : {
+				left : 'today prev,next',
+				center : 'title',
+				right : 'resourceTimelineDay'
+			},
+			defaultView : 'resourceTimelineDay',
+			buttonText : {
+				today : '今天'
+			},
+			views : {
+				resourceTimelineDay : {
+					type : 'resourceTimeline',
+					duration : {
+						days : 1
+					},
+					buttonText : '天'
+				},
+				timeGridWeek : {
+					type : 'timeGridWeek',
+					duration : {
+						weeks : 1
+					},
+					buttonText : '周'
+				},
+				dayGridMonth : {
+					type : 'dayGridMonth',
+					duration : {
+						months : 1
+					},
+					buttonText : '月'
+				}
+			},
+			resourceLabelText : '会议室',
+			resourceAreaWidth : '100px',
+			method : 'post',
+			resources : resp,
+			events : '${pageContext.request.contextPath }/meet/fullEvents',
+			eventClick : function(calEvent, jsEvent, view) {
+				var title = calEvent.event._def.title;
+				var start = getFormatDate(calEvent.event.start);
+				var end = getFormatDate(calEvent.event.end);
+				layer.open({
+					type : 1,
+					content : '<div style="padding: 20px 100px;">' + "时间 : " + start + "--" + end + '</div><div style="padding: 20px 100px;">' + "主题 : " + title + '</div>'
+				});
+			}
+		});
+		calendar.render();
+	});
+}
+function renderFloor(areaId, building) {
+	var paramData = {
+		"area" : areaId,
+		"building" : building
+	};
+	$.post("${pageContext.request.contextPath}/meetroom/floor", paramData, function(result) {
+		$.each(result, function(k, v) {
+			$("#home_floor").append("<option id='" + this.roomFloor + "' value='" + this.roomFloor + "'>" + this.roomFloor + "</option>");
+		});
+		form.render();
+		// 渲染Floor后，刷型日历
+		var areaId = $("#home_area").val();
+		var building = $("#home_building").val();
+		var floor = $("#home_floor").val();
+		renderCalendar(areaId, building, floor);
+	});
+}
+function renderBuilding(key) {
+	var paramData = {
+		"key" : key
+	};
+	$("#home_building").empty();
+	$("#home_floor").empty();
+	$.post("${pageContext.request.contextPath}/meetroom/meetbuilding", paramData, function(result) {
+		$.each(result, function(k, v) {
+			$("#home_building").append("<option id='" + this.roomBuilding + "' value='" + this.roomBuilding + "'>" + this.roomBuilding + "</option>");
+		});
+		form.render();
+		// 渲染之后，继续渲染楼层
+		var areaId = $("#home_area").val();
+		var building = $("#home_building").val();
+		renderFloor(areaId, building);
+	});
+}
 
         $.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function (result) {
             $.each(result,function (k,v) {
                 $("#home_area").append("<option id='"+this.areaId+"' value='"+this.areaId+"'>"+this.roomAreaName+"</option>");
             });
             form.render();
+            renderBuilding($("#home_area").val());
         });
-
         //监听区域
         form.on('select(home_area)', function (data) {
             $("#home_building").empty();
             $("#home_floor").empty();
+            <%--
             $.post("${pageContext.request.contextPath}/meetroom/meetbuilding", {"key":data.value}, function (result) {
                 $.each(result,function (k,v) {
                     $("#home_building").append("<option id='"+this.roomBuilding+"' value='"+this.roomBuilding+"'>"+this.roomBuilding+"</option>");
                 });
                 form.render();
             });
+            --%>
+            renderBuilding(data.value);
         });
 
         //监听建筑
         form.on('select(home_building)', function (data) {
             $("#home_floor").empty();
             var areaId = $("#home_area option:selected").val();
-            $.post("${pageContext.request.contextPath}/meetroom/floor", {"area":areaId,"building":data.value}, function (result) {
+        <%--    $.post("${pageContext.request.contextPath}/meetroom/floor", {"area":areaId,"building":data.value}, function (result) {
                 $.each(result,function (k,v) {
                     $("#home_floor").append("<option id='"+this.roomFloor+"' value='"+this.roomFloor+"'>"+this.roomFloor+"</option>");
                 });
                 form.render();
-            });
+            }); --%>
+            renderFloor(areaId, data.value);
         });
         form.on('select(home_floor)', function (data) {
             var areaId = $("#home_area option:selected").val();
