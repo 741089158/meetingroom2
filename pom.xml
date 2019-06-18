@@ -321,11 +321,7 @@
       <artifactId>commons-net</artifactId>
       <version>3.3</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-jpa</artifactId>
-      <version>2.1.5.RELEASE</version>
-    </dependency>
+
 
     <!-- activemq的三个依赖包 -->
     <dependency>
