@@ -73,7 +73,7 @@
     <context:component-scan base-package="com.bcsd.task" />
 
 
-    <!--ad配置-->
+   <!-- &lt;!&ndash;ad配置&ndash;&gt;
     <bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
         <property name="url" value="${url}" />
         <property name="base" value="${base}" />
@@ -86,5 +86,5 @@
     </bean>
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
         <constructor-arg ref="contextSource" />
-    </bean>
+    </bean>-->
 </beans>
