@@ -6,6 +6,7 @@ import com.bcsd.entity.RepeatMeeting;
 import com.bcsd.entity.UserInternal;
 import com.bcsd.service.AddUserService;
 import com.bcsd.service.AppointmentMeetService;
+import com.bcsd.service.LdapService;
 import com.bcsd.service.TaskMeetingService;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,9 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
 
     @Autowired
     private AppointmentMeetService appointmentMeetService;
+
+    @Autowired
+    private LdapService ldapService;
 
     @Override
     public List<RepeatMeeting> findMeeting(Integer status,String repeatType) {
@@ -282,14 +286,14 @@ public class TaskMeetingServiceImpl implements TaskMeetingService {
 
 
     //根据会议id查询参会人员
-    public List getInternal(String userId){
+    public List getInternal(String name){
         //查询联系人
-        List<UserInternal> user =new ArrayList<UserInternal>();
-        String strip = StringUtils.strip(userId, "[]");
+        List<Map<String, String>> user =new ArrayList<Map<String, String>>();
+        String strip = StringUtils.strip(name, "[]");
         String[] split = strip.split(",");
         for (String s : split) {
-            UserInternal internal = addUserService.findByUserId(Integer.parseInt(s));
-            user.add(internal);
+            Map<String, String> map = ldapService.queryUser(s);
+            user.add(map);
         }
         return user;
     }

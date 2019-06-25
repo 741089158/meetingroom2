@@ -73,8 +73,8 @@
     <context:component-scan base-package="com.bcsd.task" />
 
 
-   <!-- &lt;!&ndash;ad配置&ndash;&gt;
-    <bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
+    <!--ad配置-->
+   <!-- <bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource">
         <property name="url" value="${url}" />
         <property name="base" value="${base}" />
         <property name="userDn" value="${userDn}" />

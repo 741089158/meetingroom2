@@ -17,7 +17,7 @@
                         </div>
                         <div class="layui-inline" style="float: right">
                             <div class="layui-input-inline">
-                                <input class="layui-input" name="username" id="username" autocomplete="off"
+                                <input class="layui-input" name="name" id="name" autocomplete="off"
                                        placeholder="名称">
                             </div>
                             <div class="layui-inline">
@@ -54,18 +54,26 @@
         table.render({
             elem: '#demo'
             , height: h
-            , url: '${pageContext.request.contextPath }/user/findAll' //数据接口
+            , url: '${pageContext.request.contextPath }/ldap/getUser' //数据接口
+            ,method:"post"
             , page: true //开启分页
             ,cellMinWidth: 60
             , cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: 60, fixed: 'left'}
-                , {field: 'username', title: '名称'}
-                , {field: 'sex', title: '性别'}
-                , {field: 'deptname', title: '部门'}
-                , {field: 'email', title: '邮箱'}
-                , {field: 'tel', title: '电话'}
-                , {field: 'suboffice', title: '分公司'}
+                , {field: 'sAMAccountName', title: '账号', width: 80, fixed: 'left'}
+                , {field: 'department', title: '所属机构'}
+                , {field: 'name', title: '名称'}
+                , {field: 'mobile', title: '手机号'}
+                , {field: 'mail', title: '邮箱'}
+                , {field: 'maxPerson', title: '最大参会方'}
+                , {field: 'status', title: '状态',templet:function (e) {
+                        if (e.status*1==1){
+                            return "启用";
+                        }
+                        if (e.status*1==0){
+                            return "禁用";
+                        }
+                    }}
                 , {fixed: 'right', title: '操作', width: 165, align: 'center', toolbar: '#barDemo'}
             ]]  ,id:'table'
         });
@@ -139,12 +147,12 @@
         var Meet = {
             tableId: "table",
             condition: {
-                username: ""
+                name: ""
             }
         };
         Meet.search = function(){
             var queryData = {};
-            queryData['username'] = $("#username").val();
+            queryData['name'] = $("#name").val();
             table.reload(Meet.tableId,{where:queryData});
         };
 

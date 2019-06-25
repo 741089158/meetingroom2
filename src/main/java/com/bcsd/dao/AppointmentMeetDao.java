@@ -42,6 +42,7 @@ public interface AppointmentMeetDao {
     List<Remeet> findMeetByUsername(@Param("username")String username,@Param("meetName") String meetName);
 
     void insertUserIdAndMeetId(@Param("userId")Integer userId, @Param("meetId")Integer meetId);
+    void insertUserIdAndMeetId(@Param("userId")String userId, @Param("meetId")Integer meetId);
 
     void repeatMeet(Remeet remeet);
 

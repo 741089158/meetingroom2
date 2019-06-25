@@ -134,7 +134,7 @@ public class SendMailHelper {
     }
     public static void main(String[] args) {
     	String content = "XXX用户，<br/>&nbsp;&nbsp;&nbsp;&nbsp;你好，你是第一位收到此测试邮件的用户，恭喜你！";
-    	boolean bool = sendMail("1162572875@qq.com", "这是一封测试邮件title", "这是一封测试邮件suject", content);
+    	boolean bool = sendMail("741089158@qq.com", "这是一封测试邮件title", "这是一封测试邮件suject", content);
     	if(bool){
     		System.out.println("发送成功");
     	}else{

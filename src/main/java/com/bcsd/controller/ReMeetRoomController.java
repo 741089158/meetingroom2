@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/meetroom")
@@ -41,11 +42,7 @@ public class ReMeetRoomController {
     @Autowired
     private AddUserService addUserService;
 
-    /**
-     * 查询所有
-     * @param
-     * @return
-     */
+
 
     /**
      * 查询地区
@@ -183,39 +180,6 @@ public class ReMeetRoomController {
         return result;
     }
 
-    /*
-     * 初始状态进入
-     * */
-   /* @RequestMapping("getInto")
-    public ModelAndView getInto( HttpSession session) throws ParseException {
-        ModelAndView vm=new ModelAndView();
-        String areaid="c5539aa3-af34-463d-9415-1a7f8ae42727";
-        String roomfloor="5";
-        String roombuilding="YMTC-OS1";
-        String nowTime=new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
-        String time="01:00";
-        String endTime=DateChange.getTime(nowTime,time);
-        List<Appointment_Meeting> roomId=reMeetRoomService.findByDate(nowTime,endTime);
-        String roomid="(";
-        int i =1;
-        for (Appointment_Meeting id:roomId){
-           // System.out.println(roomId.size());
-            if(i==roomId.size()) {
-                //System.out.println(id.getMeetRoomId());
-                roomid = roomid + id.getMeetRoomId();
-            }else {
-                roomid = roomid + id.getMeetRoomId()+",";
-            }
-            i++;
-        }
-        roomid=roomid+")";
-      List<MeetRoom> meetRooms=  reMeetRoomService.findRoom(areaid,roombuilding,roomfloor.trim(),roomid);
-        
-        session.setAttribute("meetRoom",meetRooms);
-      vm.setViewName("index");
-      return vm;
-    }*/
-
 
     /**
      * 跳转到预定会议页面
@@ -282,6 +246,9 @@ public class ReMeetRoomController {
         return vm;
     }*/
 
+
+   @Autowired
+   private LdapService ldapService;
     /**
      * 预定会议
      *
@@ -297,23 +264,21 @@ public class ReMeetRoomController {
         String datetime = date.trim() + " " + time.trim();
         remeet.setMeetDate(datetime);
         //查询联系人
-        List<UserInternal> user = new ArrayList<UserInternal>();
+        List<Map<String,String>> user = new ArrayList<Map<String,String>>();
         String userId = remeet.getUserId();
         String strip = StringUtils.strip(userId, "[]");
+        //加条件判断?
         String[] split = strip.split(",");
         for (String s : split) {
-            UserInternal internal = null;
-
+            Map<String, String> map =null;
             try {
-                internal = addUserService.findByUserId(Integer.parseInt(s));
+                map = ldapService.queryUser(s);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
             //addUserService.addMeet()
-            user.add(internal);
-
+            user.add(map);
         }
-
         ResponseData data = new ResponseData();
         try {
             //添加会议数据

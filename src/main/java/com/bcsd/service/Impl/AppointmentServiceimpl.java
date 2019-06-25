@@ -20,13 +20,18 @@ public class AppointmentServiceimpl implements AppointmentMeetService {
     @Autowired
     private MailDao mailDao;
     //预定本地会议
-    public void appointmentMeet(Remeet remeet,List<UserInternal> user) {
+    public void appointmentMeet(Remeet remeet,List<Map<String,String>> user) {
         appointmentMeetDao.appointmentMeet(remeet);
-        for (UserInternal u:user){
+        for (Map<String, String> u : user) {
+            appointmentMeetDao.insertUserIdAndMeetId(u.get("name"),remeet.getId());
+            Mail mail=new Mail(u.get("mail"),remeet.getMeetName(),remeet.getMeetName(),remeet.getMeetDescription(),null,null,1,0,null);
+            mailDao.add(mail);
+        }
+       /* for (UserInternal u:user){
             appointmentMeetDao.insertUserIdAndMeetId(u.getId(),remeet.getId());
             Mail mail=new Mail(u.getEmail(),remeet.getMeetName(),remeet.getMeetName(),remeet.getMeetDescription(),null,null,1,0,null);
             mailDao.add(mail);
-        }
+        }*/
 
     }
     //预定视屏会议

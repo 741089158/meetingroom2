@@ -45,22 +45,24 @@ public class MeetUserServiceImpl implements MeetUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("经过认证类:"+username);
         // logger.info("登录用户名:" + username);
-        //System.out.println(username);
-        MeetUser meetUser = null;
+       /* MeetUser meetUser = null;
         try {
             meetUser = meetUserDao.findByUsername(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // System.out.println(meetUser);
         //明文密码需要加前缀{noop}
         if (meetUser != null) {
             return new User(meetUser.getUsername(), meetUser.getPassword(), getAuthority(meetUser.getUsername()));
-        }
+        }*/
         //通过状态和权限来控制用户登陆       明文加{noop}
         // User user = new User(meetUser.getUsername(), "{noop}"+meetUser.getPassword(), meetUser.getStatus() == 0 ? false : true, true, true, true, getAuthority(meetUser.getRoles()));
-        return null;
+
+        //cas用这个,上面都不要
+        return new User(username,"",getAuthority(username));
+        //return null;
     }
 
     public List<SimpleGrantedAuthority> getAuthority(String username){

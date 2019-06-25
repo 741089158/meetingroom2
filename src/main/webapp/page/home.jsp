@@ -29,7 +29,7 @@
              </div>
          </div>--%>
         <div class="layui-fluid">
-            <div class="layui-row block-bg-color block-margin-both">
+            <%--<div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around" style="height: 130px">
                     <form class="layui-form" action="">
                         <div class="layui-form-item block-margin-both-15">
@@ -38,10 +38,10 @@
                                     <label class="layui-form-label">地区</label>
                                     <div class="layui-input-inline">
                                         <select id="home_area" lay-filter="home_area" lay-verify="required">
-                                            <%--<c:forEach items="${meetRoomArea}" var="area">
+                                            &lt;%&ndash;<c:forEach items="${meetRoomArea}" var="area">
                                                 <option id="${area.areaId}"
                                                         value="${area.areaId}">${area.roomAreaName}</option>
-                                            </c:forEach>--%>
+                                            </c:forEach>&ndash;%&gt;
                                         </select>
                                     </div>
                                 </div>
@@ -94,7 +94,78 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>--%>
+                <div class="layui-fluid">
+                    <div class="layui-row block-bg-color block-margin-both">
+                        <div class="layui-col-md12 block-padding-around " style="height: 90px">
+                            <form class="layui-form relativei" action="">
+                                <div class="layui-form-item block-margin-both-15">
+                                    <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <%--<label class="layui-form-label">地区</label>--%>
+                                            <div class="layui-input-inline ">
+                                                <select id="home_area" lay-filter="home_area" lay-verify="required">
+                                                    <%--<c:forEach items="${meetRoomArea}" var="area">
+                                                        <option id="${area.areaId}"
+                                                                value="${area.areaId}">${area.roomAreaName}</option>
+                                                    </c:forEach>--%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <%--<label class="layui-form-label">区域</label>--%>
+
+                                            <div class="layui-input-inline">
+                                                <select id="home_building" lay-filter="home_building" lay-verify="required">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <%--<label class="layui-form-label">日期</label>--%>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="home_date" placeholder="yyyy年MM月dd日"
+                                                       lay-verify="required" onchange="checkTime()">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <%--<label class="layui-form-label">时间</label>--%>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="home_time" placeholder="HH:mm"
+                                                       lay-verify="required" onchange="checkTime()">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <%--<label class="layui-form-label">时长</label>--%>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="home_duration" placeholder="HH:mm"
+                                                       lay-verify="required" onchange="checkTime()">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline" style="float: right;margin-right: 100px">
+                                            <a class="layui-btn layui-btn-sm layui-btn-normal"
+                                               href="${pageContext.request.contextPath}/page/schedule/schedule.jsp">
+                                                <i class="layui-icon layui-icon-date"></i> 日程
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <%--<div class="layui-form-item">--%>
+                                    <%----%>
+                                    <%----%>
+                                    <%----%>
+                                    <%--</div>--%>
+                                    <!--
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label"></label>
+                                        <div class="layui-input-inline">
+                                            <button class="layui-btn" lay-submit="" lay-filter="home_search">查询</button>
+                                        </div>
+                                    </div>
+                                     -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
                     <div class="layui-tab layui-tab-brief" lay-filter="home_floor" style="margin-top: 0px">
@@ -156,22 +227,23 @@
                 $("#home_tab_content_container").append(top_tmp);
                 var card = $('<div class="layui-col-md2" >' +
                     '<div class="layui-card box">' +
-                    '<div class="layui-card-header">' +
-                    '<div class="home-point">' + this.roomFloor + 'F</div>' +
-                    '<div class="home-point-label">' +
+                    '<div class="layui-card-header" >' +
+                    '<div class="home-point">' + this.personCount + 'P</div>' +
+                   /* '<div class="home-point-label">' +
                     '<h4>' +
                     '<strong>' + this.roomName + '</strong>' +
                     '</h4>' +
-                    '</div>' +
+                    '</div>' +*/
                     '</div>' +
                     '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '"  data-roomType="' + this.roomName + '"  onclick="findMeeting(this)" style="height: 25px">' +
-                    '<h4>' +
+                    /*'<h4>' +
                     '<strong>' + this.personCount + '人</strong>' +
-                    '</h4>' +
+                    '</h4>' +*/
+                    '<img src="${pageContext.request.contextPath}/image/2.png" style="margin-top: 0px" />'+
                     '</div>' +
                     '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + this.roomName +
                     '" data-roomId="' + this.roomId +
-                    '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="remeet">预约</div>' +
+                    '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: white" name="remeet">' + this.roomName + '</div>' +
                     '</div>' +
                     '</div>');
                 $("#home_card_container").append(card.clone());
@@ -271,11 +343,12 @@ function renderRoom(area, building) {
 			top_tmp.append(tmp);
 			$("#home_tab_content_container").append(top_tmp);
 			$.each(v, function(i, n) {
-				var card = $('<div class="layui-col-md2" >' + '<div class="layui-card box">' + '<div class="layui-card-header">' + '<div class="home-point">' + k + 'F</div>'
+				var card = $('<div class="layui-col-md2" >' + '<div class="layui-card box">' + '<div class="layui-card-header">' + '<div class="home-point">' + this.personCount + 'P</div>'
 						+ '<div class="home-point-label">' + '<h4>' + '<strong>' + n.roomName + '</strong>' + '</h4>' + '</div>' + '</div>'
 						+ '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName + '" style="height: 25px" onclick="findMeeting(this)">'
-						+ '<h4>' + '<strong>' + n.personCount + '人</strong>' + '</h4>' + '</div>' + '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName
-						+ '" data-roomId="' + n.roomId + '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: #1E9FFF" name="' + this.roomId + '">预约</div>' + '</div>'
+						+ '<img src="${pageContext.request.contextPath}/image/2.png" style="margin-top: 0px" />' +
+                    '</h4>' + '</div>' + '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName
+						+ '" data-roomId="' + n.roomId + '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: white" name="' + this.roomId + '">' + this.roomName + '</div>' + '</div>'
 						+ '</div>');
 				$("#home_card_container").append(card.clone());
 				tmp.append(card);
@@ -333,24 +406,9 @@ form.on('select(home_building)', function(e) {
         layer.open({
             type: 2
             , title: roomName
-            , area: ['500px', '350px']
+            , area: ['600px', '550px']
             , content: '${pageContext.request.contextPath}/page/meeting/room_meeting.jsp?roomId=' + roomId
         });
-        /*$.post("/appointreet/findMeetingByRoomId", {"roomId":roomId}, function (resp) {
-            var str ='';
-            if (resp.data.length != 0){
-                $.each(resp.data,function (k, v) {
-                   // console.log(resp.data);
-                    str += '<div style="padding: 15px 20px; border: 1px  solid #000">'+this.meetName+"    "+this.meetDate+'</div><div style="padding: 15px 50px;"></hr>'
-                });
-            }
-            layer.open({
-                type: 1,
-                area: ['500px', '300px']
-                , content: str
-            });
-            console.log(str);
-        });*/
     }
 
     //footer下面的点击事件
@@ -366,33 +424,18 @@ form.on('select(home_building)', function(e) {
         t = t.replace("分", "");
         var meetTime = $("#home_duration").val();
         var startTime = $("#home_time").val();
-        // meetTime = meetTime.replace("小时",":");
-        // meetTime = meetTime.replace("分","");
-        if (roomId == undefined || roomType == undefined || d == undefined || t == undefined || meetTime == undefined || startTime == "") {
-            layer.alert("请选择预约时间！");
-            return false;
-        }
-        if (roomType == "视屏会议室") {
-            /*window.location.href = "/meetroom/videoremeet?id="+roomId+"&date="+d+"&time="+t+"&duration="+duration;*/
-            window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id=" + roomId + "&date=" + d + "&time=" + t + "&meetTime=" + meetTime;
-        } else {
-            window.location.href = "${pageContext.request.contextPath }/meetroom/remmet?id=" + roomId + "&date=" + d + "&time=" + t + "&meetTime=" + meetTime;
-        }
+
+        layer.open({
+            type: 2
+            , title: "预约会议"
+            , area: ['750px', '600px']
+            , content: "${pageContext.request.contextPath }/meetroom/remmet?id=" + roomId + "&date=" + d + "&time=" + t + "&meetTime=" + meetTime
+        });
+
+
     }
 
-    //删除时间控件秒   分钟间隔显示
-    function formatMinutes(date) {
-        var aa = $(".laydate-time-list li ol")[1];
-        var showtime = $($(".laydate-time-list li ol")[1]).find("li");
-        for (var i = 0; i < showtime.length; i++) {
-            var t00 = showtime[i].innerText;
-            if (t00 != "00" && t00 != "15" && t00 != "30" && t00 != "45") {
-                //分进行过滤 只保留0 15 30 45  一次性显示六十个太多没必要
-                showtime[i].remove()
-            }
-        }
-        $($(".laydate-time-list li ol")[2]).find("li").remove();  //清空秒
-    }
+
 
     //冲突检查
     function checkTime(data) {

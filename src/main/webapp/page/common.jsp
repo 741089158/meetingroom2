@@ -2,6 +2,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -20,27 +21,28 @@
     .row_black {
         background-color: #393D49
     }
-   /* .row_black {
-        background-color: #2c5ae4
-    }
 
-    .layui-nav {
-        position: relative;
-        padding: 0 20px;
-        background-color: #2e54c5;
-        color: #fff;
-        border-radius: 2px;
-        font-size: 0;
-        box-sizing: border-box;
-    }
+    /* .row_black {
+         background-color: #2c5ae4
+     }
 
-    element.style {
-        text-align: center;
-        font-size: 20px;
-        padding: 20px 0 20px 0;
-        background-color: #445cd0;
-        color: #fff;
-    }*/
+     .layui-nav {
+         position: relative;
+         padding: 0 20px;
+         background-color: #2e54c5;
+         color: #fff;
+         border-radius: 2px;
+         font-size: 0;
+         box-sizing: border-box;
+     }
+
+     element.style {
+         text-align: center;
+         font-size: 20px;
+         padding: 20px 0 20px 0;
+         background-color: #445cd0;
+         color: #fff;
+     }*/
 
     .main-bg-color {
         background-color: #C0C0C0
@@ -119,7 +121,8 @@
     }
 
     .home-point-body {
-       /* background: url(${pageContext.request.contextPath}/image/img@2x.png) no-repeat 95% 80%;*/
+        /* background: url(
+    ${pageContext.request.contextPath} /image/img@2x.png) no-repeat 95% 80%;*/
         padding: 20px 55px;
         height: 72px;
         text-align: center;
@@ -154,4 +157,18 @@
             window.parent.layer.closeAll();
         });
     });
+
+    //删除时间控件秒   分钟间隔显示
+    function formatMinutes(date) {
+        var aa = $(".laydate-time-list li ol")[1];
+        var showtime = $($(".laydate-time-list li ol")[1]).find("li");
+        for (var i = 0; i < showtime.length; i++) {
+            var t00 = showtime[i].innerText;
+            if (t00 != "00" && t00 != "15" && t00 != "30" && t00 != "45") {
+                //分进行过滤 只保留0 15 30 45  一次性显示六十个太多没必要
+                showtime[i].remove()
+            }
+        }
+        $($(".laydate-time-list li ol")[2]).find("li").remove();  //清空秒
+    }
 </script>

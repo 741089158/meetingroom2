@@ -63,19 +63,8 @@
         <error-code>403</error-code>
         <location>/403.jsp</location>
     </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/404.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/500.jsp</location>
-    </error-page>
+
     <welcome-file-list>
-        <welcome-file>login.htm</welcome-file>
-         <welcome-file>login.jsp</welcome-file>
-         <welcome-file>index.jsp</welcome-file>
+        <welcome-file>page/home.jsp</welcome-file>
     </welcome-file-list>
-
-
 </web-app>

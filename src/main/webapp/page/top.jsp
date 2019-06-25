@@ -15,7 +15,7 @@
 						<a href="javascript:;">安全管理</a>
 					</dd>--%>
 					<dd>
-						<a href="${pageContext.request.contextPath}/logout">退出</a>
+						<a href="${pageContext.request.contextPath}/logout/cas">退出</a>
 					</dd>
 				</dl>
 			</li>

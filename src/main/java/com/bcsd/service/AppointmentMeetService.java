@@ -10,7 +10,7 @@ import java.util.Map;
 public interface AppointmentMeetService {
 
     //预约本地会议添加
-    void appointmentMeet(Remeet remeet, List<UserInternal> user);
+    void appointmentMeet(Remeet remeet, List<Map<String,String>> user);
 
     //预约视屏会议
     void appointmentVideoMeet(Remeet remmet, List<UserInternal> user);

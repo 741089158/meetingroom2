@@ -1,1 +1,1 @@
-<jsp:forward page="meetroom/remeetroom"></jsp:forward>
+<jsp:forward page="http://localhost:8080/page/home"></jsp:forward>

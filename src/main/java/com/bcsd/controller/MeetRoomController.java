@@ -59,7 +59,12 @@ public class MeetRoomController {
         if (limit == null || limit == 0) {
             limit = 10;
         }
-        List<MeetRoom> meetRoomList = meetRoomService.findAll(page, limit, roomName);
+        List<MeetRoom> meetRoomList = null;
+        try {
+            meetRoomList = meetRoomService.findAll(page, limit, roomName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         PageInfo<MeetRoom> pageInfo = new PageInfo<MeetRoom>(meetRoomList);
         ResponseData data = new ResponseData((int)pageInfo.getTotal(), 0, "查询成功", meetRoomList);
         return data;
