@@ -1,7 +1,6 @@
 package com.bcsd.controller;
 
 import com.bcsd.entity.ResponseData;
-import com.bcsd.ldap.Person;
 import com.bcsd.service.LdapService;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
