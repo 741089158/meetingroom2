@@ -100,7 +100,7 @@
 
     .layui-card-footer-a:hover {
         background-color: #01AAED;
-        color: #fff;
+        color: #1584c9;
     }
 
     .home-point {

@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../page/common.jsp" %>
+<style>
+.roomImg {
+	position: relative;
+	top: -38px;
+}
+</style>
 <body>
 <%@ include file="../page/top.jsp" %>
 <div class="layui-row row_black">
@@ -95,12 +101,14 @@
                     </form>
                 </div>
             </div>--%>
-                <div class="layui-fluid">
+                <div class="layui-fluid" style="padding: 0px;">
                     <div class="layui-row block-bg-color block-margin-both">
                         <div class="layui-col-md12 block-padding-around " style="height: 90px">
+                            <%-- 搜索条件 Start --%>
                             <form class="layui-form relativei" action="">
                                 <div class="layui-form-item block-margin-both-15">
                                     <div class="layui-form-item">
+                                		<%-- AREA下拉框 Start --%>
                                         <div class="layui-inline">
                                             <%--<label class="layui-form-label">地区</label>--%>
                                             <div class="layui-input-inline ">
@@ -112,15 +120,18 @@
                                                 </select>
                                             </div>
                                         </div>
+                                		<%-- AREA下拉框 End --%>
+                                		<%-- BUILDING下拉框 Start --%>
                                         <div class="layui-inline">
                                             <%--<label class="layui-form-label">区域</label>--%>
-
                                             <div class="layui-input-inline">
                                                 <select id="home_building" lay-filter="home_building" lay-verify="required">
                                                     <option value=""></option>
                                                 </select>
                                             </div>
                                         </div>
+                                		<%-- BUILDING下拉框 End --%>
+                                        <%-- HOME_DATE时间插件 Satrt --%>
                                         <div class="layui-inline">
                                             <%--<label class="layui-form-label">日期</label>--%>
                                             <div class="layui-input-inline">
@@ -128,6 +139,8 @@
                                                        lay-verify="required" onchange="checkTime()">
                                             </div>
                                         </div>
+                                        <%-- HOME_DATE时间插件 End --%>
+                                        <%-- HOME_TIME时间插件 Satrt --%>
                                         <div class="layui-inline">
                                             <%--<label class="layui-form-label">时间</label>--%>
                                             <div class="layui-input-inline">
@@ -135,6 +148,8 @@
                                                        lay-verify="required" onchange="checkTime()">
                                             </div>
                                         </div>
+                                        <%-- HOME_TIME时间插件 End --%>
+                                        <%-- HOME_DURATION时长 Start --%>
                                         <div class="layui-inline">
                                             <%--<label class="layui-form-label">时长</label>--%>
                                             <div class="layui-input-inline">
@@ -142,12 +157,15 @@
                                                        lay-verify="required" onchange="checkTime()">
                                             </div>
                                         </div>
+                                        <%-- HOME_DURATION时长 End --%>
+                                        <%-- 日程按钮 Start --%>
                                         <div class="layui-inline" style="float: right;margin-right: 100px">
                                             <a class="layui-btn layui-btn-sm layui-btn-normal"
                                                href="${pageContext.request.contextPath}/page/schedule/schedule.jsp">
                                                 <i class="layui-icon layui-icon-date"></i> 日程
                                             </a>
                                         </div>
+                                        <%-- 日程按钮 End --%>
                                     </div>
                                     <%--<div class="layui-form-item">--%>
                                     <%----%>
@@ -163,9 +181,13 @@
                                     </div>
                                      -->
                                 </div>
+                                
+                                
                             </form>
+                            <%-- 搜索条件 End --%>
                         </div>
                     </div>
+                    
             <div class="layui-row block-bg-color block-margin-both">
                 <div class="layui-col-md12 block-padding-around">
                     <div class="layui-tab layui-tab-brief" lay-filter="home_floor" style="margin-top: 0px">
@@ -346,7 +368,7 @@ function renderRoom(area, building) {
 				var card = $('<div class="layui-col-md2" >' + '<div class="layui-card box">' + '<div class="layui-card-header">' + '<div class="home-point">' + this.personCount + 'P</div>'
 						+ '<div class="home-point-label">' + '<h4>' + '<strong>' + n.roomName + '</strong>' + '</h4>' + '</div>' + '</div>'
 						+ '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName + '" style="height: 25px" onclick="findMeeting(this)">'
-						+ '<img src="${pageContext.request.contextPath}/image/2.png" style="margin-top: 0px" />' +
+						+ '<img class="roomImg" src="${pageContext.request.contextPath}/image/space_large_blue.png" style="margin-top: 0px" />' +
                     '</h4>' + '</div>' + '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName
 						+ '" data-roomId="' + n.roomId + '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: white" name="' + this.roomId + '">' + this.roomName + '</div>' + '</div>'
 						+ '</div>');
