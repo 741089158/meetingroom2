@@ -49,9 +49,9 @@
                     <a href="${pageContext.request.contextPath}/page/user/linkman.jsp">联系人</a>
                 </dd>
                 </security:authorize>
-                <dd>
+               <%-- <dd>
                     <a href="${pageContext.request.contextPath}/page/config/config_home.jsp">配置管理</a>
-                </dd>
+                </dd>--%>
             </dl>
         </li>
         <%--<security:authorize access="hasRole('ADMIN')">--%>
