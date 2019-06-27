@@ -2,12 +2,6 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../page/common.jsp"%>
-<style>
-.roomImg {
-	position: relative;
-	top: -38px;
-}
-</style>
 <body>
 <%@ include file="../page/top.jsp"%>
 <div class="layui-row row_black">
@@ -42,29 +36,29 @@
 										</div>
 									</div>
 									<%-- BUILDING下拉框 End --%>
-									<%-- HOME_DATE时间插件 Satrt --%>
+									<%-- QUERY_DATE时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="home_date" placeholder="yyyy年MM月dd日" lay-verify="required" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_date" readonly="readonly" onchange="checkTime()">
 										</div>
 									</div>
-									<%-- HOME_DATE时间插件 End --%>
-									<%-- HOME_TIME时间插件 Satrt --%>
+									<%-- QUERY_DATE时间插件 End --%>
+									<%-- QUERY_START_TIME时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="home_time" placeholder="HH:mm" lay-verify="required" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_start_time" readonly="readonly" onchange="checkTime()">
 										</div>
 									</div>
-									<%-- HOME_TIME时间插件 End --%>
-									<%-- HOME_DURATION时长 Start --%>
+									<%-- QUERY_START_TIME时间插件 End --%>
+									<%-- QUERY_END_TIME时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="home_duration" placeholder="HH:mm" lay-verify="required" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_end_time" readonly="readonly" onchange="checkTime()">
 										</div>
 									</div>
-									<%-- HOME_DURATION时长 End --%>
+									<%-- QUERY_END_TIME时间插件 End --%>
 									<%-- 日程按钮 Start --%>
-									<div class="layui-inline" style="float: right; margin-right: 100px">
+									<div class="layui-inline" style="float: right; margin-right: 100px; padding-top: 6px;">
 										<a class="layui-btn layui-btn-sm layui-btn-normal" href="${pageContext.request.contextPath}/page/schedule/schedule.jsp"> <i class="layui-icon layui-icon-date"></i> 日程
 										</a>
 									</div>
@@ -114,67 +108,127 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 		$("#home_tab_content_container").height(contentH); // 设置会议室展示容器的高度
 		return contentH;
 	}();
+	
+	// 下一个时间节点
+	var nextTimeStr = function() {
+		var unit = 30 * 60 * 1000; // 30MIN
+		var now = new Date();
+		var nextTime = now.getTime() + unit;
+		var next = new Date(nextTime);
+		var nextHours = next.getHours();
+		var nextMinutes = next.getMinutes();
+		nextMinutes = nextMinutes >= 30 ? "30" : "00";
+		return "" + nextHours + ":" + nextMinutes;
+	}();
+	// 获取指定时间30MIN后的时间
+	var nextEndStr = function(_HHmm) {
+		var hoursAndMinutes = _HHmm.split(":");
+		var the = new Date();
+		the.setHours(hoursAndMinutes[0]);
+		the.setMinutes(hoursAndMinutes[1]);
+		var unit = 30 * 60 * 1000; // 30MIN
+		var nextTime = the.getTime() + unit;
+		var next = new Date(nextTime);
+		var nextHours = next.getHours();
+		var nextMinutes = next.getMinutes();
+		nextMinutes = nextMinutes < 10 ? "0" + nextMinutes : "" + nextMinutes;
+		return "" + nextHours + ":" + nextMinutes; // End
+	};
+	// 计算会议持续时间
+	var calaDuration = function(startStr, endStr) {
+		var _toTime = function(str) {
+			var theArray = str.split(":");
+			var the = new Date();
+			the.setHours(theArray[0]);
+			the.setMinutes(theArray[1]);
+			return the.getTime();
+		}
+		var startTime = _toTime(startStr);
+		var endTime = _toTime(endStr);
+		var diffVal = (endTime - startTime) / (60 * 1000);
+		if (diffVal < 0) {
+			diffVal = (24 * 60) + diffVal;
+		}
+		var hl = parseInt(diffVal / 60); // 小时
+		var ml = diffVal % 60; // 分钟
+		hl = hl < 10 ? "0" + hl : "" + hl;
+		ml = ml < 10 ? "0" + ml : "" + ml;
+		return hl + ":" + ml;
+	}
 						
 	//初始化时间下拉框
 	laydate.render({
-		elem : '#home_date',
+		elem : '#query_date',
 		format : 'yyyy-MM-dd',
 		value : new Date(),
+		btns: ['now','confirm'],
 		done : function(value, date) {
-			var home_time = $("#home_time").val();
-			var check_duration = $("#home_duration").val();
+			var theDay = value;
+			var startStr = $("#query_start_time").val();
+			var endStr = $("#query_end_time").val();
+			var duration = calaDuration(startStr, endStr);
 			var data = {
-				"date" : value,
-				"time" : home_time,
-				"duration" : check_duration
+				"date" : theDay,
+				"time" : startStr,
+				"duration" : duration
 			};
-			if (home_time == "" || check_duration == "") {
-				return;
-			}
-			console.log(data);
 			checkTime(data);
 		}
 	});
 	laydate.render({
-		elem : '#home_time',
+		elem : '#query_start_time',
 		type : 'time',
 		format : 'HH:mm',
+		value : nextTimeStr,
 		ready : formatMinutes,
+		btns: ['confirm'],
 		done : function(value, date) {
-			var check_date = $("#home_date").val();
-			var check_duration = $("#home_duration").val();
+			$("#query_end_time").val(nextEndStr(value)); // 刷新结束时间
+			var theDay = $("#query_date").val();
+			var startStr = value;
+			var endStr = $("#query_end_time").val();
+			var duration = calaDuration(startStr, endStr);
 			var data = {
-				"date" : check_date,
-				"time" : value,
-				"duration" : check_duration
+				"date" : theDay,
+				"time" : startStr,
+				"duration" : duration
 			};
-			if (check_date == "" || check_duration == "") {
-				return;
-			}
 			checkTime(data);
 		}
 	});
 	laydate.render({
-		elem : '#home_duration',
+		elem : '#query_end_time',
 		type : 'time',
-		btns : [ 'confirm' ],
 		format : 'HH:mm',
-		value : '01:00',
+		value : nextEndStr(nextTimeStr),
 		ready : formatMinutes,
+		btns: ['confirm'],
 		done : function(value, date) {
-			var check_date = $("#home_date").val();
-			var check_time = $("#home_time").val();
+			var theDay = $("#query_date").val();
+			var startStr = $("#query_start_time").val();
+			var endStr = value;
+			var duration = calaDuration(startStr, endStr);
 			var data = {
-				"date" : check_date,
-				"time" : check_time,
-				"duration" : value
+				"date" : theDay,
+				"time" : startStr,
+				"duration" : duration
 			};
-			if (check_date == "" || check_time == "") {
-				return;
-			}
 			checkTime(data);
 		}
-	});				
+	});
+	var doFirstCheck = function() {
+		var theDay = $("#query_date").val();
+		var startStr = $("#query_start_time").val();
+		var endStr = $("#query_end_time").val();
+		var duration = calaDuration(startStr, endStr);
+		var data = {
+			"date" : theDay,
+			"time" : startStr,
+			"duration" : duration
+		};
+		checkTime(data);
+		return "OK";
+	}();
 				
 	<%-- 初始化 地区 区域 --%>
 	$.post("${pageContext.request.contextPath}/meetroom/meetarea", {}, function(result) {
@@ -192,7 +246,6 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 			area : area,
 			building : building
 		};
-		$("#home_time").val("");
 		var url = "${pageContext.request.contextPath}/meetroom/meetfloor";
 		$.post(url, data, function(result) {
 			$("#home_floor").empty();
@@ -206,16 +259,42 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 				top_tmp.append(tmp);
 				$("#home_tab_content_container").append(top_tmp);
 				$.each(v, function(i, n) {
-					var card = $('<div class="layui-col-md2" >' + '<div class="layui-card box">' + '<div class="layui-card-header">' + '<div class="home-point">' + this.personCount
-							+ 'P</div>' + '<div class="home-point-label">' + '<h4>' + '<strong>' + n.roomName + '</strong>' + '</h4>' + '</div>' + '</div>'
-							+ '<div class="layui-card-body home-point-body" data-roomId="' + this.roomId + '" data-roomType="' + this.roomName
-							+ '" style="height: 25px" onclick="findMeeting(this)">'
-							+ '<img class="roomImg" src="${pageContext.request.contextPath}/image/space_large_blue.png" style="margin-top: 0px" />' + '</h4>' + '</div>'
-							+ '<div class="layui-card-footer-a ' + this.roomId + '" data-roomType="' + n.roomName + '" data-roomId="' + n.roomId
-							+ '" onclick="cardFooterAClick(this)" id="' + this.roomId + '" style="background-color: white" name="' + this.roomId + '">' + this.roomName + '</div>'
-							+ '</div>' + '</div>');
-					$("#home_card_container").append(card.clone());
-					tmp.append(card);
+					<%-- 会议室卡片 重构 Start --%>
+					var $md2 = $('<div class="layui-col-md2"></div>');
+					var $cardBox = $('<div class="layui-card box"></div>');
+					var $cardHeader = $('<div class="layui-card-header"></div>');
+					var $homePoint = $('<div class="home-point">' + this.personCount + '</div>'); // 人数
+					var $homePointLabel = $('<div class="home-point-label"></div>');
+					$homePointLabel.html('<h4><strong>' + this.roomName + '</strong></h4>'); // 房间名
+					$cardHeader.append($homePoint).append($homePointLabel); // 组建头部
+					var $cardBody = $('<div class="layui-card-body home-point-body"></div>');
+					$cardBody.attr("data-roomid", this.roomId);
+					$cardBody.attr("data-roomtype", this.roomName);
+					$cardBody.attr("data-roomtype", this.roomName);
+					$cardBody.attr("onclick", "findMeeting(this)");
+					// 图片格局人数改变
+					var _personCount = this.personCount || 0;
+					if (_personCount < 10) {
+						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_small_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+					} else if (_personCount < 30) {
+						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_middle_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+					} else {
+						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_large_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+					}
+					var $cardFooter = $('<div class="layui-card-footer-a"></div>');
+					$cardFooter.addClass(this.roomId);
+					$cardFooter.attr("data-roomtype", this.roomName);
+					$cardFooter.attr("data-roomid", this.roomId);
+					$cardFooter.attr("id", this.roomId);
+					$cardFooter.attr("style", "background-color: white");
+					$cardFooter.attr("name", this.roomId);
+					$cardFooter.html(this.roomName);
+					$cardFooter.attr("onclick", "cardFooterAClick(this)");
+					$cardBox.append($cardHeader).append($cardBody).append($cardFooter); // 组建BOX
+					$md2.append($cardBox);
+					$("#home_card_container").append($md2.prop("outerHTML"));
+					tmp.append($md2.prop("outerHTML"));
+					<%-- 会议室卡片 重构 End --%>
 				});
 			});
 		}, "JSON");
@@ -265,18 +344,19 @@ function findMeeting(roomDom) {
 function cardFooterAClick(footerDom) {
 	var roomId = $(footerDom).attr("data-roomId");
 	var roomType = $(footerDom).attr("data-roomType");
-	var d = $("#home_date").val();
+	var d = $("#query_date").val();
 	d = d.replace("年", "-");
 	d = d.replace("月", "-");
 	d = d.replace("日", "");
-	var t = $("#home_time").val();
+	var t = $("#query_start_time").val();
 	t = t.replace("点", ":");
 	t = t.replace("分", "");
 	var meetTime = $("#home_duration").val();
-	var startTime = $("#home_time").val();
+	var startTime = $("#query_start_time").val();
+	var roomName = $(footerDom).attr("data-roomType");
 	layer.open({
 		type : 2,
-		title : "预约会议",
+		title : roomName,
 		area : [ '750px', '600px' ],
 		content : "${pageContext.request.contextPath }/meetroom/remmet?id=" + roomId + "&date=" + d + "&time=" + t + "&meetTime=" + meetTime
 	});
@@ -286,11 +366,23 @@ function checkTime(data) {
 	// 预定会议冲突检查 根据地区,建筑,日期,时间,时长
 	$.post("${pageContext.request.contextPath}/appointreet/checkTime", data, function(resp) {
 		// Step1: 重置已被预约的项
-		$(".layui-card-footer-a").css("display", "block");
+		$(".layui-card-footer-a").each(function() {
+			var $img = $(this).parent().find(".roomImg");
+			var oldSrc = $img.attr("src");
+			if (oldSrc.indexOf("_blue") < 0) {
+				var newSrc = oldSrc.replace(".png", "_blue.png");
+				$img.attr("src", newSrc);
+			}
+		});
 		// Step2: 根据返回数据隐藏匹配的项
+		console.log(resp);
 		$.each(resp, function() {
 			if ((document.getElementById(this.meetRoomId)) != null) {
-				$("." + this.meetRoomId).hide();
+				// $("." + this.meetRoomId).hide();
+				var $img = $("." + this.meetRoomId).parent().find(".roomImg");
+				var oldSrc = $img.attr("src");
+				var newSrc = oldSrc.replace("_blue", "");
+				$img.attr("src", newSrc);
 			}
 		})
 	});

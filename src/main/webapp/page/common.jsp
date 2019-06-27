@@ -123,7 +123,7 @@
     .home-point-body {
         /* background: url(
     ${pageContext.request.contextPath} /image/img@2x.png) no-repeat 95% 80%;*/
-        padding: 20px 55px;
+        padding: 0px 55px;
         height: 72px;
         text-align: center;
     }
