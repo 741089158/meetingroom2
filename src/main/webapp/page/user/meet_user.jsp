@@ -40,8 +40,8 @@
 <script type="text/html" id="barDemo">
     <security:authorize access="hasAnyRole('ROLE_ROLE')">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">角色分配</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+  <%--  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>--%>
     </security:authorize>
 </script>
 <script>

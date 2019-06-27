@@ -99,6 +99,7 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 	var laydate = layui.laydate;
 	var form = layui.form;
 	layer = layui.layer;
+	var element = layui.element;
 	
 	// 初始化会议室展示容器的高度
 	var initHeight = function() {

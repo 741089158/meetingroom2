@@ -5,14 +5,14 @@
 <%@ include file="../../page/common.jsp" %>
 <body class="layui-form" style="background-color: white;padding: 10px">
 <div class="layui-col-md12 block-padding-around">
-    <div class="layui-form-item">
+   <%-- <div class="layui-form-item">
         <div class="layui-inline">
             <span>主题:</span>
         </div>
         <div class="layui-inline" style="width: 500px">
             <input type="text" class="layui-input">
         </div>
-    </div>
+    </div>--%>
    <%-- <div class="layui-col-md12 block-padding-around">--%>
         <%--<div class="layui-form-item block-margin-both-15">
             <div class="layui-form-item">
@@ -43,7 +43,7 @@
             elem: '#demo',
             //height: 300,//'auto'
             url: '${pageContext.request.contextPath}/appointreet/findMeetingByRoomId?roomId=' + id //数据接口
-            , page: true //开启分页
+            , page: false //开启分页
             /*,cellMinWidth: 60*/
             , cols: [[ //表头
                 /* {field: 'id', title: 'ID', width: 60, fixed: 'left'}*/
