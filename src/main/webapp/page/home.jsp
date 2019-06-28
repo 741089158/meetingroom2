@@ -39,21 +39,21 @@
 									<%-- QUERY_DATE时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="query_date" readonly="readonly" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_date" readonly="readonly">
 										</div>
 									</div>
 									<%-- QUERY_DATE时间插件 End --%>
 									<%-- QUERY_START_TIME时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="query_start_time" readonly="readonly" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_start_time" readonly="readonly">
 										</div>
 									</div>
 									<%-- QUERY_START_TIME时间插件 End --%>
 									<%-- QUERY_END_TIME时间插件 Satrt --%>
 									<div class="layui-inline">
 										<div class="layui-input-inline">
-											<input type="text" class="layui-input" id="query_end_time" readonly="readonly" onchange="checkTime()">
+											<input type="text" class="layui-input" id="query_end_time" readonly="readonly">
 										</div>
 									</div>
 									<%-- QUERY_END_TIME时间插件 End --%>
@@ -151,7 +151,7 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 			diffVal = (24 * 60) + diffVal;
 		}
 		var hl = parseInt(diffVal / 60); // 小时
-		var ml = diffVal % 60; // 分钟
+		var ml = parseInt(diffVal % 60); // 分钟
 		hl = hl < 10 ? "0" + hl : "" + hl;
 		ml = ml < 10 ? "0" + ml : "" + ml;
 		return hl + ":" + ml;
@@ -376,7 +376,6 @@ function checkTime(data) {
 			}
 		});
 		// Step2: 根据返回数据隐藏匹配的项
-		console.log(resp);
 		$.each(resp, function() {
 			if ((document.getElementById(this.meetRoomId)) != null) {
 				// $("." + this.meetRoomId).hide();
