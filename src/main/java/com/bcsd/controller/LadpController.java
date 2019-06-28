@@ -26,135 +26,114 @@ import java.util.*;
 @RequestMapping("/ldap")
 public class LadpController {
 
-    @Autowired
-    private LdapService ldapService;
+	@Autowired
+	private LdapService ldapService;
 
+	// @Autowired
+	// private LdapTemplate ldapTemplate;
 
-//    @Autowired
-//    private LdapTemplate ldapTemplate;
+	@RequestMapping("/getUser")
+	@ResponseBody
+	public ResponseData getUser(Integer page, Integer size, String name) {
+		if (name == null || name.length() == 0) {
+			name = "*";
+		}
+		List<Map<String, String>> allData = new ArrayList<>();
+		try {
+			allData = ldapService.getUser(page, size, name); // 全部数据
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int count = allData.size(); // 数据总量
+		List<Map<String, String>> pageData = ldapService.doPage(page, size, allData); // 内存分页
+		return new ResponseData(count, 0, "", pageData);
+	}
 
+	@RequestMapping("/queryUser")
+	@ResponseBody
+	public ResponseData queryUser(String name) {
+		Map<String, String> map = null;
+		try {
+			map = ldapService.queryUser(name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ResponseData data = new ResponseData(map.size(), 0, "", map);
+		return data;
+	}
 
-    @RequestMapping("/getUser")
-    @ResponseBody
-    public ResponseData getUser(Integer page,Integer size,String name){
-        page=1;
-        size=1;
-        if (name==""||name==null){
-            name="*";
-        }
-        List<Map<String, String>> list = null;
-        try {
-            list = ldapService.getUser(page,size,name);
-            PageInfo pageInfo=new PageInfo(list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ResponseData data = new ResponseData(list.size(),0,"",list);
-        return data;
-    }
+	@RequestMapping("/test")
+	@ResponseBody
+	public void Method() {
+		Hashtable env = new Hashtable();
+		String adminName = "zhangsan@lin.com";
+		String adminPassword = "Zhang123";
+		String searchBase = "OU=Users Org Chart,DC=lin,DC=com";
+		String searchFilter = "(&(objectClass=user)(name=*))";
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 
+		// set security credentials, note using simple cleartext authentication
+		env.put(Context.SECURITY_AUTHENTICATION, "simple");
+		env.put(Context.SECURITY_PRINCIPAL, adminName);
+		env.put(Context.SECURITY_CREDENTIALS, adminPassword);
+		env.put(Context.PROVIDER_URL, "ldap://192.168.139.130:389");
+		try {
+			LdapContext ctx = new InitialLdapContext(env, null);
+			SearchControls searchCtls = new SearchControls();
+			String returnedAtts[] = { "url", "whenChanged", "employeeID", "name", "userPrincipalName", "physicalDeliveryOfficeName", "departmentNumber", "telephoneNumber", "homePhone", "mobile", "department", "sAMAccountName", "whenChanged", "mail" }; // 定制返回属性
+			searchCtls.setReturningAttributes(returnedAtts);
+			searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-    @RequestMapping("/queryUser")
-    @ResponseBody
-    public ResponseData queryUser(String name){
-        Map<String, String> map = null;
-        try {
-            map = ldapService.queryUser(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ResponseData data = new ResponseData(map.size(),0,"",map);
-        return data;
-    }
+			int pageSize = 1;
 
+			byte[] cookie = null;
 
+			Control[] ctls = new Control[] { new PagedResultsControl(pageSize, Control.CRITICAL) };
 
+			ctx.setRequestControls(ctls);
 
+			int totalResults = 0;
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public void Method(){
-        Hashtable env = new Hashtable();
-        String adminName = "zhangsan@lin.com";
-        String adminPassword = "Zhang123";
-        String searchBase = "OU=Users Org Chart,DC=lin,DC=com";
-        String searchFilter = "(&(objectClass=user)(name=*))";
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+			do {
+				NamingEnumeration results = ctx.search(searchBase, searchFilter, searchCtls);
 
-        //set security credentials, note using simple cleartext authentication
-        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, adminName);
-        env.put(Context.SECURITY_CREDENTIALS, adminPassword);
-        env.put(Context.PROVIDER_URL, "ldap://192.168.139.130:389");
-        try {
-            LdapContext ctx = new InitialLdapContext(env, null);
-            SearchControls searchCtls = new SearchControls();
-            String returnedAtts[] = {
-                    "url", "whenChanged", "employeeID", "name", "userPrincipalName",
-                    "physicalDeliveryOfficeName", "departmentNumber", "telephoneNumber",
-                    "homePhone", "mobile", "department", "sAMAccountName", "whenChanged",
-                    "mail"}; //定制返回属性
-            searchCtls.setReturningAttributes(returnedAtts);
-            searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+				while (results != null && results.hasMoreElements()) {
 
-            int pageSize = 1;
+					SearchResult sr = (SearchResult) results.next();
 
-            byte[] cookie = null;
+					System.out.println("name: " + sr.getName());
 
-            Control[] ctls = new Control[]{new PagedResultsControl(pageSize, Control.CRITICAL)};
+					totalResults++;
 
-            ctx.setRequestControls(ctls);
+				}
 
-            int totalResults = 0;
+				cookie = parseControls(ctx.getResponseControls());
 
-            do {
-                NamingEnumeration results = ctx.search(searchBase,
-                        searchFilter, searchCtls);
+				ctx.setRequestControls(new Control[] { new PagedResultsControl(pageSize, cookie, Control.CRITICAL) });
 
-                while (results != null && results.hasMoreElements()) {
+			} while ((cookie != null) && (cookie.length != 0));
 
-                    SearchResult sr = (SearchResult) results.next();
+			ctx.close();
+			System.out.println("Total entries: " + totalResults);
+		} catch (NamingException e) {
+			System.err.println("Paged Search failed." + e);
+		} catch (java.io.IOException e) {
+			System.err.println("Paged Search failed." + e);
+		}
+	}
 
-                    System.out.println("name: " + sr.getName());
-
-                    totalResults++;
-
-                }
-
-                cookie = parseControls(ctx.getResponseControls());
-
-                ctx.setRequestControls(new Control[]{new
-                        PagedResultsControl(pageSize
-                        , cookie, Control.CRITICAL)});
-
-
-            } while ((cookie != null) && (cookie.length != 0));
-
-            ctx.close();
-            System.out.println("Total entries: " + totalResults);
-        } catch (NamingException e) {
-            System.err.println("Paged Search failed." + e);
-        } catch (java.io.IOException e) {
-            System.err.println("Paged Search failed." + e);
-        }
-    }
-
-
-
-    static byte[] parseControls(Control[] controls) throws NamingException {
-        byte[] cookie = null;
-        if (controls != null) {
-            for (int i = 0; i < controls.length; i++) {
-                if (controls[i] instanceof PagedResultsResponseControl) {
-                    PagedResultsResponseControl prrc =
-                            (PagedResultsResponseControl) controls[i];
-                    cookie = prrc.getCookie();
-                    System.out.println(">>Next Page \n");
-                }
-            }
-        }
-        return (cookie == null) ? new byte[0] : cookie;
-    }
-
+	static byte[] parseControls(Control[] controls) throws NamingException {
+		byte[] cookie = null;
+		if (controls != null) {
+			for (int i = 0; i < controls.length; i++) {
+				if (controls[i] instanceof PagedResultsResponseControl) {
+					PagedResultsResponseControl prrc = (PagedResultsResponseControl) controls[i];
+					cookie = prrc.getCookie();
+					System.out.println(">>Next Page \n");
+				}
+			}
+		}
+		return (cookie == null) ? new byte[0] : cookie;
+	}
 
 }
