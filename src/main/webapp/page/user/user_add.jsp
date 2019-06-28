@@ -62,9 +62,7 @@
     </div>
 
     <div class="layui-input-block" style="text-align: center">
-        <security:authorize access="hasAnyRole('ROLE_SYSTEM')">
         <button class="layui-btn" lay-submit="" lay-filter="demo">提交</button>
-        </security:authorize>
         <button type="reset" class="layui-btn layui-btn-primary" id="back">取消</button>
     </div>
 

@@ -1,14 +1,13 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div class="layui-row" style="background-color: #fff;">
 	<div class="layui-col-md2" style="text-align: center; font-size: 20px; padding: 20px 0 20px 0; background-color: #393D49; color: #fff"><i class="layui-icon layui-icon-tabs" style="font-size: 20px; color: #FFFF33;"></i>  会议管理系统</div>
 	<div class="layui-col-md10" style="padding: 2px 0 0 0">
 		<ul class="layui-nav">
 
 			<li class="layui-nav-item" style="float: right;"><a href="javascript:;" style="color: #000">
-				<img src="${pageContext.request.contextPath}/image/top.jpg" class="layui-nav-img"><security:authentication property="principal.username"></security:authentication>
+				<img src="${pageContext.request.contextPath}/image/top.jpg" class="layui-nav-img">
 				</a>
 				<dl class="layui-nav-child">
 					<dd>

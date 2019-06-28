@@ -1,9 +1,8 @@
 package com.bcsd.service;
 
-import com.bcsd.entity.Mail;
-import com.bcsd.entity.UserInternal;
-
 import java.util.List;
+
+import com.bcsd.entity.UserInternal;
 
 
 public interface AddUserService {

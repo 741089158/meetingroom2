@@ -23,11 +23,9 @@
 							<div class="layui-inline">
 								<button class="layui-btn" lay-submit="" data-type="getInfo" id="search">搜索</button>
 							</div>
-							<security:authorize access="hasAnyRole('ROLE_DEPT')">
 							<div class="layui-inline">
 								<button class="layui-btn" lay-submit="" data-type="getInfo" id="add">添加</button>
 							</div>
-							</security:authorize>
 						</div>
 					</div>
 				</div>
@@ -41,10 +39,8 @@
 </div>
 <script type="text/html" id="barDemo">
 	<%--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
-	<security:authorize access="hasAnyRole('ROLE_DEPT')">
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-	</security:authorize>
 </script>
 <script>
 

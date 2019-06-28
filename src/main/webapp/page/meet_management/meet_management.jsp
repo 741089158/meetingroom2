@@ -56,10 +56,8 @@
 
 <script type="text/html" id="barDemo">
    <%-- <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>--%>
-    <security:authorize access="hasAnyRole('ROLE_ROOM')">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
-    </security:authorize>
 </script>
 <script>
     layui.use(['laydate', 'laypage', 'layer', 'table'], function () {

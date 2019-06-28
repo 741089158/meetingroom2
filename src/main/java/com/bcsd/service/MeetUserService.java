@@ -1,17 +1,16 @@
 package com.bcsd.service;
 
-import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.UserInternal;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import java.util.List;
 import java.util.Map;
+
+import com.bcsd.entity.MeetUser;
+import com.bcsd.entity.UserInternal;
 
 /**
  * @author HOEP
  * @data 2019/4/24
  */
-public interface MeetUserService extends UserDetailsService{
+public interface MeetUserService  {
 	List<Map<String, String>> findAll(Integer page, Integer size, String username);
 
 	void add(MeetUser meetUser);

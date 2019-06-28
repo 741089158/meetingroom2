@@ -1,5 +1,17 @@
 package com.bcsd.service.Impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bcsd.dao.MeetDeptDao;
 import com.bcsd.dao.MeetUserDao;
 import com.bcsd.entity.MeetUser;
@@ -8,21 +20,6 @@ import com.bcsd.entity.UserInternal;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author HOEP
@@ -43,27 +40,12 @@ public class MeetUserServiceImpl implements MeetUserService {
 //    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("经过认证类:"+username);
-        // logger.info("登录用户名:" + username);
-       /* MeetUser meetUser = null;
-        try {
-            meetUser = meetUserDao.findByUsername(username);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //明文密码需要加前缀{noop}
-        if (meetUser != null) {
-            return new User(meetUser.getUsername(), meetUser.getPassword(), getAuthority(meetUser.getUsername()));
-        }*/
-        //通过状态和权限来控制用户登陆       明文加{noop}
-        // User user = new User(meetUser.getUsername(), "{noop}"+meetUser.getPassword(), meetUser.getStatus() == 0 ? false : true, true, true, true, getAuthority(meetUser.getRoles()));
-
-        //cas用这个,上面都不要
-        return new User(username,"",getAuthority(username));
-        //return null;
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        System.out.println("经过认证类:"+username);
+//        return new User(username,"",getAuthority(username));
+//        //return null;
+//    }
 
     public List<SimpleGrantedAuthority> getAuthority(String username){
         List<Map<String,String>> maps = meetUserDao.findMenuListByUsername(username);
