@@ -1,14 +1,13 @@
 package com.bcsd.controller;
 
 
-import com.bcsd.entity.*;
-import com.bcsd.service.MeetUserService;
-import com.bcsd.service.RoleService;
-import com.github.pagehelper.PageInfo;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.bcsd.entity.Menu;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.Role;
+import com.bcsd.entity.TreeNode;
+import com.bcsd.service.MeetUserService;
+import com.bcsd.service.RoleService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/role")

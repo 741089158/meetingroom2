@@ -1,37 +1,30 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.bcsd.dao.AddUserDao;
-import com.bcsd.entity.MeetRoom;
-import com.bcsd.entity.Remeet;
-import com.bcsd.entity.User;
-import com.bcsd.entity.UserInternal;
-import com.bcsd.service.AddUserService;
-import com.bcsd.service.AppointmentMeetService;
-import com.bcsd.service.MeetUserService;
-import com.bcsd.service.ReMeetRoomService;
-import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
-import org.omg.CORBA.Request;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
+import com.bcsd.entity.UserInternal;
+import com.bcsd.service.AddUserService;
+import com.bcsd.service.MeetUserService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/addUser")
 public class AddUserController {
 	@Autowired
 	private AddUserService addUserService;
+	
 	@Autowired
 	private MeetUserService meetUserService;
 

@@ -1,16 +1,17 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bcsd.entity.*;
-import com.bcsd.service.*;
-import com.bcsd.util.DateChange;
-import com.github.pagehelper.PageInfo;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
+import com.bcsd.entity.Appointment_Meeting;
+import com.bcsd.entity.HistoryMeet;
+import com.bcsd.entity.MeetRoom;
+import com.bcsd.entity.MeetUser;
+import com.bcsd.entity.Remeet;
+import com.bcsd.entity.RepeatMeeting;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.User;
+import com.bcsd.entity.UserInternal;
+import com.bcsd.service.AddUserService;
+import com.bcsd.service.AppointmentMeetService;
+import com.bcsd.service.HistoryMeetService;
+import com.bcsd.service.LdapService;
+import com.bcsd.service.MeetRoomService;
+import com.bcsd.service.MeetUserService;
+import com.bcsd.service.ReMeetRoomService;
+import com.bcsd.service.TaskMeetingService;
+import com.bcsd.util.DateChange;
+import com.bcsd.util.GetUser;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/meetroom")
@@ -389,7 +405,7 @@ public class ReMeetRoomController {
     @RequestMapping("/myappointmeet")
     @ResponseBody
     public Object myappointmeet(Integer page, Integer size, String meetName) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = GetUser.current();
         MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
         if (page == null || page == 0) {
             page = 1;

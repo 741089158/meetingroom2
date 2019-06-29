@@ -1,31 +1,34 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bcsd.entity.*;
-import com.bcsd.service.AppointmentMeetService;
-import com.bcsd.service.MeetRoomService;
-import com.github.pagehelper.PageInfo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import com.bcsd.entity.Events;
+import com.bcsd.entity.FullCalendar;
+import com.bcsd.entity.MeetRoom;
+import com.bcsd.entity.Remeet;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.User;
+import com.bcsd.service.AppointmentMeetService;
+import com.bcsd.service.MeetRoomService;
+import com.bcsd.util.GetUser;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 会议室管理功能
@@ -138,7 +141,7 @@ public class MeetRoomController {
     @RequestMapping(value = "/meetFullCalendar", method = RequestMethod.GET)
     @ResponseBody
     public Object userFullCalendar() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = GetUser.current();
         List<Remeet> list = appointmentMeetService.findMeetByUserName(user.getUsername());
         List<FullCalendar> fullCalendar = new ArrayList<FullCalendar>();
         for (Remeet remeet : list) {
@@ -156,7 +159,7 @@ public class MeetRoomController {
     @RequestMapping(value = "/meetFullEvents")
     @ResponseBody
     public Object meetFullEvents() throws ParseException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = GetUser.current();
         List<Remeet> list = appointmentMeetService.findMeetByUserName(user.getUsername());
         List<Events> events = new ArrayList<Events>();
         for (Remeet remeet : list) {

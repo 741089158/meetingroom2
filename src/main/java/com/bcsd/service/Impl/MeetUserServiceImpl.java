@@ -1,6 +1,5 @@
 package com.bcsd.service.Impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +7,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bcsd.dao.MeetDeptDao;
 import com.bcsd.dao.MeetUserDao;
 import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.Role;
 import com.bcsd.entity.UserInternal;
 import com.bcsd.service.MeetUserService;
 import com.github.pagehelper.Page;
@@ -47,29 +44,14 @@ public class MeetUserServiceImpl implements MeetUserService {
 //        //return null;
 //    }
 
-    public List<SimpleGrantedAuthority> getAuthority(String username){
-        List<Map<String,String>> maps = meetUserDao.findMenuListByUsername(username);
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-        if (maps!=null){
-            for (Map<String, String> map : maps) {
-                list.add(new SimpleGrantedAuthority("ROLE_" + map.get("code")));
-            }
-        }
-        return list;
-    }
-
-    //作用就是返回一个List集合，集合中装入的是角色描述
-    public List<SimpleGrantedAuthority> getAuthority(List<Role> roles) {
-
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-//        list.add(new SimpleGrantedAuthority("ROLE_USER"));
-//        list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        //从数据库获取用户角色
-        for (Role role : roles) {
-            list.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
-        }
-        return list;
-    }
+//    public List<?> getAuthority(String username){
+//        return null;
+//    }
+//
+//    //作用就是返回一个List集合，集合中装入的是角色描述
+//    public List<?> getAuthority(List<Role> roles) {
+//        return list;
+//    }
 
 
     public List<Map<String, String>> findAll(Integer page, Integer size, String username) {

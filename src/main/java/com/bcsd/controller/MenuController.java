@@ -1,15 +1,15 @@
 package com.bcsd.controller;
 
 
-import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.Menu;
-import com.bcsd.entity.ResponseData;
-import com.bcsd.entity.TreeNode;
-import com.bcsd.service.MenuService;
-import com.github.pagehelper.PageInfo;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import com.bcsd.entity.Menu;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.TreeNode;
+import com.bcsd.entity.User;
+import com.bcsd.service.MenuService;
+import com.bcsd.util.GetUser;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/menu")
@@ -94,7 +96,7 @@ public class MenuController {
     @ResponseBody
     @Transactional
     public ResponseData add(Menu menu) throws Exception {
-        MeetUser user = (MeetUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = GetUser.current();
         menu.setCreateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
         ResponseData data = new ResponseData();
         menu.setOperuser(user.getUsername());

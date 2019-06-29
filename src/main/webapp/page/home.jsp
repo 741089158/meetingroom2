@@ -221,13 +221,21 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 		var theDay = $("#query_date").val();
 		var startStr = $("#query_start_time").val();
 		var endStr = $("#query_end_time").val();
-		var duration = calaDuration(startStr, endStr);
-		var data = {
-			"date" : theDay,
-			"time" : startStr,
-			"duration" : duration
-		};
-		checkTime(data);
+		var ckListener = window.setInterval(function() {
+			var theDay = $("#query_date").val();
+			var startStr = $("#query_start_time").val();
+			var endStr = $("#query_end_time").val();
+			if (theDay && startStr && endStr) {
+				var duration = calaDuration(startStr, endStr);
+				var data = {
+					"date" : theDay,
+					"time" : startStr,
+					"duration" : duration
+				};
+				checkTime(data);
+				window.clearInterval(ckListener); // 监听成功，关闭重复
+			}
+		}, 500);
 		return "OK";
 	}();
 				

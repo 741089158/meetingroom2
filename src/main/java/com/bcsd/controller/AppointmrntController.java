@@ -9,12 +9,11 @@ import com.bcsd.entity.Remeet;
 import com.bcsd.entity.UserInternal;
 import com.bcsd.service.*;
 import com.bcsd.util.DateChange;
+import com.bcsd.util.GetUser;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,14 +87,14 @@ public class AppointmrntController {
     @RequestMapping("/history")
     @ResponseBody
     public Object findHistory(Integer page, Integer size,String meetName) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = GetUser.current();
         if (page == null || page == 0) {
             page = 1;
         }
         if (size == null || size == 0) {
             size = 10;
         }
-        List<HistoryMeet> list = appointmentMeetService.findPageHistory(page, size, user.getUsername(), meetName);
+		List<HistoryMeet> list = appointmentMeetService.findPageHistory(page, size, user.getUsername(), meetName);
         PageInfo pageInfo = new PageInfo<HistoryMeet>(list);
         ResponseData data = new ResponseData((int) pageInfo.getTotal(), 0, "查询成功", list);
         return data;

@@ -1,23 +1,23 @@
 package com.bcsd.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bcsd.entity.MeetUser;
-import com.bcsd.entity.ResponseData;
-import com.bcsd.entity.UserInternal;
-import com.bcsd.service.MeetUserService;
-import com.github.pagehelper.PageInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.alibaba.fastjson.JSONObject;
+import com.bcsd.entity.ResponseData;
+import com.bcsd.entity.UserInternal;
+import com.bcsd.service.MeetUserService;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author HOEP
@@ -75,68 +75,68 @@ public class MeetUserController {
     }
 
 
-    /**
-     * 修改用户
-     *
-     * @param user
-     */
-    @RequestMapping("/updateUser")
-    @ResponseBody
-    @Transactional
-    public ResponseData update(MeetUser user) {
-        ResponseData data = new ResponseData();
-        //先检查用户名是否已存在
-
-        User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setOperuser(users.getUsername());
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        user.setOperdate(sf.format(new Date()));
-
-        try {
-            meetUserService.update(user);
-            data.setCode(200);
-            data.setMessage("修改成功");
-            return data;
-        } catch (Exception e) {
-            e.printStackTrace();
-            data.setCode(404);
-            data.setMessage("修改失败");
-            return data;
-        }
-    }
-
-    /**
-     * 添加用户
-     *
-     * @param user
-     */
-    @RequestMapping("/addUser")
-    @ResponseBody
-    @Transactional
-    public ResponseData addUser(MeetUser user) {
-        ResponseData data = new ResponseData();
-        //先检查用户名是否已存在
-        MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
-        if (meetUser == null) {
-            User users = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            user.setCreatedate(sf.format(new Date()));
-            user.setOrderBy(0);
-            user.setIsdisabled(0);
-            user.setStatus(0);
-            user.setOperuser(users.getUsername());
-            user.setIsExternal(0);
-            meetUserService.add(user);
-            data.setCode(200);
-            data.setMessage("添加成功");
-            return data;
-        } else {
-            data.setCode(404);
-            data.setMessage("用户名已存在!");
-            return data;
-        }
-
-    }
+//    /**
+//     * 修改用户
+//     *
+//     * @param user
+//     */
+//    @RequestMapping("/updateUser")
+//    @ResponseBody
+//    @Transactional
+//    public ResponseData update(MeetUser user) {
+//        ResponseData data = new ResponseData();
+//        //先检查用户名是否已存在
+//
+//        User user = GetUser.current();
+//        user.setOperuser(users.getUsername());
+//        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        user.setOperdate(sf.format(new Date()));
+//
+//        try {
+//            meetUserService.update(user);
+//            data.setCode(200);
+//            data.setMessage("修改成功");
+//            return data;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            data.setCode(404);
+//            data.setMessage("修改失败");
+//            return data;
+//        }
+//    }
+//
+//    /**
+//     * 添加用户
+//     *
+//     * @param user
+//     */
+//    @RequestMapping("/addUser")
+//    @ResponseBody
+//    @Transactional
+//    public ResponseData addUser(MeetUser user) {
+//        ResponseData data = new ResponseData();
+//        //先检查用户名是否已存在
+//        MeetUser meetUser = meetUserService.findByUsername(user.getUsername());
+//        if (meetUser == null) {
+//            User user = GetUser.current();
+//            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            user.setCreatedate(sf.format(new Date()));
+//            user.setOrderBy(0);
+//            user.setIsdisabled(0);
+//            user.setStatus(0);
+//            user.setOperuser(users.getUsername());
+//            user.setIsExternal(0);
+//            meetUserService.add(user);
+//            data.setCode(200);
+//            data.setMessage("添加成功");
+//            return data;
+//        } else {
+//            data.setCode(404);
+//            data.setMessage("用户名已存在!");
+//            return data;
+//        }
+//
+//    }
 
     /**
      * 删除用户
