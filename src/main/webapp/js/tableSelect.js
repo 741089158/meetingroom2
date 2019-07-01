@@ -22,7 +22,7 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
         opt.checkedKey = opt.checkedKey;
         opt.table.page = opt.table.page || true;
         opt.table.height = opt.table.height || 315;
-        
+        opt.queryGroup = opt.queryGroup || []; // 自定义查询分组
         elem.off('click').on('click', function(e) {
             e.stopPropagation();
 
@@ -36,6 +36,21 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
             var tableBox = '<div class="tableSelect layui-anim layui-anim-upbit" style="left:'+l+';top:'+t+';border: 1px solid #d2d2d2;background-color: #fff;box-shadow: 0 2px 4px rgba(0,0,0,.12);padding:10px 10px 0 10px;position: absolute;z-index:66666666;margin: 5px 0;border-radius: 2px;min-width:530px;">';
                 tableBox += '<div class="tableSelectBar">';
                 tableBox += '<form class="layui-form" action="" style="display:inline-block;">';
+                // ########## 添加分组下拉框 Start
+                if (opt.queryGroup.length > 0) {
+                	var newSelect = [];
+                	newSelect.push('<select style="display:inline-block;width:190px;height:30px;vertical-align:middle;margin-right:-1px;border: 1px solid #C9C9C9;" type="text" name="queryGroup" lay-verify="">');
+                	newSelect.push('<option value="">全部</option>');
+                	var tGroup = opt.queryGroup;
+                	for ( var i in tGroup) {
+                		console.log(tGroup);
+                		newSelect.push('<option value="' + tGroup[i].key + '">' + tGroup[i].name + '</option>');
+                	}
+                	newSelect.push('</select>');
+                	tableBox += newSelect.join("");
+                	tableBox += '&nbsp;&nbsp;';
+				}
+                // ########## 添加分组下拉框 End
                 tableBox += '<input style="display:inline-block;width:190px;height:30px;vertical-align:middle;margin-right:-1px;border: 1px solid #C9C9C9;" type="text" name="'+opt.searchKey+'" placeholder="'+opt.searchPlaceholder+'" autocomplete="off" class="layui-input"><button class="layui-btn layui-btn-sm layui-btn-primary tableSelect_btn_search" lay-submit lay-filter="tableSelect_btn_search"><i class="layui-icon layui-icon-search"></i></button>';
                 tableBox += '</form>';
                 tableBox += '<button style="float:right;" class="layui-btn layui-btn-sm tableSelect_btn_select">选择<span></span></button>';
@@ -44,7 +59,6 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
                 tableBox += '</div>';
                 tableBox = $(tableBox);
             $('body').append(tableBox);
-            
             //数据缓存
             var checkedData = [];
 

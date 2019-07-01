@@ -15,14 +15,16 @@
                     <div class="layui-row block-bg-color block-margin-both">
                         <div class="layui-col-md12 block-padding-around" id="localmeet_content_container">
                             <form class="layui-form" action="">
+
                                 <input name="id" value="${meetId}" type="hidden"/> <input name="meetRoomId"
                                                                                           value="${meetRoomId}"
                                                                                           type="hidden"/>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">会议名称</label>
                                     <div class="layui-input-block">
+                                        <% String meetName = (String) request.getSession().getAttribute("username");%>
                                         <input type="text" name="meetName" required lay-verify="required"
-                                               placeholder="请输入议题"
+                                               value="<%=meetName%>预约的会议"
                                                autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
@@ -52,7 +54,7 @@
                                             <input type="text" class="layui-input" id="home_date"
                                                    placeholder="yyyy年MM月dd日"
                                                    lay-verify="required" value="${date}" name="date"
-                                                   style="width: 130px">
+                                                   style="width: 100px">
                                         </div>
                                     </div>
                                     <div class="layui-inline">
@@ -60,14 +62,14 @@
                                         <div class="layui-input-block">
                                             <input type="text" class="layui-input" autocomplete="off" name="time"
                                                    id="home_time" placeholder="请选择时间"
-                                                   value="${time}" style="width: 130px;margin-left: 0px"/>
+                                                   value="${time}" style="width: 100px;margin-left: 0px"/>
                                         </div>
                                     </div>
                                     <div class="layui-inline">
                                         <%-- <label class="layui-form-label">会议时长</label>--%>
                                         <div class="layui-input-block">
                                             <input type="text" class="layui-input" name="meetTime" id="home_duration"
-                                                   value="${meetTime}" style="width: 130px;margin-left: 0px"/>
+                                                   value="${meetTime}" style="width: 100px;margin-left: 0px"/>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +251,6 @@
             type: 'time',
             btns: ['confirm'],
             format: 'HH:mm',
-            value: '01:00',
             ready: formatMinutes
         });
 
@@ -307,6 +308,7 @@
         //第一个实例
         table.render({
             elem: '#demo',
+            queryGroup: [{"key":"1","name":"测试组"}], // TODO 分组下拉框数据设置的位置
             //height: 300,//'auto'
             url: '${pageContext.request.contextPath}/appointreet/findMeetingByRoomId?roomId=' + id //数据接口
             , page: false //开启分页

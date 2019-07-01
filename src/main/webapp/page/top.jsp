@@ -1,5 +1,8 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.bcsd.util.GetUser" %>
+<%@ page import="com.bcsd.entity.User" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="layui-row" style="background-color: #fff;">
 	<div class="layui-col-md2" style="text-align: center; font-size: 20px; padding: 20px 0 20px 0; background-color: #393D49; color: #fff">
@@ -7,11 +10,14 @@
 	</div>
 	<div class="layui-col-md10" style="padding: 2px 0 0 0">
 		<ul class="layui-nav">
-			<li class="layui-nav-item" style="float: right;"><a href="javascript:;" style="color: #000"> <img src="${pageContext.request.contextPath}/image/top.jpg" class="layui-nav-img">
+			<li class="layui-nav-item" style="float: right;"><a href="javascript:;" style="color: #000">
+
+				<% String meetName = (String) request.getSession().getAttribute("username");%>
+				<img src="${pageContext.request.contextPath}/image/top.jpg" class="layui-nav-img"><%=meetName%>
 			</a>
 				<dl class="layui-nav-child">
 					<dd>
-						<a href="${pageContext.request.contextPath}/logout/cas">退出</a>
+						<a href="${pageContext.request.contextPath}/addUser/logout">退出</a>
 					</dd>
 				</dl></li>
 		</ul>

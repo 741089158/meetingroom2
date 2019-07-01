@@ -221,21 +221,13 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 		var theDay = $("#query_date").val();
 		var startStr = $("#query_start_time").val();
 		var endStr = $("#query_end_time").val();
-		var ckListener = window.setInterval(function() {
-			var theDay = $("#query_date").val();
-			var startStr = $("#query_start_time").val();
-			var endStr = $("#query_end_time").val();
-			if (theDay && startStr && endStr) {
-				var duration = calaDuration(startStr, endStr);
-				var data = {
-					"date" : theDay,
-					"time" : startStr,
-					"duration" : duration
-				};
-				checkTime(data);
-				window.clearInterval(ckListener); // 监听成功，关闭重复
-			}
-		}, 500);
+		var duration = calaDuration(startStr, endStr);
+		var data = {
+			"date" : theDay,
+			"time" : startStr,
+			"duration" : duration
+		};
+		checkTime(data);
 		return "OK";
 	}();
 				
@@ -280,15 +272,15 @@ layui.use([ 'form', 'laydate', 'layer' ], function() {
 					$cardBody.attr("data-roomid", this.roomId);
 					$cardBody.attr("data-roomtype", this.roomName);
 					$cardBody.attr("data-roomtype", this.roomName);
-					$cardBody.attr("onclick", "findMeeting(this)");
+					$cardBody.attr("onclick", "cardFooterAClick(this)");
 					// 图片格局人数改变
 					var _personCount = this.personCount || 0;
 					if (_personCount < 10) {
-						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_small_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+						$cardBody.html('<img class="roomImg" src="${pageContext.request.contextPath}/image/space_small_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
 					} else if (_personCount < 30) {
-						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_middle_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+						$cardBody.html('<img class="roomImg" src="${pageContext.request.contextPath}/image/space_middle_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
 					} else {
-						$cardBody.html('<img class="roomImg" src="/meetingroom/image/space_large_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
+						$cardBody.html('<img class="roomImg" src="${pageContext.request.contextPath}/image/space_large_blue.png" style="margin-top: 0px;position: relative;top: -15px;">');
 					}
 					var $cardFooter = $('<div class="layui-card-footer-a"></div>');
 					$cardFooter.addClass(this.roomId);
@@ -360,7 +352,7 @@ function cardFooterAClick(footerDom) {
 	var t = $("#query_start_time").val();
 	t = t.replace("点", ":");
 	t = t.replace("分", "");
-	var meetTime = $("#home_duration").val();
+	var meetTime = $("#query_end_time").val();
 	var startTime = $("#query_start_time").val();
 	var roomName = $(footerDom).attr("data-roomType");
 	layer.open({
