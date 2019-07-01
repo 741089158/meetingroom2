@@ -308,7 +308,6 @@
         //第一个实例
         table.render({
             elem: '#demo',
-            queryGroup: [{"key":"1","name":"测试组"}], // TODO 分组下拉框数据设置的位置
             //height: 300,//'auto'
             url: '${pageContext.request.contextPath}/appointreet/findMeetingByRoomId?roomId=' + id //数据接口
             , page: false //开启分页
@@ -354,6 +353,7 @@
         //执行实例
         tableSelect.render({
             elem: '#username',	//定义输入框input对象 必填
+            queryGroup: [{"key":"1","name":"测试组"}], // TODO 分组下拉框数据设置的位置
             checkedKey: 'sAMAccountName', //表格的唯一建值，非常重要，影响到选中状态 必填
             searchKey: 'name',	//搜索输入框的name值 默认keyword
             searchPlaceholder: '关键词搜索',	//搜索输入框的提示文字 默认关键词搜索
